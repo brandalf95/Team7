@@ -15,9 +15,33 @@ namespace Team7_LonghornMusic.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: Albums
-        public ActionResult Index()
+        public ActionResult Index(String SearchString)
         {
-            return View(db.Albums.ToList());
+            var averageRating =
+              (from r in db.AlbumReviews
+               select r.Rating).Average();
+
+            ViewBag.avgRating = averageRating;
+
+            List<Album> SelectedAlbums = new List<Album>();
+            List<Album> TotalAlbums = new List<Album>();
+            TotalAlbums = db.Albums.ToList();
+
+            if (SearchString == null || SearchString == "")
+            {
+                SelectedAlbums = db.Albums.ToList();
+                ViewBag.SelectedAlbumCount = "Displaying " + SelectedAlbums.Count() + " of " + TotalAlbums.Count() + " Records";
+            }
+
+            else
+            {
+                SelectedAlbums = db.Albums.Where(a => a.AlbumTitle.Contains(SearchString)).ToList();
+                ViewBag.SelectedAlbumCount = "Displaying " + SelectedAlbums.Count() + " of " + TotalAlbums.Count() + " Records";
+            }
+
+            SelectedAlbums = SelectedAlbums.OrderBy(a => a.AlbumTitle).ToList();
+            return View(SelectedAlbums);
+
         }
 
         // GET: Albums/Details/5
