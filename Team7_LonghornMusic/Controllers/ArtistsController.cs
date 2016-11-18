@@ -90,7 +90,6 @@ namespace Team7_LonghornMusic.Controllers
             return View("Index", SelectedArtists);
         }
 
-
         public MultiSelectList GetAllGenres()
         {
             var query = from c in db.Genres
@@ -100,8 +99,8 @@ namespace Team7_LonghornMusic.Controllers
             List<Genre> allGenres = query.ToList();
 
             //Add in choice for not selecting a frequency
-            Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
-            allGenres.Add(NoChoice);
+            //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
+            //allGenres.Add(NoChoice);
             MultiSelectList GenreList = new MultiSelectList(allGenres.OrderBy(g => g.GenreName), "GenreID", "GenreName");
             return GenreList;
         }

@@ -1,0 +1,42 @@
+﻿@model Team7_LonghornMusic.Models.Song
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Song</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SongTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SongTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFeatured)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsFeatured)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SongPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SongPrice)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SongID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
