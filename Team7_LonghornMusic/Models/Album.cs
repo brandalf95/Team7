@@ -32,7 +32,7 @@ namespace Team7_LonghornMusic.Models
         public virtual List<Artist> AlbumArtists { get; set; }
 
         [Display(Name = "Album's Songs")]
-        public virtual List<SongOrder> AlbumOrder { get; set; }
+        public virtual List<Song> AlbumSongs { get; set; }
 
         [Display(Name = "Album's Reviews")]
         public virtual List<AlbumReview> AlbumReviews { get; set; }

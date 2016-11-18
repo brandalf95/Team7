@@ -48,37 +48,37 @@ namespace Team7_LonghornMusic.Controllers
             return View();
         }
 
-        public ActionResult SearchResults(String SearchString, decimal SelectedRating, int[] SelectedGenre)
-        {
-            var SelectedArtists = from a in db.Artists
-                        select a;
+        //public ActionResult SearchResults(String SearchString, decimal SelectedRating, int[] SelectedGenre)
+        //{
+        //    var SelectedArtists = from a in db.Artists
+        //                select a;
 
-            //code for textbox
-            if (SearchString == null || SearchString == "")
-            {
-                SelectedArtists = SelectedArtists.Where(a => a.ArtistName != null);
-            }
-            else
-            {
-                SelectedArtists = SelectedArtists.Where(a => a.ArtistName.Contains(SearchString));
-            }
+        //    //code for textbox
+        //    if (SearchString == null || SearchString == "")
+        //    {
+        //        SelectedArtists = SelectedArtists.Where(a => a.ArtistName != null);
+        //    }
+        //    else
+        //    {
+        //        SelectedArtists = SelectedArtists.Where(a => a.ArtistName.Contains(SearchString));
+        //    }
 
-            //code for genre filter
-            List<Artist> DisplayArtists = new List<Artist>();
+        //    //code for genre filter
+        //    List<Artist> DisplayArtists = new List<Artist>();
 
-            foreach (int i in SelectedGenre)
-            {
-                List<Artist> ArtistsFound = SelectedArtists.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
+        //    foreach (int i in SelectedGenre)
+        //    {
+        //        List<Artist> ArtistsFound = SelectedArtists.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
 
-                foreach (Artist a in ArtistsFound)
-                {
-                    DisplayArtists.Add(a);
-                }
-            }
+        //        foreach (Artist a in ArtistsFound)
+        //        {
+        //            DisplayArtists.Add(a);
+        //        }
+        //    }
 
-            //TODO: code for Rating Filter
-            if 
-        }
+        //    //TODO: code for Rating Filter
+        //   // if 
+        //}
 
         // GET: Artists/Details/5
         public ActionResult Details(int? id)

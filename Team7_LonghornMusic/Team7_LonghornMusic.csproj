@@ -176,6 +176,9 @@
     <EmbeddedResource Include="Migrations\201611180624324_UserClassReviewNavs.resx">
       <DependentUpon>201611180624324_UserClassReviewNavs.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611181848255_DropSongOrder.resx">
+      <DependentUpon>201611181848255_DropSongOrder.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -187,7 +190,6 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
-    <Content Include="Views\Songs\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
@@ -204,11 +206,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AcountController.cs" />
-    <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
-    <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201611180624324_UserClassReviewNavs.Designer.cs">
       <DependentUpon>201611180624324_UserClassReviewNavs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611181848255_DropSongOrder.cs" />
+    <Compile Include="Migrations\201611181848255_DropSongOrder.Designer.cs">
+      <DependentUpon>201611181848255_DropSongOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -236,7 +240,6 @@
     <Compile Include="Models\IdentityRoles.cs" />
     <Compile Include="Models\RoleViewModels.cs" />
     <Compile Include="Models\Song.cs" />
-    <Compile Include="Models\SongOrder.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -245,22 +248,12 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Songs\Create.cshtml" />
-    <Content Include="Views\Songs\Delete.cshtml" />
-    <Content Include="Views\Songs\Details.cshtml" />
-    <Content Include="Views\Songs\Edit.cshtml" />
-    <Content Include="Views\Songs\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Artists\Create.cshtml" />
     <Content Include="Views\Artists\Delete.cshtml" />
     <Content Include="Views\Artists\Details.cshtml" />
     <Content Include="Views\Artists\Edit.cshtml" />
     <Content Include="Views\Artists\Index.cshtml" />
-    <Content Include="Views\Albums\Create.cshtml" />
-    <Content Include="Views\Albums\Delete.cshtml" />
-    <Content Include="Views\Albums\Details.cshtml" />
-    <Content Include="Views\Albums\Edit.cshtml" />
-    <Content Include="Views\Albums\Index.cshtml" />
     <Content Include="Views\Artists\DetailedSearch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

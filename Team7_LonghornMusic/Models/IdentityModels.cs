@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Team7_LonghornMusic.Models
 {
     //enums 
-    public enum CardType { Visa, MasterCard, Discover, AmericanExpress}
+    public enum CardType { None, Visa, MasterCard, Discover, AmericanExpress}
     
     public enum State {
         AK, AL, AR, AZ, CA, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY
@@ -94,7 +94,6 @@ namespace Team7_LonghornMusic.Models
         public DbSet<AlbumReview> AlbumReviews { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Song> Songs { get; set; }
-        public DbSet<SongOrder> SongOrders { get; set; }
         
 
     }

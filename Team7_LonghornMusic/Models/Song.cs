@@ -31,7 +31,7 @@ namespace Team7_LonghornMusic.Models
         public virtual List<Artist> SongArtists { get; set; }
 
         [Display(Name = "Song's Albums")]
-        public virtual List<SongOrder> SongOrder { get; set; }
+        public virtual List<Album> SongAlbums { get; set; }
 
         [Display(Name = "Song's Reviews")]
         public virtual List<SongReview> SongReviews { get; set; }
