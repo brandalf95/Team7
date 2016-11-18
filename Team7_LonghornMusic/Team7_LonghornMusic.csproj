@@ -282,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Acount\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611171823220_InitialSetup.resx">

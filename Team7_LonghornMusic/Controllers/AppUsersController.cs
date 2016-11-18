@@ -98,6 +98,12 @@ namespace Team7_LonghornMusic.Controllers
                 appUserToChange.CreditCardTypeOne = appUser.CreditCardTypeOne;
                 appUserToChange.CreditCardTypeTwo = appUser.CreditCardTypeTwo;
 
+                if(User.IsInRole("Employee"))
+                {
+                    appUserToChange.IsDisabled = appUser.IsDisabled;
+
+                }
+
                 db.Entry(appUserToChange).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
