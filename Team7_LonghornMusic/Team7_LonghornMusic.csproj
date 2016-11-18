@@ -182,6 +182,9 @@
     <EmbeddedResource Include="Migrations\201611182034319_DecimalFix.resx">
       <DependentUpon>201611182034319_DecimalFix.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611182116378_SongPriceFix.resx">
+      <DependentUpon>201611182116378_SongPriceFix.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -240,6 +243,10 @@
     <Compile Include="Migrations\201611182034319_DecimalFix.cs" />
     <Compile Include="Migrations\201611182034319_DecimalFix.Designer.cs">
       <DependentUpon>201611182034319_DecimalFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611182116378_SongPriceFix.cs" />
+    <Compile Include="Migrations\201611182116378_SongPriceFix.Designer.cs">
+      <DependentUpon>201611182116378_SongPriceFix.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Album.cs" />

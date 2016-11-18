@@ -117,10 +117,10 @@ namespace Team7_LonghornMusic.Migrations
             context.SaveChanges();
 
             Artist c10 = new Artist();
-            c10.ArtistName = "Kanye West & JAY Z";
+            c10.ArtistName = "Kanye West";
             context.Artists.AddOrUpdate(a => a.ArtistName, c10);
             context.SaveChanges();
-            c10 = context.Artists.FirstOrDefault(a => a.ArtistName == "Kanye West & JAY Z");
+            c10 = context.Artists.FirstOrDefault(a => a.ArtistName == "Kanye West");
             c10.ArtistGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Hip Hop/Rap"));
             context.Artists.AddOrUpdate(a => a.ArtistName, c10);
             context.SaveChanges();
@@ -669,6 +669,299 @@ namespace Team7_LonghornMusic.Migrations
             context.Albums.AddOrUpdate(a => a.AlbumTitle, a1);
             context.SaveChanges();
 
+
+            Album a2 = new Album();
+            a2.AlbumTitle = "21";
+            a2.AlbumPrice = Convert.ToDecimal("10.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a2);
+            context.SaveChanges();
+            a2 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "21");
+            a2.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a2.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "ADELE"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a2);
+            context.SaveChanges();
+
+            Album a3 = new Album();
+            a3.AlbumTitle = "Torches";
+            a3.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a3);
+            context.SaveChanges();
+            a3 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Torches");
+            a3.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Alternative"));
+            a3.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Foster the People"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a3);
+            context.SaveChanges();
+
+            Album a4 = new Album();
+            a4.AlbumTitle = "Hands All Over";
+            a4.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a4);
+            context.SaveChanges();
+            a4 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Hands All Over");
+            a4.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a4.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Maroon 5"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a4);
+            context.SaveChanges();
+
+            Album a5 = new Album();
+            a5.AlbumTitle = "Hands All Over (Deluxe Version)";
+            a5.AlbumPrice = Convert.ToDecimal("14.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a5);
+            context.SaveChanges();
+            a5 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Hands All Over (Deluxe Version)");
+            a5.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a5.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Maroon 5"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a5);
+            context.SaveChanges();
+
+            Album a6 = new Album();
+            a6.AlbumTitle = "Nothing But the Beat";
+            a6.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a6);
+            context.SaveChanges();
+            a6 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Nothing But the Beat");
+            a6.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Dance"));
+            a6.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "David Guetta"));
+            a6.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Usher"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a6);
+            context.SaveChanges();
+
+            Album a7 = new Album();
+            a7.AlbumTitle = "Born This Way";
+            a7.AlbumPrice = Convert.ToDecimal("14.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a7);
+            context.SaveChanges();
+            a7 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Born This Way");
+            a7.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a7.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Lady GaGa"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a7);
+            context.SaveChanges();
+
+            Album a8 = new Album();
+            a8.AlbumTitle = "Loud";
+            a8.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a8);
+            context.SaveChanges();
+            a8 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Loud");
+            a8.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a8.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Rihanna"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a8);
+            context.SaveChanges();
+
+            Album a9 = new Album();
+            a9.AlbumTitle = "Red River Blue (Deluxe Version)";
+            a9.AlbumPrice = Convert.ToDecimal("11.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a9);
+            context.SaveChanges();
+            a9 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Red River Blue (Deluxe Version)");
+            a9.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a9.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a9.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Blake Shelton"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a9);
+            context.SaveChanges();
+
+            Album a10 = new Album();
+            a10.AlbumTitle = "Pink Friday (Deluxe Version)";
+            a10.AlbumPrice = Convert.ToDecimal("14.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a10);
+            context.SaveChanges();
+            a10 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Pink Friday (Deluxe Version)");
+            a10.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Hip Hop/Rap"));
+            a10.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Nicki Minaj"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a10);
+            context.SaveChanges();
+
+            Album a11 = new Album();
+            a11.AlbumTitle = "Watch the Throne (Deluxe Version)";
+            a11.AlbumPrice = Convert.ToDecimal("14.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a11);
+            context.SaveChanges();
+            a11 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Watch the Throne (Deluxe Version)");
+            a11.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Hip Hop/Rap"));
+            a11.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Kanye West"));
+            a11.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Jay-Z"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a11);
+            context.SaveChanges();
+
+            Album a12 = new Album();
+            a12.AlbumTitle = "Tailgates & Tanlines";
+            a12.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a12);
+            context.SaveChanges();
+            a12 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Tailgates & Tanlines");
+            a12.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a12.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Luke Bryan"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a12);
+            context.SaveChanges();
+
+            Album a13 = new Album();
+            a13.AlbumTitle = "The Band Perry";
+            a13.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a13);
+            context.SaveChanges();
+            a13 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "The Band Perry");
+            a13.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a13.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "The Band Perry"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a13);
+            context.SaveChanges();
+
+            Album a14 = new Album();
+            a14.AlbumTitle = "When the Sun Goes Down";
+            a14.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a14);
+            context.SaveChanges();
+            a14 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "When the Sun Goes Down");
+            a14.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a14.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Selena Gomez & the Scene"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a14);
+            context.SaveChanges();
+
+            Album a15 = new Album();
+            a15.AlbumTitle = "Own the Night";
+            a15.AlbumPrice = Convert.ToDecimal("10.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a15);
+            context.SaveChanges();
+            a15 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Own the Night");
+            a15.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a15.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Lady Antebellum"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a15);
+            context.SaveChanges();
+
+            Album a16 = new Album();
+            a16.AlbumTitle = "Life At Best (Deluxe Version)";
+            a16.AlbumPrice = Convert.ToDecimal("11.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a16);
+            context.SaveChanges();
+            a16 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Life At Best (Deluxe Version)");
+            a16.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a16.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Eli Young Band"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a16);
+            context.SaveChanges();
+
+            Album a17 = new Album();
+            a17.AlbumTitle = "Songs From the Heart";
+            a17.AlbumPrice = Convert.ToDecimal("13.37");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a17);
+            context.SaveChanges();
+            a17 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Songs From the Heart");
+            a17.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a17.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "The Byars Family"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a17);
+            context.SaveChanges();
+
+            Album a18 = new Album();
+            a18.AlbumTitle = "Chaos and the Calm";
+            a18.AlbumPrice = Convert.ToDecimal("10.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a18);
+            context.SaveChanges();
+            a18 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Chaos and the Calm");
+            a18.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Alternative"));
+            a18.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "James Bay"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a18);
+            context.SaveChanges();
+
+            Album a19 = new Album();
+            a19.AlbumTitle = "My Everything (Deluxe Version)";
+            a19.AlbumPrice = Convert.ToDecimal("12.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a19);
+            context.SaveChanges();
+            a19 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "My Everything (Deluxe Version)");
+            a19.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            a19.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Ariana Grande"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a19);
+            context.SaveChanges();
+
+            Album a20 = new Album();
+            a20.AlbumTitle = "Ceremonials (Deluxe Version)";
+            a20.AlbumPrice = Convert.ToDecimal("10.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a20);
+            context.SaveChanges();
+            a20 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Ceremonials (Deluxe Version)");
+            a20.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Alternative"));
+            a20.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Florence + The Machine"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a20);
+            context.SaveChanges();
+
+            Album a21 = new Album();
+            a21.AlbumTitle = "If You're Reading This It's Too Late";
+            a21.AlbumPrice = Convert.ToDecimal("12.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a21);
+            context.SaveChanges();
+            a21 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "If You're Reading This It's Too Late");
+            a21.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Hip Hop/Rap"));
+            a21.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Drake"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a21);
+            context.SaveChanges();
+
+            Album a22 = new Album();
+            a22.AlbumTitle = "Montevallo";
+            a22.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a22);
+            context.SaveChanges();
+            a22 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Montevallo");
+            a22.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a22.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Sam Hunt"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a22);
+            context.SaveChanges();
+
+            Album a23 = new Album();
+            a23.AlbumTitle = "X2C";
+            a23.AlbumPrice = Convert.ToDecimal("3.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a23);
+            context.SaveChanges();
+            a23 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "X2C");
+            a23.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Country"));
+            a23.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Sam Hunt"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a23);
+            context.SaveChanges();
+
+            Album a24 = new Album();
+            a24.AlbumTitle = "The Best of Bobby McFerrin";
+            a24.AlbumPrice = Convert.ToDecimal("9.99");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a24);
+            context.SaveChanges();
+            a24 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "The Best of Bobby McFerrin");
+            a24.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Reggae"));
+            a24.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Bobby McFerrin"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a24);
+            context.SaveChanges();
+
+            Album a25 = new Album();
+            a25.AlbumTitle = "Eat Randy - Single";
+            a25.AlbumPrice = Convert.ToDecimal("1.29");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a25);
+            context.SaveChanges();
+            a25 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "Eat Randy - Single");
+            a25.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Comedy"));
+            a25.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Julian Smith"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a25);
+            context.SaveChanges();
+
+            Album a26 = new Album();
+            a26.AlbumTitle = "The Duck Song (The Duck and the Lemonade Stand)";
+            a26.AlbumPrice = Convert.ToDecimal("1.29");
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a26);
+            context.SaveChanges();
+            a26 = context.Albums.FirstOrDefault(a => a.AlbumTitle == "The Duck Song (The Duck and the Lemonade Stand)");
+            a26.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Comedy"));
+            a26.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Singer/Songwriter"));
+            a26.AlbumGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Chidren's Music"));
+            a26.AlbumArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "Bryant Oden"));
+            context.Albums.AddOrUpdate(a => a.AlbumTitle, a26);
+            context.SaveChanges();
+
+            Song s1 = new Song();
+            s1.SongTitle = "Rolling In The Deep";
+            s1.SongPrice = Convert.ToDecimal("1.29");
+            context.Songs.AddOrUpdate(a => a.SongTitle, s1);
+            context.SaveChanges();
+
+            s1 = context.Songs.FirstOrDefault(a => a.SongTitle == "Rolling In The Deep");
+            s1.SongGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Pop"));
+            s1.SongArtists.Add(context.Artists.FirstOrDefault(g => g.ArtistName == "ADELE"));
+            s1.SongAlbums.Add(context.Albums.FirstOrDefault(g => g.AlbumTitle == "21"));
+            context.Songs.AddOrUpdate(a => a.SongTitle, s1);
+            context.SaveChanges();
 
         }
     }
