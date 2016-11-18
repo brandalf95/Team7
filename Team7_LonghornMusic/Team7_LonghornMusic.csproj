@@ -188,6 +188,11 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -206,6 +211,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AcountController.cs" />
+    <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
@@ -255,6 +261,11 @@
     <Content Include="Views\Artists\Edit.cshtml" />
     <Content Include="Views\Artists\Index.cshtml" />
     <Content Include="Views\Artists\DetailedSearch.cshtml" />
+    <Content Include="Views\AppUsers\Create.cshtml" />
+    <Content Include="Views\AppUsers\Delete.cshtml" />
+    <Content Include="Views\AppUsers\Details.cshtml" />
+    <Content Include="Views\AppUsers\Edit.cshtml" />
+    <Content Include="Views\AppUsers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
