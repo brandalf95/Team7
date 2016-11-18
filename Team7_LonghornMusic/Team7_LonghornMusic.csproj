@@ -53,11 +53,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -173,6 +173,9 @@
     <EmbeddedResource Include="Migrations\201611171924218_Update1.resx">
       <DependentUpon>201611171924218_Update1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611180624324_UserClassReviewNavs.resx">
+      <DependentUpon>201611180624324_UserClassReviewNavs.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -184,7 +187,7 @@
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Songs\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
@@ -201,8 +204,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AcountController.cs" />
+    <Compile Include="Controllers\AlbumsController.cs" />
+    <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
+    <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,6 +219,10 @@
     <Compile Include="Migrations\201611171924218_Update1.cs" />
     <Compile Include="Migrations\201611171924218_Update1.Designer.cs">
       <DependentUpon>201611171924218_Update1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611180624324_UserClassReviewNavs.cs" />
+    <Compile Include="Migrations\201611180624324_UserClassReviewNavs.Designer.cs">
+      <DependentUpon>201611180624324_UserClassReviewNavs.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Album.cs" />
@@ -235,6 +245,23 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Songs\Create.cshtml" />
+    <Content Include="Views\Songs\Delete.cshtml" />
+    <Content Include="Views\Songs\Details.cshtml" />
+    <Content Include="Views\Songs\Edit.cshtml" />
+    <Content Include="Views\Songs\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Artists\Create.cshtml" />
+    <Content Include="Views\Artists\Delete.cshtml" />
+    <Content Include="Views\Artists\Details.cshtml" />
+    <Content Include="Views\Artists\Edit.cshtml" />
+    <Content Include="Views\Artists\Index.cshtml" />
+    <Content Include="Views\Albums\Create.cshtml" />
+    <Content Include="Views\Albums\Delete.cshtml" />
+    <Content Include="Views\Albums\Details.cshtml" />
+    <Content Include="Views\Albums\Edit.cshtml" />
+    <Content Include="Views\Albums\Index.cshtml" />
+    <Content Include="Views\Artists\DetailedSearch.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

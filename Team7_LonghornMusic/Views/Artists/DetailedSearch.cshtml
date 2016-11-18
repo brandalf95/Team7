@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "DetailedSearch";
+}
+
+@using Team7_LongHornMusic.Controllers;
+
+<h2>DetailedSearch</h2>
+
+@using (Html.BeginForm("SearchResults", "Home", FormMethod.Get))
+{
+    <p class="form-group">
+        Name: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
+
+    </p>
+}

@@ -53,6 +53,9 @@ namespace Team7_LonghornMusic.Models
         public virtual List<Song> Songs { get; set;}
         public virtual List<Album> Albums { get; set; }
         public virtual List<ShoppingCart> ShoppingCarts { get; set; }
+        public virtual List<ArtistReview> ArtistReviews { get; set; }
+        public virtual List<AlbumReview> AlbumReviews { get; set; }
+        public virtual List<SongReview> SongReviews { get; set; }
         
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser> manager)
         {
