@@ -48,9 +48,11 @@ namespace Team7_LonghornMusic.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview)
         {
+             
 
             if (ModelState.IsValid)
             {
+                
                 db.ArtistReviews.Add(artistReview);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -124,5 +126,10 @@ namespace Team7_LonghornMusic.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+        
+
+
     }
 }
