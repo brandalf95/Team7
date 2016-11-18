@@ -30,8 +30,14 @@ namespace Team7_LonghornMusic.Models
 
         [Display(Name = "Artist's Reviews")]
         public virtual List<ArtistReview> ArtistReviews { get; set; }
-
-
+        
+        public Artist()
+        {
+            if(this.ArtistGenres == null)
+            {
+                this.ArtistGenres = new List<Genre>();
+            }
+        }
 
     }
 }

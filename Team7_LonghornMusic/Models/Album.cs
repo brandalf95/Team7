@@ -23,7 +23,7 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Price")]
         [Required(ErrorMessage = "Every album must have a price")]
         [DataType(DataType.Currency)]
-        public float AlbumPrice { get; set; }
+        public decimal AlbumPrice { get; set; }
 
         [Display(Name = "Album's Genres")]
         public virtual List<Genre> AlbumGenres { get; set; }
@@ -41,5 +41,17 @@ namespace Team7_LonghornMusic.Models
         public virtual List<Discount> AlbumDiscount { get; set; }
 
         public virtual List<AppUser> Users { get; set; }
+
+        public Album()
+        {
+            if (this.AlbumGenres == null)
+            {
+                this.AlbumGenres = new List<Genre>();
+            }
+            if (this.AlbumArtists == null)
+            {
+                this.AlbumArtists = new List<Artist>();
+            }
+        }
     }
 }
