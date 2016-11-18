@@ -5,7 +5,18 @@
 }
 
 <h2>Index</h2>
-
+@using (Html.BeginForm())
+{
+    <p class="form-group">
+        Search: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
+        <input type="submit" value="Search" class="btn btn-default" />
+        @Html.ActionLink("Advanced Search", "Detailed Search", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Show All", "Index", null, new { @class = "btn btn-default" })
+    </p>
+    <p>
+        @ViewBag.SelectedAlbumCount
+    </p>
+}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -14,11 +25,20 @@
         <th>
             @Html.DisplayNameFor(model => model.AlbumTitle)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.IsFeatured)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.AlbumPrice)
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Genre
+        </th>
+        <th>
+            Rating
         </th>
         <th></th>
     </tr>
@@ -28,12 +48,30 @@
         <td>
             @Html.DisplayFor(modelItem => item.AlbumTitle)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.IsFeatured)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.AlbumPrice)
         </td>
+        <td>
+            @foreach (var x in item.AlbumArtists)
+            {
+                @Html.DisplayFor(modelItem => x.ArtistName)
+            }
+        </td>
+        <td>
+            @foreach (var x in item.AlbumGenres)
+            {
+                @Html.DisplayFor(modelItem => x.GenreName)
+            }
+        </td>
+        <td>
+             @ViewBag.avgRating
+        </td>
+
+
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.AlbumID }) |
             @Html.ActionLink("Details", "Details", new { id=item.AlbumID }) |
