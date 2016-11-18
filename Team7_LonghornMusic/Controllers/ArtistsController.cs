@@ -45,40 +45,92 @@ namespace Team7_LonghornMusic.Controllers
 
         public ActionResult DetailedSearch()
         {
+            ViewBag.AllGenres = GetAllGenres();
             return View();
         }
 
-        //public ActionResult SearchResults(String SearchString, decimal SelectedRating, int[] SelectedGenre)
+        public ActionResult SearchResults(String SearchString, int[] SelectedGenres)
+        {
+            var query = from a in db.Artists
+                                  select a;
+
+            //code for textbox
+            if (SearchString == null || SearchString == "")
+            {
+                query = query.Where(a => a.ArtistName != null);
+            }
+            else
+            {
+                query = query.Where(a => a.ArtistName.Contains(SearchString));
+            }
+
+            //code for genre filter
+            List<Artist> DisplayArtists = new List<Artist>();
+
+            foreach (int i in SelectedGenres)
+            {
+                List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
+
+                foreach (Artist a in ArtistsFound)
+                {
+                    DisplayArtists.Add(a);
+                }
+            }
+
+            //TODO: code for Rating Filter for Artist
+            // if 
+
+            List<Artist> SelectedArtists = query.ToList();
+
+            var TotalArtists = db.Artists.ToList();
+            ViewBag.SelectedArtistCount = "Displaying " + SelectedArtists.Count() + " of " + TotalArtists.Count() + " Records";
+
+            SelectedArtists = SelectedArtists.OrderBy(a => a.ArtistName).ToList();
+
+            return View("Index", SelectedArtists);
+        }
+
+        //public MultiSelectList GetAllGenres(Artist artist)
         //{
-        //    var SelectedArtists = from a in db.Artists
-        //                select a;
 
-        //    //code for textbox
-        //    if (SearchString == null || SearchString == "")
+        //    find list of genres
+        //    var query = from g in db.Genres
+        //                orderby g.GenreName
+        //                select g;
+        //    convert to list and execute query
+
+        //    List<Genre> allGenres = query.ToList();
+
+        //    create list of selected genres
+        //    List<Int32> SelectedGenres = new List<Int32>();
+
+        //    loop through list of events and add EventID
+        //    foreach (Genre g in artist.ArtistGenres)
         //    {
-        //        SelectedArtists = SelectedArtists.Where(a => a.ArtistName != null);
-        //    }
-        //    else
-        //    {
-        //        SelectedArtists = SelectedArtists.Where(a => a.ArtistName.Contains(SearchString));
-        //    }
-
-        //    //code for genre filter
-        //    List<Artist> DisplayArtists = new List<Artist>();
-
-        //    foreach (int i in SelectedGenre)
-        //    {
-        //        List<Artist> ArtistsFound = SelectedArtists.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
-
-        //        foreach (Artist a in ArtistsFound)
-        //        {
-        //            DisplayArtists.Add(a);
-        //        }
+        //        SelectedGenres.Add(g.GenreID);
         //    }
 
-        //    //TODO: code for Rating Filter
-        //   // if 
+        //    convert to multiselect
+        //    MultiSelectList allGenresList = new MultiSelectList(allGenres, "GenreID", "GenreName", SelectedGenres);
+
+        //    return allGenresList;
+
         //}
+
+        public MultiSelectList GetAllGenres()
+        {
+            var query = from c in db.Genres
+                        orderby c.GenreName
+                        select c;
+
+            List<Genre> allGenres = query.ToList();
+
+            //Add in choice for not selecting a frequency
+            Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
+            allGenres.Add(NoChoice);
+            MultiSelectList GenreList = new MultiSelectList(allGenres.OrderBy(g => g.GenreName), "GenreID", "GenreName");
+            return GenreList;
+        }
 
         // GET: Artists/Details/5
         public ActionResult Details(int? id)
