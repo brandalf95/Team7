@@ -80,7 +80,7 @@ namespace Team7_LonghornMusic.Controllers
             //TODO: code for Rating Filter for Artist
             // if 
 
-            List<Artist> SelectedArtists = query.ToList();
+            List<Artist> SelectedArtists = DisplayArtists.ToList();
 
             var TotalArtists = db.Artists.ToList();
             ViewBag.SelectedArtistCount = "Displaying " + SelectedArtists.Count() + " of " + TotalArtists.Count() + " Records";
