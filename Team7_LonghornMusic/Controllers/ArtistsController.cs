@@ -17,11 +17,11 @@ namespace Team7_LonghornMusic.Controllers
         // GET: Artists
         public ActionResult Index(String SearchString)
         {
-           // var averageRating =
-             //   (from r in db.ArtistReviews
-               //  select r.Rating).Average();
+            //var averageRating =
+            //    (from r in db.ArtistReviews
+            //     select r.Rating).Average();
 
-          //  ViewBag.avgRating = averageRating;
+            //ViewBag.avgRating = averageRating;
 
             List<Artist> SelectedArtists = new List<Artist>();
             List<Artist> TotalArtists = new List<Artist>();
@@ -67,27 +67,16 @@ namespace Team7_LonghornMusic.Controllers
             //code for genre filter
             List<Artist> DisplayArtists = new List<Artist>();
 
-            if (SelectedGenres != null)
+            foreach (int i in SelectedGenres)
             {
-                foreach (int i in SelectedGenres)
-                {
-                    List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
-
-                    foreach (Artist a in ArtistsFound)
-                    {
-                        DisplayArtists.Add(a);
-                    }
-                }
-            }
-            else
-            {
-                List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any()).ToList();
+                List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
 
                 foreach (Artist a in ArtistsFound)
                 {
                     DisplayArtists.Add(a);
                 }
             }
+
             //TODO: code for Rating Filter for Artist
             // if 
 

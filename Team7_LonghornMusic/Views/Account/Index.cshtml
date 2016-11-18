@@ -1,4 +1,5 @@
 ﻿@model Team7_LonghornMusic.Models.IndexViewModel
+
 @{
     ViewBag.Title = "Manage";
 }
@@ -25,8 +26,8 @@
         </dd>
         <dt>Edit your Account:</dt>
         <dd>
-            [
-                @Html.ActionLink("Change your account", "Edit", "AppUser", new { Password = Model.HasPassword })
+            [               
+                @Html.ActionLink("Change your account", "Edit", "AppUser")
             ]
         </dd>
     </dl>
