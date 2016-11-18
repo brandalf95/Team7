@@ -90,32 +90,6 @@ namespace Team7_LonghornMusic.Controllers
             return View("Index", SelectedArtists);
         }
 
-        //public MultiSelectList GetAllGenres(Artist artist)
-        //{
-
-        //    find list of genres
-        //    var query = from g in db.Genres
-        //                orderby g.GenreName
-        //                select g;
-        //    convert to list and execute query
-
-        //    List<Genre> allGenres = query.ToList();
-
-        //    create list of selected genres
-        //    List<Int32> SelectedGenres = new List<Int32>();
-
-        //    loop through list of events and add EventID
-        //    foreach (Genre g in artist.ArtistGenres)
-        //    {
-        //        SelectedGenres.Add(g.GenreID);
-        //    }
-
-        //    convert to multiselect
-        //    MultiSelectList allGenresList = new MultiSelectList(allGenres, "GenreID", "GenreName", SelectedGenres);
-
-        //    return allGenresList;
-
-        //}
 
         public MultiSelectList GetAllGenres()
         {
