@@ -17,11 +17,11 @@ namespace Team7_LonghornMusic.Controllers
         // GET: Artists
         public ActionResult Index(String SearchString)
         {
-            var averageRating =
-                (from r in db.ArtistReviews
-                 select r.Rating).Average();
+            //var averageRating =
+            //    (from r in db.ArtistReviews
+            //     select r.Rating).Average();
 
-            ViewBag.avgRating = averageRating;
+            //ViewBag.avgRating = averageRating;
 
             List<Artist> SelectedArtists = new List<Artist>();
             List<Artist> TotalArtists = new List<Artist>();
