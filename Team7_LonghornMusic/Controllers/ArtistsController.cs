@@ -40,7 +40,16 @@ namespace Team7_LonghornMusic.Controllers
             }
 
             SelectedArtists = SelectedArtists.OrderBy(a => a.ArtistName).ToList();
-            return View(SelectedArtists);
+            List<AvgArtistRating> ratingList = new List<AvgArtistRating>();
+            foreach (Artist a in SelectedArtists)
+            {
+                AvgArtistRating dude = new AvgArtistRating();
+                dude.Artist = a;
+                dude.AvgRating = ComputeAverage(a.ArtistID);
+                ratingList.Add(dude);
+
+            }
+            return View(ratingList);
         }
 
         public ActionResult DetailedSearch()
@@ -85,6 +94,7 @@ namespace Team7_LonghornMusic.Controllers
 
                 foreach (Artist a in ArtistsFound)
                 {
+                    
                     DisplayArtists.Add(a);
                 }
             }
@@ -98,9 +108,17 @@ namespace Team7_LonghornMusic.Controllers
             ViewBag.SelectedArtistCount = "Displaying " + SelectedArtists.Count() + " of " + TotalArtists.Count() + " Records";
 
             SelectedArtists = SelectedArtists.OrderBy(a => a.ArtistName).ToList();
-          
+            List<AvgArtistRating> ratingList = new List<AvgArtistRating>();
+            foreach(Artist a in SelectedArtists)
+            {
+                AvgArtistRating dude = new AvgArtistRating();
+                dude.Artist = a;
+                dude.AvgRating = ComputeAverage(a.ArtistID);
+                ratingList.Add(dude);
+
+            }
             
-            return View("Index", SelectedArtists);
+            return View("Index", ratingList);
         }
 
         public MultiSelectList GetAllGenres()
@@ -224,21 +242,26 @@ namespace Team7_LonghornMusic.Controllers
 
         public decimal ComputeAverage(Int32 Artist)
         {
+
             AvgArtistRating rating = new AvgArtistRating();
             Artist artist = db.Artists.Find(Artist);
             List<ArtistReview> reviewList = new List<ArtistReview>();
             reviewList = db.ArtistReviews.ToList();
             List<ArtistReview> selectedReviewList = new List<ArtistReview>();
             selectedReviewList = db.ArtistReviews.Where(a => a.Artist.ArtistName.Contains(artist.ArtistName)).ToList();
-            int sum = new int();
-            int count = new int();
+            decimal sum = new decimal();
+            decimal count = new decimal();
             foreach (ArtistReview a in selectedReviewList)
             {
                 sum += a.Rating;
                 count += 1;
             }
 
-            return (sum / count);
+            if (count == 0)
+            {
+                return (0);
+            }
+            return (sum/count);
         }
 
 

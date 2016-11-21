@@ -254,6 +254,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\Artist.cs" />
+    <Compile Include="Models\AvgAlbumRating.cs" />
     <Compile Include="Models\AvgArtistRating.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\ShoppingCart.cs" />

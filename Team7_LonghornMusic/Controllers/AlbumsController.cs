@@ -41,7 +41,16 @@ namespace Team7_LonghornMusic.Controllers
             }
 
             SelectedAlbums = SelectedAlbums.OrderBy(a => a.AlbumTitle).ToList();
-            return View(SelectedAlbums);
+            List<AvgAlbumRating> ratingList = new List<AvgAlbumRating>();
+            foreach (Album a in SelectedAlbums)
+            {
+                AvgAlbumRating dude = new AvgAlbumRating();
+                dude.Album = a;
+                dude.AvgRating = ComputeAverage(a.AlbumID);
+                ratingList.Add(dude);
+
+            }
+            return View(ratingList);
         }
 
         public ActionResult DetailedSearch()
@@ -108,8 +117,16 @@ namespace Team7_LonghornMusic.Controllers
             ViewBag.SelectedAlbumCount = "Displaying " + SelectedAlbums.Count() + " of " + TotalAlbums.Count() + " Records";
 
             SelectedAlbums = SelectedAlbums.OrderBy(a => a.AlbumTitle).ToList();
+            List<AvgAlbumRating> ratingList = new List<AvgAlbumRating>();
+            foreach (Album a in SelectedAlbums)
+            {
+                AvgAlbumRating dude = new AvgAlbumRating();
+                dude.Album = a;
+                dude.AvgRating = ComputeAverage(a.AlbumID);
+                ratingList.Add(dude);
 
-            return View("Index", SelectedAlbums);
+            }
+            return View("Index", ratingList);
         }
 
         public MultiSelectList GetAllGenres()
@@ -245,6 +262,29 @@ namespace Team7_LonghornMusic.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public decimal ComputeAverage(Int32 Artist)
+        {
+
+            AvgAlbumRating rating = new AvgAlbumRating();
+            Album artist = db.Albums.Find(Artist);
+            List<AlbumReview> reviewList = new List<AlbumReview>();
+            reviewList = db.AlbumReviews.ToList();
+            List<AlbumReview> selectedReviewList = new List<AlbumReview>();
+            selectedReviewList = db.AlbumReviews.Where(a => a.Album.AlbumTitle.Contains(artist.AlbumTitle)).ToList();
+            decimal sum = new decimal();
+            decimal count = new decimal();
+            foreach (AlbumReview a in selectedReviewList)
+            {
+                sum += a.Rating;
+                count += 1;
+            }
+
+            if (count == 0)
+            {
+                return (0);
+            }
+            return (sum / count);
         }
     }
 }
