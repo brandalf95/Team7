@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Team7_LonghornMusic.Models.Artist>
+﻿@model IEnumerable<Team7_LonghornMusic.Models.AvgArtistRating>
 
 @{
     ViewBag.Title = "Index";
@@ -24,8 +24,9 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ArtistName)
+            @Html.DisplayNameFor(model => model.Artist.ArtistName)
         </th>
+        
         @*<th>
             @Html.DisplayNameFor(model => model.IsFeatured)
         </th>*@
@@ -41,24 +42,32 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.ArtistName)
+            @Html.DisplayFor(modelItem => item.Artist.ArtistName)
         </td>
         @*<td>  
             @Html.DisplayFor(modelItem => item.IsFeatured)
         </td>*@
         <td>
-            @foreach (var x in item.ArtistGenres)
+            @Html.DisplayFor(modelItem => item.AvgRating)
+        </td>
+        <td>
+           
+        </td>
+            
+        <td>
+            @foreach (var x in item.Artist.ArtistGenres)
             {
                 @Html.DisplayFor(modelItem => x.GenreName)
+                
             }
         </td>
         <td>
-                @ViewBag.avgRating
+            
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ArtistID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ArtistID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ArtistID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Artist.ArtistID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Artist.ArtistID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Artist.ArtistID })
         </td>
     </tr>
 }
