@@ -1,5 +1,4 @@
 ﻿@model Team7_LonghornMusic.Models.IndexViewModel
-
 @{
     ViewBag.Title = "Manage";
 }
@@ -27,7 +26,7 @@
         <dt>Edit your Account:</dt>
         <dd>
             [               
-                @Html.ActionLink("Change your account", "Edit", "AppUser")
+                @Html.ActionLink("Change your account", "Edit", "AppUser", new { id = Model.AppUserID })
             ]
         </dd>
     </dl>

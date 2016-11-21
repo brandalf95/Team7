@@ -219,6 +219,7 @@
     <Compile Include="Controllers\AcountController.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\AppUsersController.cs" />
+    <Compile Include="Controllers\ArtistReviewsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
@@ -294,6 +295,11 @@
     <Content Include="Views\Songs\Edit.cshtml" />
     <Content Include="Views\Songs\Index.cshtml" />
     <Content Include="Views\Albums\DetailedSearch.cshtml" />
+    <Content Include="Views\ArtistReviews\Create.cshtml" />
+    <Content Include="Views\ArtistReviews\Delete.cshtml" />
+    <Content Include="Views\ArtistReviews\Details.cshtml" />
+    <Content Include="Views\ArtistReviews\Edit.cshtml" />
+    <Content Include="Views\ArtistReviews\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -303,6 +309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611171823220_InitialSetup.resx">

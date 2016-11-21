@@ -107,5 +107,6 @@ namespace Team7_LonghornMusic.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public int AppUserID { get; set; }
     }
 }
