@@ -52,7 +52,7 @@ namespace Team7_LonghornMusic.Controllers
         public ActionResult SearchResults(String SearchString, int[] SelectedGenres)
         {
             var query = from a in db.Artists
-                                  select a;
+                        select a;
 
             //code for textbox
             if (SearchString == null || SearchString == "")
@@ -66,10 +66,22 @@ namespace Team7_LonghornMusic.Controllers
 
             //code for genre filter
             List<Artist> DisplayArtists = new List<Artist>();
-
-            foreach (int i in SelectedGenres)
+            if (SelectedGenres != null)
             {
-                List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
+                foreach (int i in SelectedGenres)
+                {
+                    List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any(g => g.GenreID == i)).ToList();
+
+                    foreach (Artist a in ArtistsFound)
+                    {
+                        DisplayArtists.Add(a);
+                    }
+                }
+            }
+
+            else
+            {
+                List<Artist> ArtistsFound = query.Where(a => a.ArtistGenres.Any()).ToList();
 
                 foreach (Artist a in ArtistsFound)
                 {

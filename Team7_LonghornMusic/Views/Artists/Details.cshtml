@@ -44,6 +44,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.AlbumTitle)</td>
+                <td>@Html.ActionLink("View This Album", "Details", "Albums", new { id = item.AlbumID }, null)</td>
             </tr>
         }
     </table>
