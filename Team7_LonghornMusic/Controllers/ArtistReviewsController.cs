@@ -46,13 +46,10 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview)
+        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, Int32 ArtistID, Int32 UserId)
         {
-             
-
             if (ModelState.IsValid)
             {
-                
                 db.ArtistReviews.Add(artistReview);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -126,10 +123,5 @@ namespace Team7_LonghornMusic.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-        
-
-
     }
 }
