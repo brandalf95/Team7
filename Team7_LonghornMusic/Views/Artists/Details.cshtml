@@ -65,7 +65,13 @@
 
 
     <p>
-        @Html.ActionLink("Review this Artist", "Create", "ArtistReviews")
+        @Html.ActionLink(
+       linkText: "Review this Artist", 
+       actionName: "Create", 
+       controllerName: "ArtistReviews", 
+       routeValues: new { ArtistID = Model.ArtistID, UserID = User.Identity.Name },
+        htmlAttributes: null)
+       
     </p>
 
 

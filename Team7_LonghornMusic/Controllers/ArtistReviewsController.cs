@@ -46,10 +46,16 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, Int32 ArtistID, Int32 UserId)
+        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, string UserID, Int32 ArtistID)
         {
             if (ModelState.IsValid)
             {
+                artistReview.Artist = db.Artists.Find(ArtistID);
+                List<AppUser> theseUsers = new List<AppUser>();
+                theseUsers = db.Users.Where(a=>a.UserName.Contains(UserID)).ToList();
+                int i = 0;
+                artistReview.User = theseUsers[0];
+
                 db.ArtistReviews.Add(artistReview);
                 db.SaveChanges();
                 return RedirectToAction("Index");
