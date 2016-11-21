@@ -34,7 +34,17 @@ namespace Team7_LonghornMusic.Controllers
             }
 
             SelectedSongs = SelectedSongs.OrderBy(a => a.SongTitle).ToList();
-            return View(SelectedSongs);
+            List<AvgSongRating> ratingList = new List<AvgSongRating>();
+            foreach (Song a in SelectedSongs)
+            {
+                AvgSongRating dude = new AvgSongRating();
+                dude.Song = a;
+                dude.AvgRating = ComputeAverage(a.SongID);
+                ratingList.Add(dude);
+
+            }
+
+            return View(ratingList);
         }
 
         public ActionResult DetailedSearch()
@@ -61,10 +71,8 @@ namespace Team7_LonghornMusic.Controllers
                 query = query.Where(s => s.SongTitle.Contains(SongSearchString));
             }
 
-            List<Song> DisplaySongs = new List<Song>();
-
             //code for Album textbox
-            if (ArtistSearchString == null || ArtistSearchString == "")
+            if (AlbumSearchString == null || AlbumSearchString == "")
             {
                 query = from s in query from al in s.SongAlbums where al.AlbumTitle != null select s;
             }
@@ -82,6 +90,8 @@ namespace Team7_LonghornMusic.Controllers
             {
                 query = from s in query from ar in s.SongArtists where ar.ArtistName.Contains(ArtistSearchString) select s;
             }
+
+            List<Song> DisplaySongs = new List<Song>();
 
             //code for genre filter
             if (SelectedGenres != null)
@@ -118,8 +128,17 @@ namespace Team7_LonghornMusic.Controllers
             ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + " of " + TotalSongs.Count() + " Records";
 
             SelectedSongs = SelectedSongs.OrderBy(a => a.SongTitle).ToList();
+            List<AvgSongRating> ratingList = new List<AvgSongRating>();
+            foreach (Song a in SelectedSongs)
+            {
+                AvgSongRating dude = new AvgSongRating();
+                dude.Song = a;
+                dude.AvgRating = ComputeAverage(a.SongID);
+                ratingList.Add(dude);
 
-            return View("Index", SelectedSongs);
+            }
+
+            return View("Index", ratingList);
         }
 
         //populate multiselect for genres
@@ -266,6 +285,30 @@ namespace Team7_LonghornMusic.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public decimal ComputeAverage(Int32 Song)
+        {
+
+            AvgSongRating rating = new AvgSongRating();
+            Song song = db.Songs.Find(Song);
+            List<SongReview> reviewList = new List<SongReview>();
+            reviewList = db.SongReviews.ToList();
+            List<SongReview> selectedReviewList = new List<SongReview>();
+            selectedReviewList = db.SongReviews.Where(a => a.Song.SongTitle.Contains(song.SongTitle)).ToList();
+            decimal sum = new decimal();
+            decimal count = new decimal();
+            foreach (SongReview a in selectedReviewList)
+            {
+                sum += a.Rating;
+                count += 1;
+            }
+
+            if (count == 0)
+            {
+                return (0);
+            }
+            return (sum / count);
         }
     }
 }

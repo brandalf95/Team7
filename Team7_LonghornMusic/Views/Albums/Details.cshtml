@@ -35,6 +35,82 @@
         </dd>
 
     </dl>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Album Genre
+            </th>
+        </tr>
+        @foreach (var item in Model.AlbumGenres)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
+            </tr>
+        }
+    </table>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Artist Artist(s)
+            </th>
+        </tr>
+        @foreach (var item in Model.AlbumArtists)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.ArtistName, "Details", "Artists", new { id = item.ArtistID }, null)</td>
+            </tr>
+        }
+    </table>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Artist Songs
+            </th>
+        </tr>
+        @foreach (var item in Model.AlbumSongs)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.SongTitle, "Details", "Songs", new { id = item.SongID }, null)</td>
+            </tr>
+        }
+    </table>
+   
+    
+     <p>
+        @Html.ActionLink(
+       linkText: "Review this Album",
+       actionName: "Create",
+       controllerName: "AlbumReviews",
+       routeValues: new { AlbumID = Model.AlbumID, UserID = User.Identity.Name },
+        htmlAttributes: null)
+
+    </p>
+
+    <h3>Reviews</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Album Rating
+            </th>
+            <th>
+                Album Comments
+            </th>
+        </tr>
+        @foreach (var item in Model.AlbumReviews)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+            </tr>
+        }
+    </table>
+
+
+
+
+
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Album.AlbumID }) |
