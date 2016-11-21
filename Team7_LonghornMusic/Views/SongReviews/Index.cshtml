@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Team7_LonghornMusic.Models.ArtistReview>
+﻿@model IEnumerable<Team7_LonghornMusic.Models.SongReview>
 
 @{
     ViewBag.Title = "Index";
@@ -12,9 +12,6 @@
 <table class="table">
     <tr>
         <th>
-            Artist Name
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Rating)
         </th>
         <th>
@@ -26,18 +23,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Artist.ArtistName)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Rating)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ArtistReviewID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ArtistReviewID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ArtistReviewID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.SongReviewID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SongReviewID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SongReviewID })
         </td>
     </tr>
 }

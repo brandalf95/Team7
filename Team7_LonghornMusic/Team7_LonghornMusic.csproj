@@ -217,12 +217,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AcountController.cs" />
+    <Compile Include="Controllers\AlbumReviewsController.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\ArtistReviewsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
+    <Compile Include="Controllers\SongReviewsController.cs" />
     <Compile Include="Controllers\SongsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -300,6 +302,17 @@
     <Content Include="Views\ArtistReviews\Details.cshtml" />
     <Content Include="Views\ArtistReviews\Edit.cshtml" />
     <Content Include="Views\ArtistReviews\Index.cshtml" />
+    <Content Include="Views\Songs\DetailedSearch.cshtml" />
+    <Content Include="Views\AlbumReviews\Create.cshtml" />
+    <Content Include="Views\AlbumReviews\Delete.cshtml" />
+    <Content Include="Views\AlbumReviews\Details.cshtml" />
+    <Content Include="Views\AlbumReviews\Edit.cshtml" />
+    <Content Include="Views\AlbumReviews\Index.cshtml" />
+    <Content Include="Views\SongReviews\Create.cshtml" />
+    <Content Include="Views\SongReviews\Delete.cshtml" />
+    <Content Include="Views\SongReviews\Details.cshtml" />
+    <Content Include="Views\SongReviews\Edit.cshtml" />
+    <Content Include="Views\SongReviews\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
