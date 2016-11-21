@@ -8,11 +8,11 @@
 @using (Html.BeginForm("SearchResults", "Albums", FormMethod.Get))
 {
     <p class="form-group">
-        Name: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
+        Name: @Html.TextBox("AlbumSearchString", null, new { @class = "form-control" }) <br />
 
-        @Html.ListBox("SelectedArtists", (MultiSelectList)ViewBag.AllArtists, new { @class = "form-control" }) <br />
+        Artist: @Html.TextBox("ArtistSearchString", null, new { @class = "form-control" }) <br />
 
-        @Html.ListBox("SelectedGenres", (MultiSelectList)ViewBag.AllGenres, new { @class = "form-control" }) <br />
+        Genres: @Html.ListBox("SelectedGenres", (MultiSelectList)ViewBag.AllGenres, new { @class = "form-control" }) <br />
 
         <input type="submit" value="Search" class="btn btn-default" />
 

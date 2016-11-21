@@ -47,52 +47,38 @@ namespace Team7_LonghornMusic.Controllers
         public ActionResult DetailedSearch()
         {
             ViewBag.AllGenres = GetAllGenres();
-            ViewBag.AllArtists = GetAllArtists();
+            //ViewBag.AllArtists = GetAllArtists();
             return View();
         }
 
-        public ActionResult SearchResults(String SearchString, int[] SelectedGenres, int[] SelectedArtists)
+        public ActionResult SearchResults(String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres)
         {
             var query = from a in db.Albums
                         select a;
 
-
             //code for textbox
-            if (SearchString == null || SearchString == "")
+            if (AlbumSearchString == null || AlbumSearchString == "")
             {
                 query = query.Where(a => a.AlbumTitle != null);
             }
             else
             {
-                query = query.Where(a => a.AlbumTitle.Contains(SearchString));
+                query = query.Where(a => a.AlbumTitle.Contains(AlbumSearchString));
             }
 
-            List<Album> DisplayAlbums = new List<Album>();
-
-            //code for artist filter
-            if (SelectedArtists != null)
+            //code for artist textbox
+            if (ArtistSearchString == null || ArtistSearchString == "")
             {
-                foreach (int i in SelectedArtists)
-                {
-                    List<Album> AlbumsFound = query.Where(a => a.AlbumArtists.Any(ar => ar.ArtistID == i)).ToList();
-
-                    foreach (Album a in AlbumsFound)
-                    {
-                        DisplayAlbums.Add(a);
-                    }
-                }
+                query = from a in query from ar in a.AlbumArtists where ar.ArtistName != null select a;
             }
             else
             {
-                List<Album> AlbumsFound = query.Where(a => a.AlbumArtists.Any()).ToList();
-
-                foreach (Album a in AlbumsFound)
-                {
-                    DisplayAlbums.Add(a);
-                }
+                query = from a in query from ar in a.AlbumArtists where ar.ArtistName.Contains(ArtistSearchString) select a;
             }
 
+
             //code for genre filter
+            List<Album> DisplayAlbums = new List<Album>();
             if (SelectedGenres != null)
             {
                 foreach (int i in SelectedGenres)
@@ -105,6 +91,7 @@ namespace Team7_LonghornMusic.Controllers
                     }
                 }
             }
+
             else
             {
                 List<Album> AlbumsFound = query.Where(a => a.AlbumGenres.Any()).ToList();
@@ -114,9 +101,6 @@ namespace Team7_LonghornMusic.Controllers
                     DisplayAlbums.Add(a);
                 }
             }
-
-            //TODO: code for Rating Filter for Album
-            // if 
 
             List<Album> SelectedAlbums = DisplayAlbums.Distinct().ToList();
 
@@ -143,20 +127,20 @@ namespace Team7_LonghornMusic.Controllers
             return GenreList;
         }
 
-        public MultiSelectList GetAllArtists()
-        {
-            var query = from c in db.Artists
-                        orderby c.ArtistName
-                        select c;
+        //public MultiSelectList GetAllArtists()
+        //{
+        //    var query = from c in db.Artists
+        //                orderby c.ArtistName
+        //                select c;
 
-            List<Artist> allArtists = query.ToList();
+        //    List<Artist> allArtists = query.ToList();
 
-            //Add in choice for not selecting a frequency
-            //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
-            //allGenres.Add(NoChoice);
-            MultiSelectList ArtistList = new MultiSelectList(allArtists.OrderBy(a => a.ArtistName), "ArtistID", "ArtistName");
-            return ArtistList;
-        }
+        //    //Add in choice for not selecting a frequency
+        //    //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
+        //    //allGenres.Add(NoChoice);
+        //    MultiSelectList ArtistList = new MultiSelectList(allArtists.OrderBy(a => a.ArtistName), "ArtistID", "ArtistName");
+        //    return ArtistList;
+        //}
 
         
         // GET: Albums/Details/5
