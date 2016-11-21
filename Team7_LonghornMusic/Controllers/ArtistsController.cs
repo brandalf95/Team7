@@ -86,7 +86,8 @@ namespace Team7_LonghornMusic.Controllers
             ViewBag.SelectedArtistCount = "Displaying " + SelectedArtists.Count() + " of " + TotalArtists.Count() + " Records";
 
             SelectedArtists = SelectedArtists.OrderBy(a => a.ArtistName).ToList();
-
+          
+            
             return View("Index", SelectedArtists);
         }
 
@@ -207,6 +208,25 @@ namespace Team7_LonghornMusic.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public decimal ComputeAverage(Int32 Artist)
+        {
+            AvgArtistRating rating = new AvgArtistRating();
+            Artist artist = db.Artists.Find(Artist);
+            List<ArtistReview> reviewList = new List<ArtistReview>();
+            reviewList = db.ArtistReviews.ToList();
+            List<ArtistReview> selectedReviewList = new List<ArtistReview>();
+            selectedReviewList = db.ArtistReviews.Where(a => a.Artist.ArtistName.Contains(artist.ArtistName)).ToList();
+            int sum = new int();
+            int count = new int();
+            foreach (ArtistReview a in selectedReviewList)
+            {
+                sum += a.Rating;
+                count += 1;
+            }
+
+            return (sum / count);
         }
 
 
