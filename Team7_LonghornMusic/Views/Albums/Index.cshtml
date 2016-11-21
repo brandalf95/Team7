@@ -34,9 +34,9 @@
         <th>
             Artist
         </th>
-        <th>
+        @*<th>
             Genre
-        </th>
+        </th>*@
         <th>
             Rating
         </th>
@@ -48,9 +48,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Album.AlbumTitle)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AvgRating)
-        </td>
+
         @*<td>
             @Html.DisplayFor(modelItem => item.IsFeatured)
         </td>*@
@@ -63,14 +61,14 @@
                 @Html.DisplayFor(modelItem => x.ArtistName)
             }
         </td>
-        <td>
+        @*<td>
             @foreach (var x in item.Album.AlbumGenres)
             {
                 @Html.DisplayFor(modelItem => x.GenreName)
             }
-        </td>
+        </td>*@
         <td>
-
+            @Html.DisplayFor(modelItem => item.AvgRating)
         </td>
 
 

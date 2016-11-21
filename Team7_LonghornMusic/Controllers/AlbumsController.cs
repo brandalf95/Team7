@@ -17,12 +17,6 @@ namespace Team7_LonghornMusic.Controllers
         // GET: Albums
         public ActionResult Index(String SearchString)
         {
-            //TODO: FIGURE THIS OUT
-            //var averageRating =
-              //(from r in db.AlbumReviews
-               //select r.Rating).Average();
-
-            //ViewBag.avgRating = averageRating;
 
             List<Album> SelectedAlbums = new List<Album>();
             List<Album> TotalAlbums = new List<Album>();

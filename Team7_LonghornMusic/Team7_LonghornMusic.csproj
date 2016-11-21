@@ -258,6 +258,7 @@
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\AvgAlbumRating.cs" />
     <Compile Include="Models\AvgArtistRating.cs" />
+    <Compile Include="Models\AvgSongRating.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\Discount.cs" />

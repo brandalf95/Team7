@@ -1,14 +1,14 @@
 ﻿
 @{
-    ViewBag.Title = "DetailedSearch";
+    ViewBag.Title = "Detailed Search";
 }
 
-<h2>DetailedSearch</h2>
+<h2>Detailed Search</h2>
 
 @using (Html.BeginForm("SearchResults", "Albums", FormMethod.Get))
 {
     <p class="form-group">
-        Name: @Html.TextBox("AlbumSearchString", null, new { @class = "form-control" }) <br />
+        Album Title: @Html.TextBox("AlbumSearchString", null, new { @class = "form-control" }) <br />
 
         Artist: @Html.TextBox("ArtistSearchString", null, new { @class = "form-control" }) <br />
 

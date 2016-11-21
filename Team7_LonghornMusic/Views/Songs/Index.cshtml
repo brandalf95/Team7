@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Team7_LonghornMusic.Models.Song>
+﻿@model IEnumerable<Team7_LonghornMusic.Models.AvgSongRating>
 
 @{
     ViewBag.Title = "Index";
@@ -23,23 +23,21 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SongTitle)
+            @Html.DisplayNameFor(model => model.Song.SongTitle)
         </th>
         @*<th>
             @Html.DisplayNameFor(model => model.IsFeatured)
         </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.SongPrice)
+            @Html.DisplayNameFor(model => model.Song.SongPrice)
         </th>
-        <th>
-            Album
-        </th>
+
         <th>
             Artist
         </th>
-        <th>
+        @*<th>
             Genre
-        </th>
+        </th>*@
         <th>
             Rating
         </th>
@@ -49,39 +47,34 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.SongTitle)
+            @Html.DisplayFor(modelItem => item.Song.SongTitle)
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.IsFeatured)
         </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.SongPrice)
+            @Html.DisplayFor(modelItem => item.Song.SongPrice)
         </td>
+
         <td>
-            @foreach (var x in item.SongAlbums)
-            {
-                @Html.DisplayFor(modelItem => x.AlbumTitle)
-            }
-        </td>
-        <td>
-            @foreach (var x in item.SongArtists)
+            @foreach (var x in item.Song.SongArtists)
             {
                 @Html.DisplayFor(modelItem => x.ArtistName)
             }
         </td>
-        <td>
-            @foreach (var x in item.SongGenres)
+        @*<td>
+            @foreach (var x in item.Song.SongGenres)
             {
                 @Html.DisplayFor(modelItem => x.GenreName)
             }
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.AvgRating)
         </td>
         <td>
-            @ViewBag.avgRating
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SongID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SongID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SongID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Song.SongID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Song.SongID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Song.SongID })
         </td>
     </tr>
 }
