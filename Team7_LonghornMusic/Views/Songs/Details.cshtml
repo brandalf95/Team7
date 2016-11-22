@@ -39,4 +39,5 @@
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Song.SongID }) |
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserName = User.Identity.Name },null)
 </p>

@@ -30,6 +30,12 @@ namespace Team7_LonghornMusic.Models
 
         public virtual List<Discount> Discounts { get; set; }
      
-
+        public OrderDetail()
+        {
+            if (this.Discounts == null)
+            {
+                this.Discounts = new List<Discount>();
+            }
+        }
     }
 }
