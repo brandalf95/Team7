@@ -21,10 +21,24 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Songs", "Index", "Songs")</li>
                 </ul>
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Albums", "Index", "Albums")</li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Artists", "Index", "Artists")</li>
+                </ul>
+                @if (User.IsInRole("Customer"))
+                {   <ul class="nav navbar-nav">                   
+                        <li>@Html.ActionLink("My Shopping Cart", "Index", "OrderDetails")</li>                  
+                    </ul>
+                }
+                <ul class="nav navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
                     <li>@Html.ActionLink("Edit Password", "Index", "Account")</li>
+                  }
                 </ul>
                 <ul class="nav navbar-nav">
                 @if (User.Identity.IsAuthenticated)

@@ -8,21 +8,21 @@
 
 
 <p>
-    @Html.ActionLink("Browse Songs", "Index", "Songs")
+    <input type="button" class="btn btn-primary" value="Browse Songs" onclick="location.href='@Url.Action("Index", "Songs")'" />
 </p>
 
 <p>
-    @Html.ActionLink("Browse Albums", "Index", "Albums")
+    <input type="button" class="btn btn-primary" value="Browse Albums" onclick="location.href='@Url.Action("Index", "Albums")'" />
+</p>
+
+<p>   
+    <input type="button" class="btn btn-primary" value="Browse Artists" onclick="location.href='@Url.Action("Index", "Artists")'" />
 </p>
 
 <p>
-    @Html.ActionLink("Browse Artists", "Index", "Artists")
-</p>
-
-<p>
-    @Html.ActionLink("Browse Users", "Index", "AppUsers")
+    <input type="button" class="btn btn-primary" value="Browse Users" onclick="location.href='@Url.Action("Index", "AppUsers")'" />
 </p>
 <p>
-    @Html.ActionLink("ShoppingCart", "Index", "OrderDetails")
+    <input type="button" class="btn btn-primary" value="My Shopping Cart" onclick="location.href='@Url.Action("Index", "OrderDetails")'" />
 </p>
 
