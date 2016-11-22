@@ -105,6 +105,7 @@ namespace Team7_LonghornMusic.Controllers
 
                 }
 
+
                 db.Entry(appUserToChange).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

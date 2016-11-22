@@ -328,6 +328,8 @@
     <Content Include="Views\OrderDetails\Edit.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Views\OrderDetails\AddToCart.cshtml" />
+    <Content Include="Views\Home\ReviewHome.cshtml" />
+    <Content Include="Views\Home\ContentHome.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
