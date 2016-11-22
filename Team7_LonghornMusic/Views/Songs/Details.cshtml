@@ -1,4 +1,4 @@
-﻿@model Team7_LonghornMusic.Models.Song
+﻿@model Team7_LonghornMusic.Models.AvgSongRating
 
 @{
     ViewBag.Title = "Details";
@@ -11,32 +11,32 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SongTitle)
+            @Html.DisplayNameFor(model => model.Song.SongTitle)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SongTitle)
+            @Html.DisplayFor(model => model.Song.SongTitle)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.IsFeatured)
+            @Html.DisplayNameFor(model => model.AvgRating)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsFeatured)
+            @Html.DisplayFor(model => model.AvgRating)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SongPrice)
+            @Html.DisplayNameFor(model => model.Song.SongPrice)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SongPrice)
+            @Html.DisplayFor(model => model.Song.SongPrice)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SongID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Song.SongID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

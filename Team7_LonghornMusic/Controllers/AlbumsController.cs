@@ -166,7 +166,10 @@ namespace Team7_LonghornMusic.Controllers
             {
                 return HttpNotFound();
             }
-            return View(album);
+            AvgAlbumRating albumRating = new AvgAlbumRating();
+            albumRating.Album = album;
+            albumRating.AvgRating = ComputeAverage(album.AlbumID);
+            return View(albumRating);
         }
 
         // GET: Albums/Create
