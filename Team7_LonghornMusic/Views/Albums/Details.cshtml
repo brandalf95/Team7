@@ -41,7 +41,7 @@
                 Album Genre
             </th>
         </tr>
-        @foreach (var item in Model.AlbumGenres)
+        @foreach (var item in Model.Album.AlbumGenres)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
@@ -54,7 +54,7 @@
                 Artist Artist(s)
             </th>
         </tr>
-        @foreach (var item in Model.AlbumArtists)
+        @foreach (var item in Model.Album.AlbumArtists)
         {
             <tr>
                 <td>@Html.ActionLink(item.ArtistName, "Details", "Artists", new { id = item.ArtistID }, null)</td>
@@ -67,7 +67,7 @@
                 Artist Songs
             </th>
         </tr>
-        @foreach (var item in Model.AlbumSongs)
+        @foreach (var item in Model.Album.AlbumSongs)
         {
             <tr>
                 <td>@Html.ActionLink(item.SongTitle, "Details", "Songs", new { id = item.SongID }, null)</td>
@@ -81,7 +81,7 @@
        linkText: "Review this Album",
        actionName: "Create",
        controllerName: "AlbumReviews",
-       routeValues: new { AlbumID = Model.AlbumID, UserID = User.Identity.Name },
+       routeValues: new { AlbumID = Model.Album.AlbumID, UserID = User.Identity.Name },
         htmlAttributes: null)
 
     </p>
@@ -96,7 +96,7 @@
                 Album Comments
             </th>
         </tr>
-        @foreach (var item in Model.AlbumReviews)
+        @foreach (var item in Model.Album.AlbumReviews)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Rating)</td>
