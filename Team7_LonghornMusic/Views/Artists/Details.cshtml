@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Artist</h4>
+    <h4>Artist Details</h4>
     <hr />
     <dl class="dl-horizontal">
        <dt>
@@ -69,13 +69,21 @@
 
 
     <p>
-        @Html.ActionLink(
+        @*@Html.ActionLink(
        linkText: "Review this Artist", 
        actionName: "Create", 
        controllerName: "ArtistReviews", 
        routeValues: new { ArtistID = Model.Artist.ArtistID, UserID = User.Identity.Name },
-        htmlAttributes: null)
-       
+        htmlAttributes: null)*@
+        @if(User.IsInRole("Customer") @*AND HAS PURCHASED SONG CLAUSE*@)
+        {
+            <input type="button" class="btn btn-primary" value="Review this Artist" onclick="location.href='@Url.Action("Create", "ArtistReviews", new { ArtistID = Model.Artist.ArtistID, UserID = User.Identity.Name }, null)'" />
+        }
+        @if (User.IsInRole("Manager"))
+        {
+            <input type="button" class="btn btn-primary" value="Edit Artist Reviews" onclick="location.href='@Url.Action("Index", "ArtistReviews")'" />
+        }
+
     </p>
 
     <h3>Reviews</h3>
@@ -98,6 +106,12 @@
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Artist.ArtistID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (User.IsInRole("Manager"))
+    {
+        <input type="button" class="btn btn-primary" value="Edit Artist" onclick="location.href='@Url.Action("Edit", "Artists", new { id = Model.Artist.ArtistID })'" />
+    }
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Artist.ArtistID }) |*@
+   
+     @*@Html.ActionLink("Back to Artist List", "Index")*@
+    <input type="button" class="btn btn-primary" value="Back to Artists" onclick="location.href='@Url.Action("Index", "Artists")'" />
 </p>
