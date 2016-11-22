@@ -10,12 +10,15 @@ using Team7_LonghornMusic.Models;
 
 namespace Team7_LonghornMusic.Controllers
 {
+
+    public enum RatingFilter { Greater, Less }
+
+
     public class ArtistsController : Controller
     {
         private AppDbContext db = new AppDbContext();
 
-        public enum RatingFilter { Greater, Less}
-
+        
         // GET: Artists
         public ActionResult Index(String SearchString)
         {
