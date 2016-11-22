@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Team7_LonghornMusic.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace Team7_LonghornMusic.Controllers
 {
@@ -53,6 +56,7 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Customer")]
         public ActionResult AddToCart(Int32? SongID, Int32? AlbumID, string UserName)
         {
 
