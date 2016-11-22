@@ -40,8 +40,6 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Album's Discount")]
         public virtual List<Discount> AlbumDiscount { get; set; }
 
-        public virtual List<AppUser> Users { get; set; }
-
         public Album()
         {
             if (this.AlbumGenres == null)

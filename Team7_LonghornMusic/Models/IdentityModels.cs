@@ -50,12 +50,10 @@ namespace Team7_LonghornMusic.Models
         public CardType CreditCardTypeTwo { get; set; }
 
         //Navigation Properties
-        public virtual List<Song> Songs { get; set;}
-        public virtual List<Album> Albums { get; set; }
-        public virtual List<ShoppingCart> ShoppingCarts { get; set; }
         public virtual List<ArtistReview> ArtistReviews { get; set; }
         public virtual List<AlbumReview> AlbumReviews { get; set; }
         public virtual List<SongReview> SongReviews { get; set; }
+        public virtual List<OrderDetail> OrderDetails { get; set; }
         
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser> manager)
         {
@@ -92,7 +90,6 @@ namespace Team7_LonghornMusic.Models
         public DbSet<SongReview> SongReviews { get; set; }
         public DbSet<ArtistReview> ArtistReviews { get; set; }
         public DbSet<AlbumReview> AlbumReviews { get; set; }
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<Song> Songs { get; set; }
 
         //public System.Data.Entity.DbSet<Team7_LonghornMusic.Models.AppUser> AppUsers { get; set; }

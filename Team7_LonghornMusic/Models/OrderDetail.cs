@@ -12,8 +12,13 @@ namespace Team7_LonghornMusic.Models
     {
         public Int32 OrderDetailID { get; set; }
 
-        [Display(Name = "Is it a gift?")]
-        public bool IsGift { get; set; }
+        public String GifterEmail { get; set; }
+
+        public String GifteeEmail { get; set; }
+
+        public String CreditCardType { get; set; }
+
+        public String CreditCardNumber { get; set; }
 
         [Display(Name = "Is it Confirmed?")]
         public bool IsConfirmed { get; set; }
@@ -21,7 +26,9 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Is it Refunded?")]
         public bool IsRefunded { get; set; }
 
-        public virtual ShoppingCart ShoppingCart { get; set; }
+        public virtual AppUser User { get; set; }
+
+        public virtual List<Discount> Discounts { get; set; }
      
 
     }

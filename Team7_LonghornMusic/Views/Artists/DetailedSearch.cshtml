@@ -3,7 +3,7 @@
     ViewBag.Title = "Detailed Search";
 }
 
-@using Team7_LonghornMusic.Models;
+@using Team7_LonghornMusic.Controllers;
 
 
 <h2>Detailed Search</h2>
@@ -13,8 +13,19 @@
     <p class="form-group">
         Artist Name: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
 
+        Rating: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
+
+        <div class="form-check">
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedRatingFilter", RatingFilter.Greater, true, new { @class = "form-check-input" }) Male
+            </label>
+        </div>
+
+
 
         Genres:   @Html.ListBox("SelectedGenres", (MultiSelectList)ViewBag.AllGenres, new { @class = "form-control" }) <br />
+
+
 
         <input type="submit" value="Search" class="btn btn-default" />
 

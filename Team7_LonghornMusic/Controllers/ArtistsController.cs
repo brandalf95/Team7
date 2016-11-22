@@ -14,6 +14,8 @@ namespace Team7_LonghornMusic.Controllers
     {
         private AppDbContext db = new AppDbContext();
 
+        public enum RatingFilter { Greater, Less}
+
         // GET: Artists
         public ActionResult Index(String SearchString)
         {
@@ -58,7 +60,7 @@ namespace Team7_LonghornMusic.Controllers
             return View();
         }
 
-        public ActionResult SearchResults(String SearchString, int[] SelectedGenres)
+        public ActionResult SearchResults(String SearchString, int[] SelectedGenres, String AvRating, RatingFilter SelectedRatingFilter)
         {
             var query = from a in db.Artists
                         select a;
@@ -99,9 +101,6 @@ namespace Team7_LonghornMusic.Controllers
                 }
             }
 
-            //TODO: code for Rating Filter for Artist
-            // if 
-
             List<Artist> SelectedArtists = DisplayArtists.ToList();
 
             var TotalArtists = db.Artists.ToList();
@@ -109,7 +108,7 @@ namespace Team7_LonghornMusic.Controllers
 
             SelectedArtists = SelectedArtists.OrderBy(a => a.ArtistName).ToList();
             List<AvgArtistRating> ratingList = new List<AvgArtistRating>();
-            foreach(Artist a in SelectedArtists)
+            foreach (Artist a in SelectedArtists)
             {
                 AvgArtistRating dude = new AvgArtistRating();
                 dude.Artist = a;
@@ -117,6 +116,48 @@ namespace Team7_LonghornMusic.Controllers
                 ratingList.Add(dude);
 
             }
+
+            //TODO: code for Rating Filter for Artist
+            if (AvRating != null && AvRating != "")
+            {
+
+                Decimal decAvgRating;
+                try
+                {
+                    decAvgRating = Decimal.Parse(AvRating);
+                }
+                catch
+                {
+                    ViewBag.Message = AvRating + "is not a valid rating; please enter a decimal from 1.0 to 5.0";
+                    ViewBag.AllGenres = GetAllGenres();
+
+                    return View("DetailedSearch");
+                }
+
+                if (SelectedRatingFilter == RatingFilter.Greater)
+                {
+                  foreach(AvgArtistRating item in ratingList)
+                    {
+                        if(item.AvgRating < decAvgRating)
+                        {
+                            ratingList.Remove(item);
+                        }
+                    }
+                }else
+                {
+                    foreach (AvgArtistRating item in ratingList)
+                    {
+                        if (item.AvgRating > decAvgRating)
+                        {
+                            ratingList.Remove(item);
+                        }
+                    }
+                }
+
+
+            }
+
+            
             
             return View("Index", ratingList);
         }

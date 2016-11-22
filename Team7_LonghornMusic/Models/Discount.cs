@@ -21,8 +21,8 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Album")]
         public virtual Album Album { get; set; }
 
-        [Display(Name = "Shopping Cart Details") ]
-        public virtual ShoppingCart ShoppingCart { get; set; }
+        public virtual OrderDetail OrderDetail { get; set; }
+
 
     }
     

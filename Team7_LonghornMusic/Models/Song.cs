@@ -39,7 +39,6 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Song's Discount")]
         public virtual List<Discount> SongDiscount { get; set; }
 
-        public virtual List<AppUser> Users { get; set; }
 
         public Song()
         {
