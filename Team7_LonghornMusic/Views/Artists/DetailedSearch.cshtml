@@ -17,7 +17,10 @@
 
         <div class="form-check">
             <label class="form-check-label">
-                @Html.RadioButton("SelectedRatingFilter", RatingFilter.Greater, true, new { @class = "form-check-input" }) Male
+                @Html.RadioButton("SelectedRatingFilter", RatingFilter.Greater, true, new { @class = "form-check-input" }) Greater
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedRatingFilter", RatingFilter.Less, true, new { @class = "form-check-input" }) Less
             </label>
         </div>
 
