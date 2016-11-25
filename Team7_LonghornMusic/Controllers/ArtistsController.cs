@@ -10,11 +10,17 @@ using Team7_LonghornMusic.Models;
 
 namespace Team7_LonghornMusic.Controllers
 {
+
+    public enum RatingFilter { Greater, Less }
+
+    public enum SortBy { Artist, Album, Rating, Song}
+
+    public enum SortOrder { Ascending, Descending}
+
     public class ArtistsController : Controller
     {
         private AppDbContext db = new AppDbContext();
 
-        public enum RatingFilter { Greater, Less}
 
         // GET: Artists
         public ActionResult Index(String SearchString)
@@ -60,7 +66,7 @@ namespace Team7_LonghornMusic.Controllers
             return View();
         }
 
-        public ActionResult SearchResults(String SearchString, int[] SelectedGenres, String AvRating, RatingFilter SelectedRatingFilter)
+        public ActionResult SearchResults(String SearchString, int[] SelectedGenres, String AvRating, RatingFilter SelectedRatingFilter, SortBy SelectedSortBy, SortOrder SelectedSortOrder)
         {
             var query = from a in db.Artists
                         select a;
@@ -101,20 +107,42 @@ namespace Team7_LonghornMusic.Controllers
                 }
             }
 
-            List<Artist> SelectedArtists = DisplayArtists.ToList();
-
             var TotalArtists = db.Artists.ToList();
-            ViewBag.SelectedArtistCount = "Displaying " + SelectedArtists.Count() + " of " + TotalArtists.Count() + " Records";
+            ViewBag.SelectedArtistCount = "Displaying " + DisplayArtists.Count() + " of " + TotalArtists.Count() + " Records";
 
-            SelectedArtists = SelectedArtists.OrderBy(a => a.ArtistName).ToList();
+            DisplayArtists = DisplayArtists.OrderBy(a => a.ArtistName).ToList();
+
+            if (SelectedSortBy == SortBy.Artist && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplayArtists = DisplayArtists.OrderBy(a => a.ArtistName).ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Artist && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplayArtists = DisplayArtists.OrderByDescending(a => a.ArtistName).ToList();
+
+            }
+
             List<AvgArtistRating> ratingList = new List<AvgArtistRating>();
-            foreach (Artist a in SelectedArtists)
+            foreach (Artist a in DisplayArtists)
             {
                 AvgArtistRating dude = new AvgArtistRating();
                 dude.Artist = a;
                 dude.AvgRating = ComputeAverage(a.ArtistID);
                 ratingList.Add(dude);
 
+            }
+
+            if (SelectedSortBy == SortBy.Rating)
+            {
+                if (SelectedSortOrder == SortOrder.Ascending)
+                {
+                    ratingList = ratingList.OrderBy(a => a.AvgRating).ToList();
+                }
+                else
+                {
+                    ratingList = ratingList.OrderByDescending(a => a.AvgRating).ToList();
+                }
             }
 
             //TODO: code for Rating Filter for Artist
@@ -124,11 +152,25 @@ namespace Team7_LonghornMusic.Controllers
                 Decimal decAvgRating;
                 try
                 {
-                    decAvgRating = Decimal.Parse(AvRating);
+                    decAvgRating = Convert.ToDecimal(AvRating);
                 }
                 catch
                 {
-                    ViewBag.Message = AvRating + "is not a valid rating; please enter a decimal from 1.0 to 5.0";
+                    ViewBag.Message = AvRating + " is not a valid rating; please enter a decimal from 1.0 to 5.0";
+                    ViewBag.AllGenres = GetAllGenres();
+
+                    return View("DetailedSearch");
+                }
+                try
+                {
+                    if (decAvgRating < 1.0m || decAvgRating > 5.0m)
+                    {
+                        throw new ArgumentException();
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    ViewBag.Message = AvRating + " is not a valid rating; please enter a decimal from 1.0 to 5.0";
                     ViewBag.AllGenres = GetAllGenres();
 
                     return View("DetailedSearch");
@@ -136,16 +178,18 @@ namespace Team7_LonghornMusic.Controllers
 
                 if (SelectedRatingFilter == RatingFilter.Greater)
                 {
-                  foreach(AvgArtistRating item in ratingList)
+                  foreach(AvgArtistRating item in ratingList.ToList())
                     {
                         if(item.AvgRating < decAvgRating)
                         {
                             ratingList.Remove(item);
                         }
                     }
-                }else
+                }
+
+                else
                 {
-                    foreach (AvgArtistRating item in ratingList)
+                    foreach (AvgArtistRating item in ratingList.ToList())
                     {
                         if (item.AvgRating > decAvgRating)
                         {
@@ -153,12 +197,10 @@ namespace Team7_LonghornMusic.Controllers
                         }
                     }
                 }
-
-
             }
+            //TODO: figure this out.
 
-            
-            
+
             return View("Index", ratingList);
         }
 
