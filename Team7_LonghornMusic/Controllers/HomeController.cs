@@ -13,5 +13,15 @@ namespace Team7_LonghornMusic.Controllers
         {
             return View();
         }
+
+        public ActionResult ReviewHome()
+        {
+            return View();
+        }
+
+        public ActionResult ContentHome()
+        {
+            return View();
+        }
     }
 }

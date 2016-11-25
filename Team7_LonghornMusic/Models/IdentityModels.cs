@@ -91,6 +91,7 @@ namespace Team7_LonghornMusic.Models
         public DbSet<ArtistReview> ArtistReviews { get; set; }
         public DbSet<AlbumReview> AlbumReviews { get; set; }
         public DbSet<Song> Songs { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
         //public System.Data.Entity.DbSet<Team7_LonghornMusic.Models.AppUser> AppUsers { get; set; }
     }

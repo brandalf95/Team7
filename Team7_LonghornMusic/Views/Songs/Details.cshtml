@@ -19,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AvgRating)
+            Rating 
         </dt>
 
         <dd>
@@ -35,8 +35,80 @@
         </dd>
 
     </dl>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Song Genre
+            </th>
+        </tr>
+        @foreach (var item in Model.Song.SongGenres)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
+            </tr>
+        }
+    </table>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Song Artist(s)
+            </th>
+        </tr>
+        @foreach (var item in Model.Song.SongArtists)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.ArtistName, "Details", "Artists", new { id = item.ArtistID }, null)</td>
+            </tr>
+        }
+    </table>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Song Album(s)
+            </th>
+        </tr>
+        @foreach (var item in Model.Song.SongAlbums)
+        {
+            <tr>
+                <td>@Html.ActionLink(item.AlbumTitle, "Details", "Albums", new { id = item.AlbumID }, null)</td>
+            </tr>
+        }
+    </table>
+
+
+    <p>
+        @Html.ActionLink(
+       linkText: "Review this Song",
+       actionName: "Create",
+       controllerName: "SongReviews",
+       routeValues: new { SongID = Model.Song.SongID, UserID = User.Identity.Name },
+        htmlAttributes: null)
+
+    </p>
+
+    <h3>Reviews</h3>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Song Rating
+            </th>
+            <th>
+                Song Comments
+            </th>
+        </tr>
+        @foreach (var item in Model.Song.SongReviews)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+            </tr>
+        }
+    </table>
+
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Song.SongID }) |
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserName = User.Identity.Name },null)
 </p>

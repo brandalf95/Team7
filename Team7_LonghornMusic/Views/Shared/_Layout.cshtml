@@ -20,18 +20,55 @@
                 @Html.ActionLink("Longhorn Music", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Edit Account", "Index", "Account")</li>
-                </ul>
-                @if (User.IsInRole("Employee"))
-                { 
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Edit User Database", "Index", "AppUsers")</li>
-                </ul>
+                @if (User.IsInRole("Customer"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Songs", "Index", "Songs")</li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Albums", "Index", "Albums")</li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Artists", "Index", "Artists")</li>
+                    </ul>
                 }
+                @if (User.IsInRole("Employee"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Edit Content", "ContentHome", "Home")</li>
+                    </ul>
+                }
+
+                @if (User.IsInRole("Employee"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Edit Reviews", "ReviewHome", "Home")</li>
+                     </ul>
+                }
+                @if (User.IsInRole("Customer"))
+                {   <ul class="nav navbar-nav">                   
+                        <li>@Html.ActionLink("My Shopping Cart", "Index", "OrderDetails")</li>                  
+                    </ul>
+                }
+                @if (User.IsInRole("Employee"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Edit User Database", "Index", "AppUsers")</li>
+                    </ul>
+                }
+                <ul class="nav navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Edit Password", "Index", "Account")</li>
+                }
+                </ul>
+                <ul class="nav navbar-nav">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Edit Account", "Index", "AppUser")</li>
+                }                   
+                </ul>
+                
                
                 @Html.Partial("_LoginPartial")
             </div>

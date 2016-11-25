@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Team7_LonghornMusic.Models.OrderDetail>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Songs
+            </th>
+            <th>
+                Song Prices
+            </th>
+            <th>
+                Albums
+            </th>
+            <th>
+                Album Prices
+            </th>
+  
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @foreach (var item1 in item.Discounts) {
+                    @Html.DisplayFor(modelItem => item1.Song.SongTitle)
+                }
+            </td>
+            <td>
+                @foreach (var item1 in item.Discounts)
+                {
+                    @Html.DisplayFor(modelItem => item1.Song.SongPrice)
+                }
+            </td>
+            <td>
+                @foreach (var item1 in item.Discounts)
+                {
+                    @Html.DisplayFor(modelItem => item1.Album.AlbumTitle)
+                }
+            </td>
+            <td>
+                @foreach (var item1 in item.Discounts)
+                {
+                    @Html.DisplayFor(modelItem => item1.Album.AlbumPrice)
+                }
+            </td>
+
+            <td>
+
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

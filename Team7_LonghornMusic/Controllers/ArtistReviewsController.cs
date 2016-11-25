@@ -58,7 +58,7 @@ namespace Team7_LonghornMusic.Controllers
 
                 db.ArtistReviews.Add(artistReview);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Artists");
             }
 
             return View(artistReview);

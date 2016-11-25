@@ -36,27 +36,27 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         //// GET: AppUsers/Create - No need for this method~~~~
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: AppUsers/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,FName,LName,MidInitial,IsDisabled,Address,City,State,ZipCode,CreditCardOne,CreditCardTypeOne,CreditCardTwo,CreditCardTypeTwo,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AppUser appUser)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.AppUsers.Add(appUser);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+        // POST: AppUsers/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,FName,LName,MidInitial,IsDisabled,Address,City,State,ZipCode,CreditCardOne,CreditCardTypeOne,CreditCardTwo,CreditCardTypeTwo,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AppUser appUser)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(appUser);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
-        //    return View(appUser);
-        //}
+            return View(appUser);
+        }
 
         // GET: AppUsers/Edit/5
         public ActionResult Edit(string id)
@@ -87,6 +87,7 @@ namespace Team7_LonghornMusic.Controllers
 
                 appUserToChange.FName = appUser.FName;
                 appUserToChange.LName = appUser.LName;
+                appUserToChange.MidInitial = appUser.MidInitial;
                 appUserToChange.Email = appUser.Email;
                 appUserToChange.PhoneNumber = appUser.PhoneNumber;
                 appUserToChange.Address = appUser.Address;
@@ -103,6 +104,7 @@ namespace Team7_LonghornMusic.Controllers
                     appUserToChange.IsDisabled = appUser.IsDisabled;
 
                 }
+
 
                 db.Entry(appUserToChange).State = EntityState.Modified;
                 db.SaveChanges();
