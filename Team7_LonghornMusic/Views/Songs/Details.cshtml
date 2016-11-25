@@ -38,7 +38,7 @@
     <table class="table table-bordered">
         <tr>
             <th>
-                Song Genre
+                Song Genre(s)
             </th>
         </tr>
         @foreach (var item in Model.Song.SongGenres)
@@ -77,13 +77,21 @@
 
 
     <p>
-        @Html.ActionLink(
+        @*@Html.ActionLink(
        linkText: "Review this Song",
        actionName: "Create",
        controllerName: "SongReviews",
        routeValues: new { SongID = Model.Song.SongID, UserID = User.Identity.Name },
-        htmlAttributes: null)
-
+        htmlAttributes: null)*@
+        @if (User.IsInRole("Customer"))
+        {
+            <input type="button" class="btn btn-primary" value="Review this Song" onclick="location.href='@Url.Action("Create", "SongReviews", new { SongID = Model.Song.SongID, UserID = User.Identity.Name }, null)'" />
+        }
+        @if (User.IsInRole("Manager"))
+        {
+            <input type="button" class="btn btn-primary" value="Edit Song Reviews" onclick="location.href='@Url.Action("Index", "SongReviews")'" />
+        }
+        
     </p>
 
     <h3>Reviews</h3>
@@ -108,7 +116,18 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Song.SongID }) |
-    @Html.ActionLink("Back to List", "Index")
-    @Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserName = User.Identity.Name },null)
+    @if (User.IsInRole("Manager"))
+    {
+        <input type="button" class="btn btn-primary" value="Edit Song" onclick="location.href='@Url.Action("Edit", "Songs", new { id = Model.Song.SongID })'" />
+    }
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Song.SongID })*@ 
+
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <input type="button" class="btn btn-primary" value="Back to Songs" onclick="location.href='@Url.Action("Index", "Songs")'" />
+
+    @if (User.IsInRole("Customer"))
+    {
+        <input type="button" class="btn btn-primary" value="Add Song to Cart" onclick="location.href='@Url.Action("AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserID = User.Identity.Name }, null)'" />
+    }
+    @*@Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserName = User.Identity.Name },null)*@
 </p>

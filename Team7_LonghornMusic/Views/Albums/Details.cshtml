@@ -38,7 +38,7 @@
     <table class="table table-bordered">
         <tr>
             <th>
-                Album Genre
+                Album Genre(s)
             </th>
         </tr>
         @foreach (var item in Model.Album.AlbumGenres)
@@ -77,13 +77,21 @@
    
     
      <p>
-        @Html.ActionLink(
+        @*@Html.ActionLink(
        linkText: "Review this Album",
        actionName: "Create",
        controllerName: "AlbumReviews",
        routeValues: new { AlbumID = Model.Album.AlbumID, UserID = User.Identity.Name },
-        htmlAttributes: null)
+        htmlAttributes: null)*@
 
+         @if (User.IsInRole("Customer") @*AND HAS PURCHASED ALBUM CLAUSE*@)
+         {
+             <input type="button" class="btn btn-primary" value="Review this Album" onclick="location.href='@Url.Action("Create", "AlbumReviews", new { AlbumID = Model.Album.AlbumID, UserID = User.Identity.Name }, null)'" />
+         }
+         @if (User.IsInRole("Manager"))
+         {
+             <input type="button" class="btn btn-primary" value="Edit Album Reviews" onclick="location.href='@Url.Action("Index", "AlbumReviews")'" />
+         }
     </p>
 
     <h3>Reviews</h3>
@@ -113,7 +121,18 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Album.AlbumID }) |
-    @Html.ActionLink("Back to List", "Index")
-    @Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { AlbumID = Model.Album.AlbumID, UserName = User.Identity.Name }, null)
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Album.AlbumID })*@ 
+    @if (User.IsInRole("Manager"))
+    {
+        <input type="button" class="btn btn-primary" value="Edit Album" onclick="location.href='@Url.Action("Edit", "Albums", new { id = Model.Album.AlbumID })'" />
+    }
+
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <input type="button" class="btn btn-primary" value="Back to Albums" onclick="location.href='@Url.Action("Index", "Albums")'" />
+
+    @if (User.IsInRole("Customer"))
+    {
+        <input type="button" class="btn btn-primary" value="Add Album to Cart" onclick="location.href='@Url.Action("AddToCart", "OrderDetails", new { AlbumID = Model.Album.AlbumID, UserName = User.Identity.Name })'" />
+    }
+    @*@Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { AlbumID = Model.Album.AlbumID, UserName = User.Identity.Name }, null)*@
 </p>
