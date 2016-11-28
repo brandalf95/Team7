@@ -116,7 +116,87 @@
 
     </dl>
 </div>
+
+@if (User.IsInRole("Customer"))
+{
+
+
+<h3>My Artist Reviews</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            Artist
+        </th>
+        <th>
+            Artist Rating
+        </th>
+        <th>
+            Artist Comments
+        </th>
+    </tr>
+    @foreach (var item in Model.ArtistReviews)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Artist.ArtistName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+            <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+        </tr>
+    }
+</table>
+
+<h3>My Album Reviews</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            Album
+        </th>
+        <th>
+            Album Rating
+        </th>
+        <th>
+            Album Comments
+        </th>
+    </tr>
+    @foreach (var item in Model.AlbumReviews)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Album.AlbumTitle)</td>
+            <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+            <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+        </tr>
+    }
+</table>
+
+<h3>My Song Reviews</h3>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            Song
+        </th>
+        <th>
+            Song Rating
+        </th>
+        <th>
+            Song Comments
+        </th>
+    </tr>
+    @foreach (var item in Model.SongReviews)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Song.SongTitle)</td>
+            <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+            <td>@Html.DisplayFor(modelItem => item.Comment)</td>
+           
+        </tr>
+    }
+</table>
+
+
+
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+}

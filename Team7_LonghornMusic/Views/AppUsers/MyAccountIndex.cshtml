@@ -76,6 +76,7 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
 
+
             <td>
                 <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "AppUsers", new { id = item.Id }, null)'" />
                 <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "AppUsers", new { id = item.Id }, null)'" />
@@ -87,3 +88,4 @@
         </tr>
     }
 </table>
+
