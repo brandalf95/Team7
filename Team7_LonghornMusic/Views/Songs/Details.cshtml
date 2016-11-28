@@ -122,6 +122,13 @@
     }
     @*@Html.ActionLink("Edit", "Edit", new { id = Model.Song.SongID })*@ 
 
+
+    @if (User.IsInRole("Manager"))
+    {
+        <input type="button" class="btn btn-primary" value="Discount Song" onclick="location.href='@Url.Action("Create", "Discount", new { ProductID = Model.Song.SongID }, null)'" />
+    }
+
+
     @*@Html.ActionLink("Back to List", "Index")*@
     <input type="button" class="btn btn-primary" value="Back to Songs" onclick="location.href='@Url.Action("Index", "Songs")'" />
 
