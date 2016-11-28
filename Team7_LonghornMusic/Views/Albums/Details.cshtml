@@ -130,6 +130,11 @@
     @*@Html.ActionLink("Back to List", "Index")*@
     <input type="button" class="btn btn-primary" value="Back to Albums" onclick="location.href='@Url.Action("Index", "Albums")'" />
 
+    @if (User.IsInRole("Manager"))
+    {
+        <input type="button" class="btn btn-primary" value="Discount Song" onclick="location.href='@Url.Action("Create", "Discount", new { ProductID = Model.Album.AlbumID }, null)'" />
+    }
+
     @if (User.IsInRole("Customer"))
     {
         <input type="button" class="btn btn-primary" value="Add Album to Cart" onclick="location.href='@Url.Action("AddToCart", "OrderDetails", new { AlbumID = Model.Album.AlbumID, UserName = User.Identity.Name })'" />
