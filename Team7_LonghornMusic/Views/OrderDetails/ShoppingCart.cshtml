@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Team7_LonghornMusic.Models.ShoppingCartViewModel>
+﻿@model Team7_LonghornMusic.Models.ShoppingCartViewModel
 @{
     Layout = null;
 }
@@ -33,27 +33,26 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
+
         <tr>
             <td>
-                @foreach (var x in item.OrderDetail.Discounts)
+                @foreach (var x in Model.OrderDetail.Discounts)
                 {@Html.DisplayFor(modelItem => x.Song.SongTitle) }
             </td>
             @*<td>
                     @Html.DisplayFor(modelItem => item.IsFeatured)
                 </td>*@
             <td>
-               @foreach (var x in item.OrderDetail.Discounts)
+               @foreach (var x in Model.OrderDetail.Discounts)
                 {@Html.DisplayFor(modelItem => x.Song.SongPrice) }
             </td>
 
             <td>
-               @foreach (var x in item.OrderDetail.Discounts)
+               @foreach (var x in Model.OrderDetail.Discounts)
                 {@Html.DisplayFor(modelItem => x.Album.AlbumTitle) }
             </td>
             <td>
-                   @foreach (var x in item.OrderDetail.Discounts)
+                   @foreach (var x in Model.OrderDetail.Discounts)
                 {@Html.DisplayFor(modelItem => x.Album.AlbumPrice) }
                 </td>
             
@@ -63,13 +62,9 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.Song.SongID })*@
             </td>
         
-    }
+    
 
 </table>
-<dt>
-    @Html.DisplayNameFor(model => model.SubTotal)
-</dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SubTotal)
-        </dd>
+@Html.DisplayFor(model => model.SubTotal)
+@Html.DisplayFor(model => model.Tax)
+@Html.DisplayFor(model => model.Total)

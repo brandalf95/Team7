@@ -71,7 +71,7 @@ namespace Team7_LonghornMusic.Controllers
             shoppingCart.Total = (shoppingCart.Tax + shoppingCart.SubTotal);
             List<ShoppingCartViewModel> shoppingCartList = new List<ShoppingCartViewModel>();
             shoppingCartList.Add(shoppingCart);
-            return View(shoppingCartList);
+            return View(shoppingCart);
         }
 
         // GET: OrderDetails/Create
@@ -154,7 +154,7 @@ namespace Team7_LonghornMusic.Controllers
                 if (dummy)
                 {
                     List<AppUser> list = db.Users.Where(a => a.UserName.Contains(UserName)).ToList();
-                    orderDetail.User = list[0];
+                    orderDetail.User = db.Users.FirstOrDefault(a => a.UserName.Contains(UserName));
                     db.OrderDetails.Add(orderDetail);
                 }
                 

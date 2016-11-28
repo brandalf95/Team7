@@ -23,7 +23,7 @@
     <input type="button" class="btn btn-primary" value="Browse Users" onclick="location.href='@Url.Action("Index", "AppUsers")'" />
 </p>
 <p>
-    <input type="button" class="btn btn-primary" value="My Shopping Cart" onclick="location.href='@Url.Action("Index", "OrderDetails")'" />
+    <input type="button" class="btn btn-primary" value="My Shopping Cart" onclick="location.href='@Url.Action("ShoppingCart", "OrderDetails",new { UserName = User.Identity.Name })'" />
 </p>
 <p>
     <input type="button" class="btn btn-primary" value="Browse Reviews" onclick="location.href='@Url.Action("ReviewHome", "Home")'" />

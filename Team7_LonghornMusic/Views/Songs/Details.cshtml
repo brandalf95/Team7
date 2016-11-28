@@ -127,7 +127,7 @@
 
     @if (User.IsInRole("Customer"))
     {
-        <input type="button" class="btn btn-primary" value="Add Song to Cart" onclick="location.href='@Url.Action("AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserID = User.Identity.Name }, null)'" />
+        <input type="button" class="btn btn-primary" value="Add Song to Cart" onclick="location.href='@Url.Action("AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserName = User.Identity.Name }, null)'" />
     }
     @*@Html.ActionLink("Add To Cart", "AddToCart", "OrderDetails", new { SongID = Model.Song.SongID, UserName = User.Identity.Name },null)*@
 </p>
