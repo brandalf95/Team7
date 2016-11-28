@@ -18,7 +18,11 @@
     </p>
 }
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (User.IsInRole("Manager"))
+    {
+        <input type="button" class="btn btn-primary" value="Create Album" onclick="location.href='@Url.Action("Create", "Albums")'" />
+    }
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>
@@ -74,9 +78,23 @@
 
 
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Album.AlbumID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Album.AlbumID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Album.AlbumID })
+            @if (User.IsInRole("Manager"))
+            {
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Artist.ArtistID })*@
+                <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "Albums", new { id = item.Album.AlbumID })'" />
+            }
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Album.AlbumID })*@ 
+
+            @*@Html.ActionLink("Details", "Details", new { id=item.Album.AlbumID })*@ 
+            <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "Albums", new { id = item.Album.AlbumID })'" />
+
+            @if (User.IsInRole("Manager"))
+            {
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Artist.ArtistID })*@
+                <input type="button" class="btn btn-primary" value="Delete" onclick="location.href='@Url.Action("Delete", "Albums", new { id = item.Album.AlbumID })'" />
+            }
+
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.Album.AlbumID })*@
         </td>
     </tr>
 }

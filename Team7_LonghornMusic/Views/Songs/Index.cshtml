@@ -18,7 +18,12 @@
     </p>
 }
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (User.IsInRole("Manager"))
+    {
+        @*@Html.ActionLink("Create New", "Create")*@
+        <input type="button" class="btn btn-primary" value="Create Song" onclick="location.href='@Url.Action("Create", "Songs")'" />
+    }
+
 </p>
 <table class="table">
     <tr>
@@ -72,9 +77,23 @@
             @Html.DisplayFor(modelItem => item.AvgRating)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Song.SongID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Song.SongID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Song.SongID })
+
+            @if (User.IsInRole("Manager"))
+            {
+                @*@Html.ActionLink("Create New", "Create")*@
+                <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "Songs", new { id = item.Song.SongID })'" />
+            }
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Song.SongID })*@ 
+
+            @*@Html.ActionLink("Details", "Details", new { id=item.Song.SongID })*@
+            <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "Songs", new { id = item.Song.SongID })'" />
+           
+             @if (User.IsInRole("Manager"))
+            {
+                @*@Html.ActionLink("Create New", "Create")*@
+                <input type="button" class="btn btn-primary" value="Delete" onclick="location.href='@Url.Action("Delete", "Songs", new { id = item.Song.SongID })'" />
+            }
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.Song.SongID })*@
         </td>
     </tr>
 }

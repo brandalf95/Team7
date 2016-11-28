@@ -1,9 +1,13 @@
-﻿
+﻿@model Team7_LonghornMusic.Models.Album 
+
 @{
     ViewBag.Title = "Detailed Search";
 }
 
 <h2>Detailed Search</h2>
+
+@using Team7_LonghornMusic.Controllers;
+
 
 @using (Html.BeginForm("SearchResults", "Albums", FormMethod.Get))
 {
@@ -13,6 +17,40 @@
         Artist: @Html.TextBox("ArtistSearchString", null, new { @class = "form-control" }) <br />
 
         Genres: @Html.ListBox("SelectedGenres", (MultiSelectList)ViewBag.AllGenres, new { @class = "form-control" }) <br />
+
+        Rating: @Html.TextBox("AvRating", null, new { @class = "form-control" }) <div class="text-danger">@ViewBag.Message</div>
+        <div class="form-check">
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedRatingFilter", RatingFilter.Greater, true, new { @class = "form-check-input" }) Greater Than
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedRatingFilter", RatingFilter.Less, true, new { @class = "form-check-input" }) Less Than
+            </label>
+        </div>
+        <br />
+
+        Sort By:
+        <div class="form-check">
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Album, true, new { @class = "form-check-input" }) Album
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Artist, true, new { @class = "form-check-input" }) Artist
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Rating, true, new { @class = "form-check-input" }) Rating
+            </label>
+        </div>
+
+        Sort Order:
+        <div class="form-check">
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortOrder", SortOrder.Ascending, true, new { @class = "form-check-input" }) Ascending
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortOrder", SortOrder.Descending, true, new { @class = "form-check-input" }) Descending
+            </label>
+        </div>
 
         <input type="submit" value="Search" class="btn btn-default" />
 

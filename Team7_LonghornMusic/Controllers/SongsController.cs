@@ -55,7 +55,7 @@ namespace Team7_LonghornMusic.Controllers
             return View();
         }
 
-        public ActionResult SearchResults(String SongSearchString, String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres)
+        public ActionResult SearchResults(String SongSearchString, String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres, String AvRating, RatingFilter SelectedRatingFilter, SortBy SelectedSortBy, SortOrder SelectedSortOrder)
         {
             var query = from s in db.Songs
                         select s;
@@ -118,18 +118,47 @@ namespace Team7_LonghornMusic.Controllers
             }
 
 
-
-            //TODO: code for Rating Filter for Album
-            // if 
-
-            List<Song> SelectedSongs = DisplaySongs.Distinct().ToList();
-
             var TotalSongs = db.Songs.ToList();
-            ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + " of " + TotalSongs.Count() + " Records";
 
-            SelectedSongs = SelectedSongs.OrderBy(a => a.SongTitle).ToList();
+            DisplaySongs = DisplaySongs.OrderBy(a => a.SongTitle).ToList();
+
+            if (SelectedSortBy == SortBy.Song && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = DisplaySongs.OrderBy(a => a.SongTitle).ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Song && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = DisplaySongs.OrderByDescending(a => a.SongTitle).ToList();
+
+            }
+
+            if (SelectedSortBy == SortBy.Album && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = (from a in DisplaySongs from al in a.SongAlbums.Distinct() orderby al.AlbumTitle  select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Album && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = (from a in DisplaySongs from al in a.SongAlbums.Distinct() orderby al.AlbumTitle descending select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Artist && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = (from a in DisplaySongs from ar in a.SongArtists.Distinct() orderby ar.ArtistName select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Artist && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = (from a in DisplaySongs from ar in a.SongArtists.Distinct() orderby ar.ArtistName descending select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
             List<AvgSongRating> ratingList = new List<AvgSongRating>();
-            foreach (Song a in SelectedSongs)
+            foreach (Song a in DisplaySongs)
             {
                 AvgSongRating dude = new AvgSongRating();
                 dude.Song = a;
@@ -137,6 +166,74 @@ namespace Team7_LonghornMusic.Controllers
                 ratingList.Add(dude);
 
             }
+
+            if (SelectedSortBy == SortBy.Rating)
+            {
+                if (SelectedSortOrder == SortOrder.Ascending)
+                {
+                    ratingList = ratingList.OrderBy(a => a.AvgRating).ToList();
+                }
+                else
+                {
+                    ratingList = ratingList.OrderByDescending(a => a.AvgRating).ToList();
+                }
+            }
+
+            //TODO: code for Rating Filter for Song
+            if (AvRating != null && AvRating != "")
+            {
+
+                Decimal decAvgRating;
+                try
+                {
+                    decAvgRating = Convert.ToDecimal(AvRating);
+                }
+                catch
+                {
+                    ViewBag.Message = AvRating + " is not a valid rating; please enter a decimal from 1.0 to 5.0";
+                    ViewBag.AllGenres = GetAllGenres();
+
+                    return View("DetailedSearch");
+                }
+                try
+                {
+                    if (decAvgRating < 1.0m || decAvgRating > 5.0m)
+                    {
+                        throw new ArgumentException();
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    ViewBag.Message = AvRating + " is not a valid rating; please enter a decimal from 1.0 to 5.0";
+                    ViewBag.AllGenres = GetAllGenres();
+
+                    return View("DetailedSearch");
+                }
+
+                if (SelectedRatingFilter == RatingFilter.Greater)
+                {
+                    foreach (AvgSongRating item in ratingList.ToList())
+                    {
+                        if (item.AvgRating < decAvgRating)
+                        {
+                            ratingList.Remove(item);
+                        }
+                    }
+                }
+
+                else
+                {
+                    foreach (AvgSongRating item in ratingList.ToList())
+                    {
+                        if (item.AvgRating > decAvgRating)
+                        {
+                            ratingList.Remove(item);
+                        }
+                    }
+                }
+            }
+
+            ViewBag.SelectedSongCount = "Displaying " + DisplaySongs.Count() + " of " + TotalSongs.Count() + " Records";
 
             return View("Index", ratingList);
         }
