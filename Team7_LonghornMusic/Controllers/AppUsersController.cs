@@ -85,6 +85,19 @@ namespace Team7_LonghornMusic.Controllers
             return View(employeeList);
         }
 
+        public ActionResult MyAccountIndex()
+        {
+            var query = from c in db.Users
+                        select c;
+
+            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+
+            List<AppUser> myList = query.ToList();
+            myList = db.Users.ToList().Where(c => c.Id == userId).ToList();
+
+            return View(myList);
+        }
+
         // GET: AppUsers/Details/5
         public ActionResult Details(string id)
         {
