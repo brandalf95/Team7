@@ -15,21 +15,44 @@ namespace Team7_LonghornMusic.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: OrderDetails
-        public ActionResult Index()
+
+        public ActionResult Index(String id)
+
         {
-            return View(db.OrderDetails.ToList());
+            if (id == null)
+            {
+                return View();
+                
+            } else
+            {
+                String ids = id;
+                OrderDetail orderDetail = new OrderDetail();
+                List<OrderDetail> listDetails = new List<OrderDetail>();
+                listDetails = db.OrderDetails.Where(a => a.User.UserName.Contains(ids)).ToList();
+                foreach (OrderDetail item in listDetails)
+                {
+                    if (!item.IsConfirmed)
+                    {
+                        orderDetail = item;
+                    }
+                }
+                List<OrderDetail> details = new List<OrderDetail>();
+                details.Add(orderDetail);
+                return View();
+            }
+           
         }
 
         // GET: OrderDetails/Details/5
-        public ActionResult ShoppingCart(string id)
+        public ActionResult ShoppingCart(string UserName)
         {
-            if (id == null)
+            if (UserName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             OrderDetail orderDetail = new OrderDetail();
             List<OrderDetail> listDetails = new List<OrderDetail>();
-            listDetails = db.OrderDetails.Where(a => a.User.UserName.Contains(id)).ToList();
+            listDetails = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
             foreach(OrderDetail item in listDetails)
             {
                 if (!item.IsConfirmed)
@@ -37,9 +60,15 @@ namespace Team7_LonghornMusic.Controllers
                     orderDetail = item;
                 }
             }
-            
+            ShoppingCartViewModel shoppingCart = new ShoppingCartViewModel();
+            shoppingCart.OrderDetail = orderDetail;
 
-            return View(orderDetail);
+            shoppingCart.SubTotal = CalcSubTotal(shoppingCart);
+            shoppingCart.Tax = CalcTax(shoppingCart);
+            shoppingCart.Total = (shoppingCart.Tax + shoppingCart.SubTotal);
+            List<ShoppingCartViewModel> shoppingCartList = new List<ShoppingCartViewModel>();
+            shoppingCartList.Add(shoppingCart);
+            return View(shoppingCartList);
         }
 
         // GET: OrderDetails/Create
@@ -120,6 +149,8 @@ namespace Team7_LonghornMusic.Controllers
 
                 if (dummy)
                 {
+                    List<AppUser> list = db.Users.Where(a => a.UserName.Contains(UserName)).ToList();
+                    orderDetail.User = list[0];
                     db.OrderDetails.Add(orderDetail);
                 }
                 
@@ -195,5 +226,46 @@ namespace Team7_LonghornMusic.Controllers
             }
             base.Dispose(disposing);
         }
+        public decimal CalcSubTotal(ShoppingCartViewModel orderDetail)
+        {
+            List<decimal> songList = new List<decimal>();
+            List<decimal> albumList = new List<decimal>();
+            List<decimal> discountList = new List<decimal>();
+            List<Discount> list = new List<Discount>();
+            list = orderDetail.OrderDetail.Discounts.ToList();
+            foreach(Discount item in list)
+            {
+                if(item.Song == null)
+                {
+                    albumList.Add(item.Album.AlbumPrice);
+                }else
+                {
+                    songList.Add(item.Song.SongPrice);
+                }
+                discountList.Add(item.DiscountAmt);
+            }
+            decimal subtotal = new decimal();
+            foreach(decimal item in albumList)
+            {
+                subtotal += item;
+            }
+            foreach (decimal item in songList)
+            {
+                subtotal += item;
+            }
+            foreach (decimal item in discountList)
+            {
+                subtotal -= item;
+            }
+            return subtotal;
+
+        }
+        public decimal CalcTax(ShoppingCartViewModel shoppingCart)
+        {
+            decimal tax = new decimal();
+            tax = Convert.ToDecimal(.0825) * shoppingCart.SubTotal;
+            return tax;
+        }
+
     }
 }

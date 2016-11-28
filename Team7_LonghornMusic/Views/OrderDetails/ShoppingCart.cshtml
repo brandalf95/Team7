@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Team7_LonghornMusic.Models.ShoppingCartViewModel>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShoppingCart</title>
+</head>
+<table class="table">
+    <tr>
+        <th>
+            Song Title
+        </th>
+        <th>
+                Song Price
+            </th>
+        <th>
+            Album Title
+        </th>
+        <th>
+            Album Price
+        </th>
+        @*<th>
+                Genre
+            </th>*@
+        @*<th>
+            Rating
+        </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @foreach (var x in item.OrderDetail.Discounts)
+                {@Html.DisplayFor(modelItem => x.Song.SongTitle) }
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.IsFeatured)
+                </td>*@
+            <td>
+               @foreach (var x in item.OrderDetail.Discounts)
+                {@Html.DisplayFor(modelItem => x.Song.SongPrice) }
+            </td>
+
+            <td>
+               @foreach (var x in item.OrderDetail.Discounts)
+                {@Html.DisplayFor(modelItem => x.Album.AlbumTitle) }
+            </td>
+            <td>
+                   @foreach (var x in item.OrderDetail.Discounts)
+                {@Html.DisplayFor(modelItem => x.Album.AlbumPrice) }
+                </td>
+            
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.Song.SongID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Song.SongID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Song.SongID })*@
+            </td>
+        
+    }
+
+</table>
+<dt>
+    @Html.DisplayNameFor(model => model.SubTotal)
+</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubTotal)
+        </dd>

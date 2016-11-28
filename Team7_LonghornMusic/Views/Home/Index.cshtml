@@ -23,6 +23,6 @@
     @Html.ActionLink("Browse Users", "Index", "AppUsers")
 </p>
 <p>
-    @Html.ActionLink("ShoppingCart", "Index", "OrderDetails")
+    @Html.ActionLink("ShoppingCart", "ShoppingCart", "OrderDetails", new { UserName = User.Identity.Name }, null)
 </p>
 

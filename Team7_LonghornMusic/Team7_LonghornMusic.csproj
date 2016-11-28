@@ -188,6 +188,9 @@
     <EmbeddedResource Include="Migrations\201611220040581_ShoppingCartStuff.resx">
       <DependentUpon>201611220040581_ShoppingCartStuff.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611280124214_ShoppingCartAddition.resx">
+      <DependentUpon>201611280124214_ShoppingCartAddition.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -261,12 +264,17 @@
     <Compile Include="Migrations\201611220040581_ShoppingCartStuff.Designer.cs">
       <DependentUpon>201611220040581_ShoppingCartStuff.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611280124214_ShoppingCartAddition.cs" />
+    <Compile Include="Migrations\201611280124214_ShoppingCartAddition.Designer.cs">
+      <DependentUpon>201611280124214_ShoppingCartAddition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\AvgAlbumRating.cs" />
     <Compile Include="Models\AvgArtistRating.cs" />
     <Compile Include="Models\AvgSongRating.cs" />
+    <Compile Include="Models\ShoppingCartViewModel.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Discount.cs" />
     <Compile Include="Models\Genre.cs" />
@@ -328,6 +336,7 @@
     <Content Include="Views\OrderDetails\Edit.cshtml" />
     <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Views\OrderDetails\AddToCart.cshtml" />
+    <Content Include="Views\OrderDetails\ShoppingCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
