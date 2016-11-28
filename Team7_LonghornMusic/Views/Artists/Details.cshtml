@@ -79,7 +79,7 @@
         {
             <input type="button" class="btn btn-primary" value="Review this Artist" onclick="location.href='@Url.Action("Create", "ArtistReviews", new { ArtistID = Model.Artist.ArtistID, UserID = User.Identity.Name }, null)'" />
         }
-        @if (User.IsInRole("Manager"))
+        @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
         {
             <input type="button" class="btn btn-primary" value="Edit Artist Reviews" onclick="location.href='@Url.Action("Index", "ArtistReviews")'" />
         }

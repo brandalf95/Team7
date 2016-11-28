@@ -88,7 +88,7 @@
          {
              <input type="button" class="btn btn-primary" value="Review this Album" onclick="location.href='@Url.Action("Create", "AlbumReviews", new { AlbumID = Model.Album.AlbumID, UserID = User.Identity.Name }, null)'" />
          }
-         @if (User.IsInRole("Manager"))
+         @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
          {
              <input type="button" class="btn btn-primary" value="Edit Album Reviews" onclick="location.href='@Url.Action("Index", "AlbumReviews")'" />
          }
