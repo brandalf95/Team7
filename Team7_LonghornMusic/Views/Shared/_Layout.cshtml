@@ -53,7 +53,13 @@
                 @if (User.IsInRole("Employee"))
                 {
                     <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Edit User Database", "Index", "AppUsers")</li>
+                        <li>@Html.ActionLink("Edit Customer Database", "Index", "AppUsers")</li>
+                    </ul>
+                }
+                @if (User.IsInRole("Manager"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Edit Employee Database", "EmployeeIndex", "AppUsers")</li>
                     </ul>
                 }
                 <ul class="nav navbar-nav">
