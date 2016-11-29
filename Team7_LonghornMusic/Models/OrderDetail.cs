@@ -36,6 +36,10 @@ namespace Team7_LonghornMusic.Models
             {
                 this.Discounts = new List<Discount>();
             }
+            if (this.CreditCardNumber == null)
+            {
+                this.CreditCardNumber = "";
+            }
         }
     }
 }
