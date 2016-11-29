@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Team7_LonghornMusic.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
+using System.Threading.Tasks;
 
 
 namespace Team7_LonghornMusic.Controllers
@@ -124,16 +124,34 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id, FName,LName,MidInitial,IsDisabled,Address,City,State,ZipCode,CreditCardOne,CreditCardTypeOne,CreditCardTwo,CreditCardTypeTwo,Email,PhoneNumber")] AppUser appUser)
+        public async Task<ActionResult> Create(AppUser model)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(appUser);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                //db.Users.Add(appUser);
+                //db.SaveChanges();
+                //return RedirectToAction("Index");
+                var user = new AppUser { UserName = model.Email, Email = model.Email, FName = model.FName, LName = model.FName, MidInitial = model.MidInitial, PhoneNumber = model.PhoneNumber, Address = model.Address, City = model.City, State = model.State, ZipCode = model.ZipCode, CreditCardOne = model.CreditCardOne, CreditCardTypeOne = model.CreditCardTypeOne };
 
-            return View(appUser);
+                //Add the new user to the database
+                var result = await UserManager.CreateAsync(user);//Add password in parenthesis
+
+
+
+                if (result.Succeeded) //user was created successfully
+                {
+                    await UserManager.AddToRoleAsync(user.Id, "Employee");
+
+                    //sign the user in
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    //send them to the home page
+                    return RedirectToAction("Index", "Home");
+
+                }
+
+            }
+            return View(model);
         }
 
         // GET: AppUsers/Edit/5
