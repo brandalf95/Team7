@@ -143,5 +143,11 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Back to home", "Index", "Home")*@
+    <p>
+        <input type="button" class="btn btn-primary" value="Return to Home" onclick="location.href='@Url.Action("Index", "Home")'" />
+    </p>
+    <p>
+        <input type="button" class="btn btn-primary" value="Edit Password" onclick="location.href='@Url.Action("ChangePassword", "Account")'" />
+    </p>
 </div>

@@ -7,17 +7,95 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Team7_LonghornMusic.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+
 
 namespace Team7_LonghornMusic.Controllers
 {
     public class AppUsersController : Controller
     {
         private AppDbContext db = new AppDbContext();
+        //Customer role code 
+
+        private AppSignInManager _signInManager;
+        private AppUserManager _userManager;
+
+        public AppUsersController()
+        {
+        }
+
+        public AppUsersController(AppUserManager userManager, AppSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public AppSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<AppSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public AppUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().Get<AppUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+
 
         // GET: AppUsers
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var query = from c in db.Users
+                        select c;
+
+            //var roleManager = new RoleManager<AppRole>(new RoleStore(db));
+            //var customerRole = roleManager.FindByName("Customer");
+            List<AppUser> customerList = query.ToList();
+            customerList = db.Users.ToList().Where(x => UserManager.IsInRole(x.Id, "Customer")).ToList();
+
+            return View(customerList);
+        }
+
+        public ActionResult EmployeeIndex()
+        {
+            var query = from c in db.Users
+                        select c;
+
+            //var roleManager = new RoleManager<AppRole>(new RoleStore(db));
+            //var customerRole = roleManager.FindByName("Customer");
+            List<AppUser> employeeList = query.ToList();
+            employeeList = db.Users.ToList().Where(x => UserManager.IsInRole(x.Id, "Employee")).ToList();
+
+            return View(employeeList);
+        }
+
+        public ActionResult MyAccountIndex()
+        {
+            var query = from c in db.Users
+                        select c;
+
+            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+
+            List<AppUser> myList = query.ToList();
+            myList = db.Users.ToList().Where(c => c.Id == userId).ToList();
+
+            return View(myList);
         }
 
         // GET: AppUsers/Details/5
@@ -35,7 +113,7 @@ namespace Team7_LonghornMusic.Controllers
             return View(appUser);
         }
 
-        //// GET: AppUsers/Create - No need for this method~~~~
+        //// GET: AppUsers/Create
         public ActionResult Create()
         {
             return View();
@@ -46,7 +124,7 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FName,LName,MidInitial,IsDisabled,Address,City,State,ZipCode,CreditCardOne,CreditCardTypeOne,CreditCardTwo,CreditCardTypeTwo,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AppUser appUser)
+        public ActionResult Create([Bind(Include = "Id, FName,LName,MidInitial,IsDisabled,Address,City,State,ZipCode,CreditCardOne,CreditCardTypeOne,CreditCardTwo,CreditCardTypeTwo,Email,PhoneNumber")] AppUser appUser)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +186,24 @@ namespace Team7_LonghornMusic.Controllers
 
                 db.Entry(appUserToChange).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                
+                if(User.IsInRole("Customer"))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                if (User.IsInRole("Manager"))
+                {
+                    return RedirectToAction("EmployeeIndex");
+                }
+
+                if (User.IsInRole("Employee"))
+                {
+                    return RedirectToAction("Index");
+                }
+
+                
+
             }
 
             return View(appUser);

@@ -23,6 +23,8 @@ namespace Team7_LonghornMusic
             //NOTE: This code is absolutely required to make roles work
             app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
 
+            //new code for customer list
+            app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider

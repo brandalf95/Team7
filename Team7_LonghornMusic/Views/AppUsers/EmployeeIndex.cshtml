@@ -1,17 +1,23 @@
 ﻿@model IEnumerable<Team7_LonghornMusic.Models.AppUser>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "EmployeeIndex";
 }
 
-<h2>Index</h2>
+<h2>Employee Index</h2>
 
-@if (User.IsInRole("Employee"))
+<p>
+    <input type="button" class="btn btn-primary" value="Hire Employee" onclick="location.href='@Url.Action("Create", "AppUsers")'" />
+</p>
+<p>
+    <input type="button" class="btn btn-primary" value="Promote Employee" onclick="location.href='@Url.Action("Index", "RoleAdmin")'" />
+</p>
+
+@if (User.IsInRole("Manager"))
 {
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IsDisabled)
+                Currently Employed?
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FName)
@@ -78,17 +84,16 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
 
-                    <td>
-                        <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "AppUsers", new { id = item.Id }, null)'" />
-                        <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "AppUsers", new { id = item.Id }, null)'" />
-                        <input type="button" class="btn btn-primary" value="Delete" onclick="location.href='@Url.Action("Delete", "AppUsers", new { id = item.Id }, null)'" />
-                        @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) 
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                    </td>                
+                <td>
+                    <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "AppUsers", new { id = item.Id }, null)'" />
+                    <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "AppUsers", new { id = item.Id }, null)'" />
+                    @*<input type="button" class="btn btn-primary" value="Delete" onclick="location.href='@Url.Action("Delete", "AppUsers", new { id = item.Id }, null)'" />
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                </td>
             </tr>
         }
 
     </table>
 }
-
