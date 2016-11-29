@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
+
 
 
 <head>
@@ -30,7 +30,7 @@
         @*<th>
             Rating
         </th>*@
-        <th></th>
+   
     </tr>
 
 
@@ -68,3 +68,5 @@
 @Html.DisplayFor(model => model.SubTotal)
 @Html.DisplayFor(model => model.Tax)
 @Html.DisplayFor(model => model.Total)
+<input type="button" class="btn btn-primary" value="Checkout" onclick="location.href='@Url.Action("Checkout", "OrderDetails", new { id = Model.OrderDetail.OrderDetailID },null)'" />
+@Html.ActionLink("Checkout","Checkout", "OrderDetails", new { shoppingCart = Model.OrderDetail.OrderDetailID}, null)

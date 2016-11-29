@@ -166,6 +166,54 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: OrderDetails/Edit/5
+        public ActionResult Checkout(Int32 id)
+        {
+            //if (shoppingCart.OrderDetail.Discounts == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            OrderDetail orderDetail = db.OrderDetails.Find(id);
+            return View(orderDetail);
+        }
+
+        [HttpPost]
+        public ActionResult Checkout([Bind(Include = "OrderDetailID,GifteeEmail,CreditCardNumber")] OrderDetail shoppingCart)
+        {
+            
+            
+            db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardNumber = shoppingCart.CreditCardNumber;
+            db.OrderDetails.Find(shoppingCart.OrderDetailID).GifteeEmail = shoppingCart.GifteeEmail;
+            db.OrderDetails.Find(shoppingCart.OrderDetailID).GifterEmail = db.OrderDetails.Find(shoppingCart.OrderDetailID).User.UserName;
+            db.SaveChanges();
+            shoppingCart = db.OrderDetails.Find(shoppingCart.OrderDetailID);
+
+            return RedirectToAction("Confirm", shoppingCart);
+        }
+
+        public ActionResult Confirm(OrderDetail shoppingCart)
+        {
+            ShoppingCartViewModel newShoppingCart = new ShoppingCartViewModel();
+            newShoppingCart.OrderDetail = db.OrderDetails.Find(shoppingCart.OrderDetailID);
+            newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart);
+            newShoppingCart.Tax = CalcTax(newShoppingCart);
+            newShoppingCart.Total = newShoppingCart.SubTotal + newShoppingCart.Tax;
+
+            return View(newShoppingCart);
+        }
+
+        public ActionResult ConfirmScreen(Int32 id)
+        {
+            OrderDetail shoppingCart = db.OrderDetails.Find(id);
+            if(shoppingCart.GifteeEmail.Length > 1)
+            {
+                db.OrderDetails.Find(shoppingCart.OrderDetailID).User = db.Users.FirstOrDefault(a=>a.UserName.Contains(shoppingCart.GifteeEmail));
+            }
+            db.OrderDetails.Find(shoppingCart.OrderDetailID).IsConfirmed = true;
+            db.SaveChanges();
+         
+
+            return View();
+        }
         public ActionResult Edit(int? id)
         {
             if (id == null)
