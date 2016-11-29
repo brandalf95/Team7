@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Team7_LonghornMusic.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace Team7_LonghornMusic.Controllers
 {
@@ -18,6 +21,19 @@ namespace Team7_LonghornMusic.Controllers
         public ActionResult Index()
         {
             return View(db.ArtistReviews.ToList());
+        }
+
+        public ActionResult MyReviewIndex()
+        {
+            var query = from c in db.ArtistReviews
+                        select c;
+
+            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+
+            List<ArtistReview> myList = query.ToList();
+            myList = db.ArtistReviews.ToList().Where(c => c.User.Id == userId).ToList();
+
+            return View(myList);
         }
 
         // GET: ArtistReviews/Details/5

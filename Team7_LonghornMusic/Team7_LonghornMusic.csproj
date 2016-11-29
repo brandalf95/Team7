@@ -342,6 +342,9 @@
     <Content Include="Views\OrderDetails\ConfirmScreen.cshtml" />
     <Content Include="Views\OrderDetails\Confirm.cshtml" />
     <Content Include="Views\OrderDetails\Checkout.cshtml" />
+    <Content Include="Views\AlbumReviews\MyReviewIndex.cshtml" />
+    <Content Include="Views\ArtistReviews\MyReviewIndex.cshtml" />
+    <Content Include="Views\SongReviews\MyReviewIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
