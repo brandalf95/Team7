@@ -219,6 +219,25 @@ namespace Team7_LonghornMusic.Controllers
             return GenreList;
         }
 
+        public MultiSelectList GetAllGenres(Artist artist)
+        {
+            var query = from c in db.Genres
+                        orderby c.GenreName
+                        select c;
+
+            List<Genre> allGenres = query.ToList();
+
+            List<Int32> SelectedGenres = new List<Int32>();
+
+            foreach (Genre g in artist.ArtistGenres)
+            {
+                SelectedGenres.Add(g.GenreID);
+            }
+
+            MultiSelectList allGenresList = new MultiSelectList(allGenres, "GenreID", "GenreName", SelectedGenres);
+            return allGenresList;
+        }
+
         // GET: Artists/Details/5
         public ActionResult Details(int? id)
         {
@@ -240,6 +259,7 @@ namespace Team7_LonghornMusic.Controllers
         // GET: Artists/Create
         public ActionResult Create()
         {
+            ViewBag.AllGenres = GetAllGenres();
             return View();
         }
 
@@ -248,13 +268,28 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistID,ArtistName,IsFeatured")] Artist artist)
+        public ActionResult Create([Bind(Include = "ArtistID,ArtistName,IsFeatured")] Artist artist, int[] SelectedGenres)
         {
+
             if (ModelState.IsValid)
             {
-                db.Artists.Add(artist);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //Artist artistToChange = db.Artists.Find(artist.ArtistID);
+                if (SelectedGenres != null)
+                {
+                    foreach (int GenreID in SelectedGenres)
+                    {
+                        Genre genreToAdd = db.Genres.Find(GenreID);
+                        artist.ArtistGenres.Add(genreToAdd);
+                    }
+               
+
+                    db.Artists.Add(artist);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.AllGenres = GetAllGenres();
+                return View(artist);               
             }
 
             return View(artist);
@@ -272,6 +307,8 @@ namespace Team7_LonghornMusic.Controllers
             {
                 return HttpNotFound();
             }
+
+            ViewBag.AllGenres = GetAllGenres(artist);
             return View(artist);
         }
 
@@ -280,14 +317,33 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ArtistID,ArtistName,IsFeatured")] Artist artist)
+        public ActionResult Edit([Bind(Include = "ArtistID,ArtistName,IsFeatured")] Artist artist, int[] SelectedGenres)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artist).State = EntityState.Modified;
+
+                Artist artistToChange = db.Artists.Find(artist.ArtistID);
+
+                artistToChange.ArtistGenres.Clear();
+
+                if (SelectedGenres != null)
+                {
+                    foreach (int GenreID in SelectedGenres)
+                    {
+                        Genre genreToAdd = db.Genres.Find(GenreID);
+                        artistToChange.ArtistGenres.Add(genreToAdd);
+                    }
+                }
+
+                artistToChange.ArtistName = artist.ArtistName;
+                artistToChange.IsFeatured = artist.IsFeatured;
+
+                db.Entry(artistToChange).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.AllGenres = GetAllGenres(artist);
             return View(artist);
         }
 
