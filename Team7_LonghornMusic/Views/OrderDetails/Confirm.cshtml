@@ -53,9 +53,7 @@
             @foreach (var x in Model.OrderDetail.Discounts)
             {@Html.DisplayFor(modelItem => x.Album.AlbumPrice) }
         </td>
-        <td>
-   
-        </td>
+        <td></td>
 
         <td>
             @*@Html.ActionLink("Edit", "Edit", new { id = item.Song.SongID }) |
@@ -71,4 +69,5 @@
 @Html.DisplayFor(model => model.Total)
 @Html.DisplayFor(model => model.OrderDetail.CreditCardNumber)
 
-@Html.ActionLink("Confirm", "ConfirmScreen", "OrderDetails", new { id = Model.OrderDetail.OrderDetailID}, null)
+@Html.ActionLink("Confirm", "ConfirmScreen", "OrderDetails", new { id = Model.OrderDetail.OrderDetailID }, null)
+

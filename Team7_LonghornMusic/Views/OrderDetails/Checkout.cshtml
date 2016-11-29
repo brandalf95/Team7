@@ -4,7 +4,7 @@
 }
 
 
-@using (Html.BeginForm("Checkout", "OrderDetails" ,FormMethod.Post))
+@using (Html.BeginForm("Checkout", "OrderDetails", FormMethod.Post))
 {
 
     @Html.AntiForgeryToken()
@@ -30,5 +30,5 @@
             <input type="submit" value="Checkout" class="btn btn-default" />
         </div>
     </div>
-    
+
 }
