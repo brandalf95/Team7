@@ -122,8 +122,6 @@
 
 
 <h3>My Artist Reviews</h3>
-<input type="button" class="btn btn-primary" value="Edit Artist Reviews" onclick="location.href='@Url.Action("MyReviewIndex", "ArtistReviews")'" />
-@*@Html.ActionLink("Edit Review", "MyReviewIndex", "ArtistReviews")*@
 <table class="table table-bordered">
     <tr>
         <th>
@@ -147,7 +145,6 @@
 </table>
 
 <h3>My Album Reviews</h3>
-<input type="button" class="btn btn-primary" value="Edit Album Reviews" onclick="location.href='@Url.Action("MyReviewIndex", "AlbumReviews")'" />
 <table class="table table-bordered">
     <tr>
         <th>
@@ -171,8 +168,6 @@
 </table>
 
 <h3>My Song Reviews</h3>
-<input type="button" class="btn btn-primary" value="Edit Song Reviews" onclick="location.href='@Url.Action("MyReviewIndex", "SongReviews")'" />
-@*@Html.ActionLink("Edit Review", "MyReviewIndex", "SongReviews")*@
 <table class="table table-bordered">
     <tr>
         <th>
@@ -190,8 +185,7 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => item.Song.SongTitle)</td>
             <td>@Html.DisplayFor(modelItem => item.Rating)</td>
-            <td>@Html.DisplayFor(modelItem => item.Comment)</td> 
-               
+            <td>@Html.DisplayFor(modelItem => item.Comment)</td>        
         </tr>
     }
 </table>

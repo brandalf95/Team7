@@ -337,6 +337,8 @@
     <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Views\OrderDetails\AddToCart.cshtml" />
     <Content Include="Views\OrderDetails\ShoppingCart.cshtml" />
+    <Content Include="Views\AppUsers\EmployeeIndex.cshtml" />
+    <Content Include="Views\AppUsers\MyAccountIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

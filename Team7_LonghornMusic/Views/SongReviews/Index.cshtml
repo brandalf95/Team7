@@ -4,12 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Song Reviews</h2>
+<h2>Index</h2>
 
-
-@*<p>
+<p>
     @Html.ActionLink("Create New", "Create")
-</p>*@
+</p>
 <table class="table">
     <tr>
         <th>
@@ -21,10 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Comment)
         </th>
-@if (User.IsInRole("Employee"))
-{
         <th>Reviewer</th>
-}
         <th></th>
     </tr>
 
@@ -39,20 +35,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.Comment)
         </td>
-@if (User.IsInRole("Employee"))
-{
         <td>
             @Html.DisplayFor(modelItem => item.User.LName)
         </td>
-}
         <td>
-        @if (User.IsInRole("Employee"))
-        {
             @Html.ActionLink("Edit", "Edit", new { id=item.SongReviewID }) |
             @Html.ActionLink("Details", "Details", new { id=item.SongReviewID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.SongReviewID })
         </td>
-        }
     </tr>
 }
 
