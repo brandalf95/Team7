@@ -1,72 +1,92 @@
 ﻿@model Team7_LonghornMusic.Models.ShoppingCartViewModel
-@{
+@*@{
     Layout = null;
-}
+}*@
 
 
 
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ShoppingCart</title>
-</head>
+<h2>My Shopping Cart</h2>
+
+
+
 <table class="table">
     <tr>
         <th>
             Song Title
         </th>
         <th>
-                Song Price
-            </th>
+            Artist 
+        </th>
+        <th>
+            Rating
+        </th>
+        <th>
+            Song Price
+        </th>
+    </tr>
+    @foreach (var x in Model.OrderDetail.Discounts)
+    {
+        <tr>        
+            <td>                
+               @Html.DisplayFor(modelItem => x.Song.SongTitle)
+            </td>  
+            <td>
+               @Html.DisplayFor(modelItem => x.Song.SongArtists)
+            </td>
+            <td>
+                Avg Rating here
+            </td>  
+            <td>
+               @Html.DisplayFor(modelItem => x.Song.SongPrice) 
+            </td>
+        </tr>
+    }
+</table>
+<table class="table">
+    <tr>
         <th>
             Album Title
         </th>
         <th>
+            Artist 
+        </th>
+        <th>
+            Rating
+        </th>
+        <th>
             Album Price
         </th>
-        @*<th>
-                Genre
-            </th>*@
-        @*<th>
-            Rating
-        </th>*@
-   
     </tr>
-
-
+    @foreach (var x in Model.OrderDetail.Discounts)
+    {
         <tr>
             <td>
-                @foreach (var x in Model.OrderDetail.Discounts)
-                {@Html.DisplayFor(modelItem => x.Song.SongTitle) }
-            </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.IsFeatured)
-                </td>*@
-            <td>
-               @foreach (var x in Model.OrderDetail.Discounts)
-                {@Html.DisplayFor(modelItem => x.Song.SongPrice) }
-            </td>
-
-            <td>
-               @foreach (var x in Model.OrderDetail.Discounts)
-                {@Html.DisplayFor(modelItem => x.Album.AlbumTitle) }
+                @Html.DisplayFor(modelItem => x.Album.AlbumTitle) 
             </td>
             <td>
-                   @foreach (var x in Model.OrderDetail.Discounts)
-                {@Html.DisplayFor(modelItem => x.Album.AlbumPrice) }
-                </td>
-            
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.Song.SongID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Song.SongID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Song.SongID })*@
+                @Html.DisplayFor(modelItem => x.Album.AlbumArtists)
             </td>
-        
-    
-
+            <td>
+                Average Rating
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => x.Album.AlbumPrice) 
+            </td>
+        </tr>
+    }
 </table>
-@Html.DisplayFor(model => model.SubTotal)
-@Html.DisplayFor(model => model.Tax)
-@Html.DisplayFor(model => model.Total)
+<p>
+Cart Subtotal: $@Html.DisplayFor(model => model.SubTotal)
+</p>
+
+<p>
+Cart Tax:      $@Html.DisplayFor(model => model.Tax)
+</p>
+
+<p>
+Cart Total:    $@Html.DisplayFor(model => model.Total)
+</p>
+
 <input type="button" class="btn btn-primary" value="Checkout" onclick="location.href='@Url.Action("Checkout", "OrderDetails", new { id = Model.OrderDetail.OrderDetailID },null)'" />
-@Html.ActionLink("Checkout","Checkout", "OrderDetails", new { shoppingCart = Model.OrderDetail.OrderDetailID}, null)
+@*@Html.ActionLink("Checkout","Checkout", "OrderDetails", new { shoppingCart = Model.OrderDetail.OrderDetailID}, null)*@
