@@ -233,29 +233,61 @@ namespace Team7_LonghornMusic.Controllers
 
             List<Genre> allGenres = query.ToList();
 
-            //Add in choice for not selecting a frequency
-            //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
-            //allGenres.Add(NoChoice);
             MultiSelectList GenreList = new MultiSelectList(allGenres.OrderBy(g => g.GenreName), "GenreID", "GenreName");
             return GenreList;
         }
 
-        //public MultiSelectList GetAllArtists()
-        //{
-        //    var query = from c in db.Artists
-        //                orderby c.ArtistName
-        //                select c;
+        public MultiSelectList GetAllGenres(Album album)
+        {
+            var query = from c in db.Genres
+                        orderby c.GenreName
+                        select c;
 
-        //    List<Artist> allArtists = query.ToList();
+            List<Genre> allGenres = query.ToList();
 
-        //    //Add in choice for not selecting a frequency
-        //    //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
-        //    //allGenres.Add(NoChoice);
-        //    MultiSelectList ArtistList = new MultiSelectList(allArtists.OrderBy(a => a.ArtistName), "ArtistID", "ArtistName");
-        //    return ArtistList;
-        //}
+            List<Int32> SelectedGenres = new List<Int32>();
 
-        
+            foreach (Genre g in album.AlbumGenres)
+            {
+                SelectedGenres.Add(g.GenreID);
+            }
+
+            MultiSelectList allGenresList = new MultiSelectList(allGenres, "GenreID", "GenreName", SelectedGenres);
+            return allGenresList;
+        }
+
+        public MultiSelectList GetAllArtists()
+        {
+            var query = from c in db.Artists
+                        orderby c.ArtistName
+                        select c;
+
+            List<Artist> allArtists = query.ToList();
+
+            MultiSelectList ArtistList = new MultiSelectList(allArtists.OrderBy(a => a.ArtistName), "ArtistID", "ArtistName");
+            return ArtistList;
+        }
+
+        public MultiSelectList GetAllArtists(Album album)
+        {
+            var query = from c in db.Artists
+                        orderby c.ArtistName
+                        select c;
+
+            List<Artist> allArtists = query.ToList();
+
+            List<Int32> SelectedArtists = new List<Int32>();
+
+            foreach (Artist a in album.AlbumArtists)
+            {
+                SelectedArtists.Add(a.ArtistID);
+            }
+
+            MultiSelectList allArtistsList = new MultiSelectList(allArtists, "ArtistID", "ArtistName", SelectedArtists);
+            return allArtistsList;
+        }
+
+
         // GET: Albums/Details/5
         public ActionResult Details(int? id)
         {
@@ -277,6 +309,8 @@ namespace Team7_LonghornMusic.Controllers
         // GET: Albums/Create
         public ActionResult Create()
         {
+            ViewBag.AllGenres = GetAllGenres();
+            ViewBag.AllArtists = GetAllArtists();
             return View();
         }
 
@@ -285,17 +319,43 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AlbumID,AlbumTitle,IsFeatured,AlbumPrice")] Album album)
+        public ActionResult Create([Bind(Include = "AlbumID,AlbumTitle,IsFeatured,AlbumPrice")] Album album, int[] SelectedGenres, int[] SelectedArtists)
         {
             if (ModelState.IsValid)
             {
-                db.Albums.Add(album);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (SelectedGenres != null && SelectedArtists != null)
+                {
+                    foreach (int GenreID in SelectedGenres)
+                    {
+                        Genre genreToAdd = db.Genres.Find(GenreID);
+                        album.AlbumGenres.Add(genreToAdd);
+                    }
+
+                    foreach (int ArtistID in SelectedArtists)
+                    {
+                        Artist artistToAdd = db.Artists.Find(ArtistID);
+                        album.AlbumArtists.Add(artistToAdd);
+                    }
+
+                    db.Albums.Add(album);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    ViewBag.Message = "An album must belong to at least one genre, and at least one artist";
+                    ViewBag.AllGenres = GetAllGenres();
+                    ViewBag.AllArtists = GetAllArtists();
+                    return View(album);
+                }
             }
 
+            ViewBag.AllGenres = GetAllGenres();
+            ViewBag.AllArtists = GetAllArtists();
             return View(album);
         }
+
 
         // GET: Albums/Edit/5
         public ActionResult Edit(int? id)
@@ -309,6 +369,8 @@ namespace Team7_LonghornMusic.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AllGenres = GetAllGenres(album);
+            ViewBag.AllArtists = GetAllArtists(album);
             return View(album);
         }
 
@@ -317,22 +379,63 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AlbumID,AlbumTitle,IsFeatured,AlbumPrice,DiscountPrice")] Album album)
+        public ActionResult Edit([Bind(Include = "AlbumID,AlbumTitle,IsFeatured,AlbumPrice,DiscountPrice")] Album album, int[] SelectedGenres, int[] SelectedArtists)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(album).State = EntityState.Modified;
-                if (album.DiscountPrice != 0)
+
+                Album albumToChange = db.Albums.Find(album.AlbumID);
+
+                if (albumToChange.DiscountPrice != 0)
                 {
-                    album.DisplayPrice = album.DiscountPrice;
+                    albumToChange.DisplayPrice = albumToChange.DiscountPrice;
                 }
-                else { album.DisplayPrice = album.AlbumPrice; }
-                db.Albums.Find(album.AlbumID).DisplayPrice = album.DisplayPrice;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                else { albumToChange.DisplayPrice = albumToChange.AlbumPrice; }
+
+                //Album albumToChange = db.Albums.Find(album.AlbumID);
+
+                albumToChange.AlbumGenres.Clear();
+                albumToChange.AlbumArtists.Clear();
+
+                if (SelectedGenres != null && SelectedArtists != null)
+                {
+                    foreach (int GenreID in SelectedGenres)
+                    {
+                        Genre genreToAdd = db.Genres.Find(GenreID);
+                        albumToChange.AlbumGenres.Add(genreToAdd);
+                    }
+
+                    foreach (int ArtistID in SelectedArtists)
+                    {
+                        Artist artistToAdd = db.Artists.Find(ArtistID);
+                        albumToChange.AlbumArtists.Add(artistToAdd);
+                    }
+
+                    albumToChange.AlbumTitle = album.AlbumTitle;
+                    albumToChange.IsFeatured = album.IsFeatured;
+                    albumToChange.AlbumPrice = album.AlbumPrice;
+                    albumToChange.DiscountPrice = album.DiscountPrice;
+
+                    db.Entry(albumToChange).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    ViewBag.Message = "An album must belong to at least one genre, and at least one artist";
+                    ViewBag.AllGenres = GetAllGenres(album);
+                    ViewBag.AllArtists = GetAllArtists(album);
+                    return View(album);
+                }
             }
+
+            ViewBag.AllGenres = GetAllGenres(album);
+            ViewBag.AllArtists = GetAllArtists(album);
             return View(album);
+
         }
+        
 
         // GET: Albums/Delete/5
         public ActionResult Delete(int? id)

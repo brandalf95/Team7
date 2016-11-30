@@ -12,6 +12,9 @@ namespace Team7_LonghornMusic.Models
         public decimal Total { get; set; }
         public decimal SavingsAmount { get; set; }
 
+        public string DisplayCard { get; set; }
+        public decimal AverageRating { get; set; }
+
         public virtual OrderDetail OrderDetail { get; set; }
     }
 }

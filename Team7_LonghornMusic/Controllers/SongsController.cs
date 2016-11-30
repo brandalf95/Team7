@@ -424,6 +424,9 @@ namespace Team7_LonghornMusic.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AllGenres = GetAllGenres(song);
+            ViewBag.AllArtists = GetAllArtists(song);
+            ViewBag.AllAlbums = GetAllAlbums(song);
             return View(song);
         }
 
@@ -432,20 +435,68 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice,DiscountPrice")] Song song)
+        public ActionResult Edit([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice,DiscountPrice")] Song song, int[] SelectedGenres, int[] SelectedArtists, int[] SelectedAlbums)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(song).State = EntityState.Modified;
-                if(song.DiscountPrice != 0)
+
+                Song songToChange = db.Songs.Find(song.SongID);
+
+                if(songToChange.DiscountPrice != 0)
                 {
-                    song.DisplayPrice = song.DiscountPrice;
-                }else {song.DisplayPrice = song.SongPrice; }
-                db.Songs.Find(song.SongID).DisplayPrice = song.DisplayPrice;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                    songToChange.DisplayPrice = songToChange.DiscountPrice;
+                }
+                else {songToChange.DisplayPrice = songToChange.SongPrice; }
+
+                songToChange.SongGenres.Clear();
+                songToChange.SongArtists.Clear();
+                songToChange.SongAlbums.Clear();
+
+                if (SelectedGenres != null && SelectedArtists != null)
+                {
+                    foreach (int GenreID in SelectedGenres)
+                    {
+                        Genre genreToAdd = db.Genres.Find(GenreID);
+                        songToChange.SongGenres.Add(genreToAdd);
+                    }
+
+                    foreach (int ArtistID in SelectedArtists)
+                    {
+                        Artist artistToAdd = db.Artists.Find(ArtistID);
+                        songToChange.SongArtists.Add(artistToAdd);
+                    }
+
+                    foreach (int AlbumID in SelectedAlbums)
+                    {
+                        Album albumToAdd = db.Albums.Find(AlbumID);
+                        songToChange.SongAlbums.Add(albumToAdd);
+                    }
+
+                    songToChange.SongTitle = song.SongTitle;
+                    songToChange.IsFeatured = song.IsFeatured;
+                    songToChange.SongPrice = song.SongPrice;
+                    songToChange.DiscountPrice = song.DiscountPrice;
+
+                    db.Entry(songToChange).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    ViewBag.Message = "A song must belong to at least one genre, and at least one artist";
+                    ViewBag.AllGenres = GetAllGenres(song);
+                    ViewBag.AllArtists = GetAllArtists(song);
+                    ViewBag.AllAlbums = GetAllAlbums(song);
+                    return View(song);
+                }
             }
+
+            ViewBag.AllGenres = GetAllGenres(song);
+            ViewBag.AllArtists = GetAllArtists(song);
+            ViewBag.AllAlbums = GetAllAlbums(song);
             return View(song);
+      
         }
 
         // GET: Songs/Delete/5

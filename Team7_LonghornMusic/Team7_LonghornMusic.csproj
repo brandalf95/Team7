@@ -194,6 +194,9 @@
     <EmbeddedResource Include="Migrations\201611300019004_NewDiscountModelStuff.resx">
       <DependentUpon>201611300019004_NewDiscountModelStuff.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611300257164_OrderDetailChange.resx">
+      <DependentUpon>201611300257164_OrderDetailChange.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -274,6 +277,10 @@
     <Compile Include="Migrations\201611300019004_NewDiscountModelStuff.cs" />
     <Compile Include="Migrations\201611300019004_NewDiscountModelStuff.Designer.cs">
       <DependentUpon>201611300019004_NewDiscountModelStuff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611300257164_OrderDetailChange.cs" />
+    <Compile Include="Migrations\201611300257164_OrderDetailChange.Designer.cs">
+      <DependentUpon>201611300257164_OrderDetailChange.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Album.cs" />
