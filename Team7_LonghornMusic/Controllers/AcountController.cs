@@ -125,6 +125,20 @@ namespace Team7_LonghornMusic.Controllers
                 //Add the new user to the database
                 var result = await UserManager.CreateAsync(user, model.Password);
 
+                if(User.IsInRole("Manager"))
+                {
+                    var result1 = await UserManager.CreateAsync(user, "password");
+                    if (result1.Succeeded) //user was created successfully
+                    {
+                    await UserManager.AddToRoleAsync(user.Id, "Employee");
+
+                    //sign the user in
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    //send them to the home page
+                    return RedirectToAction("Index", "Home");
+                    }
+                }
 
 
                 if (result.Succeeded) //user was created successfully
@@ -137,6 +151,8 @@ namespace Team7_LonghornMusic.Controllers
                     //send them to the home page
                     return RedirectToAction("Index", "Home");
                 }
+
+                
 
                 //if there was a problem, add the error messages to what we will display
                 AddErrors(result);

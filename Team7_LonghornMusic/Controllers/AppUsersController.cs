@@ -134,7 +134,7 @@ namespace Team7_LonghornMusic.Controllers
                 var user = new AppUser { UserName = model.Email, Email = model.Email, FName = model.FName, LName = model.FName, MidInitial = model.MidInitial, PhoneNumber = model.PhoneNumber, Address = model.Address, City = model.City, State = model.State, ZipCode = model.ZipCode, CreditCardOne = model.CreditCardOne, CreditCardTypeOne = model.CreditCardTypeOne };
 
                 //Add the new user to the database
-                var result = await UserManager.CreateAsync(user);//Add password in parenthesis
+                var result = await UserManager.CreateAsync(user, "password");//Add password in parenthesis
 
 
 
