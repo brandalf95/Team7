@@ -316,7 +316,16 @@ namespace Team7_LonghornMusic.Controllers
         [HttpPost]
         public ActionResult Checkout([Bind(Include = "OrderDetailID,GifteeEmail,CreditCardNumber")] OrderDetail shoppingCart, string CreditCardType, string OnFileCard)
         {
+            if (db.OrderDetails.Find(shoppingCart.OrderDetailID).User.IsDisabled)
+            {
+                return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "You cannot checkout due to your account being disabled." });
+
+            }
+            if (shoppingCart.GifteeEmail == null)
+            {
+                return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "Please specify whether or not it is to sent to a gift email or not." });
             
+            }
             if((shoppingCart.CreditCardNumber != null || Convert.ToInt32(CreditCardType) != 0)&& Convert.ToInt32(OnFileCard) != 0)
             {
                 return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "Only choose one type of card, one on file or enter one." });
