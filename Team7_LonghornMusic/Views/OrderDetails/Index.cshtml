@@ -2,8 +2,8 @@
 
 @foreach(var item in Model)
 {
-    foreach(var x in item.Discounts) {
+    foreach(var x in item.SongArchive) {
 
-    @Html.DisplayFor(modelItem => x.Song.DisplayPrice)}
+    @Html.DisplayFor(modelItem => x.DisplayPrice)}
 }
 
