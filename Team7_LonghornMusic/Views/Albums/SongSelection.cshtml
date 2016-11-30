@@ -1,0 +1,15 @@
+﻿@model Team7_LonghornMusic.Models.Album
+
+@{
+    ViewBag.Title = "SongSelection";
+}
+
+<h2>Song Selection</h2>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.AlbumSongs, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.ListBox("SelectedSongs", (MultiSelectList)ViewBag.AllSongs, new { @class = "form-control" })
+    </div>
+</div>
+
