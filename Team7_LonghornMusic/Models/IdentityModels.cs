@@ -28,7 +28,7 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Last Name")]
         public string LName { get; set; }
 
-        [StringLength(1, ErrorMessage = "1 Letter Max")]
+        //[StringLength(1, ErrorMessage = "1 Letter Max")]
         [Display(Name = "Middle Initial")]
         public string MidInitial { get; set; }
 
