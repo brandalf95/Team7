@@ -46,9 +46,12 @@
         <th>
             Rating
         </th>
+        @if (User.IsInRole("Manager"))
+        {
         <th>
             Is Featured? (Check 1 Only)
         </th>
+        }
         <th></th>
     </tr>
 

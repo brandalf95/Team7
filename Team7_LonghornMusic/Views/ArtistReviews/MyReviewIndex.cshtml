@@ -42,6 +42,8 @@
 
                 <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "ArtistReviews", new { id = item.ArtistReviewID }, null)'" />
 
+                <input type="button" class="btn btn-primary" value="Delete" onclick="location.href='@Url.Action("Delete", "ArtistReviews", new { id = item.ArtistReviewID }, null)'" />
+
             </td>
         </tr>
     }
