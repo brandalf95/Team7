@@ -359,6 +359,7 @@
     <Content Include="Views\AlbumReviews\MyReviewIndex.cshtml" />
     <Content Include="Views\ArtistReviews\MyReviewIndex.cshtml" />
     <Content Include="Views\SongReviews\MyReviewIndex.cshtml" />
+    <Content Include="Views\AppUsers\EmployeeEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
