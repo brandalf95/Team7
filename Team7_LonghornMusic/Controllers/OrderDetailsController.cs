@@ -189,12 +189,19 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: OrderDetails/Edit/5
-        public ActionResult Checkout(Int32 id)
+        public ActionResult Checkout(Int32 id, string error)
         {
             //if (shoppingCart.OrderDetail.Discounts == null)
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
+            if(error == null)
+            {
+                ViewBag.Error = "";
+            }else
+            {
+                ViewBag.Error = error;
+            }
             OrderDetail orderDetail = db.OrderDetails.Find(id);
             if (orderDetail.Discounts.ToArray().Length == 0)
             {
@@ -213,7 +220,7 @@ namespace Team7_LonghornMusic.Controllers
                     {
                         if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Song)
                         {
-                            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs." });
+                            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs or albums." });
                         }
                         
                     }
@@ -227,7 +234,7 @@ namespace Team7_LonghornMusic.Controllers
                             {
                                 if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Album.AlbumSongs[q])
                                 {
-                                    return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs." });
+                                    return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs or albums." });
 
                                 }
                                 q -= 1;
@@ -235,23 +242,131 @@ namespace Team7_LonghornMusic.Controllers
                             }
                         }
                     }
+                }else
+                {
+                    if (orderDetail.Discounts[j].Album != null)
+                    {
+                        return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs or albums." });
+
+                    }
                 }
                 i -= 1;
                 j -= 1;
                 
             }
-           
+            List<String> creditCardList = new List<String>();
+            creditCardList.Add("2222111122221111");
+            SelectList list = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem {Selected = true, Text = "None", Value = "0" },
+                new SelectListItem {Selected = false, Text = HideCard(orderDetail.User.CreditCardOne), Value = "1" },
+                new SelectListItem {Selected = false, Text = HideCard(orderDetail.User.CreditCardTwo), Value = "2" },
+                 
+            }, "Value", "Text" );
+            SelectList typeList = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem {Selected = true, Text = "None", Value = "0" },
+                new SelectListItem {Selected = false, Text = "Visa", Value = "1" },
+                new SelectListItem {Selected = false, Text = "MasterCard", Value = "2" },
+                new SelectListItem {Selected = false, Text = "Discover", Value = "3" },
+                new SelectListItem {Selected = false, Text = "AmericanExpress", Value = "4" }
+                 
+            }, "Value", "Text");
+            ViewBag.TypeList = (typeList);
+            ViewBag.CreditCardList = (list);
+
                 return View(orderDetail);
          
             
         }
+        public string HideCard(string card)
+        {
+            if(card == null || card == "")
+            {
+                return "";
+            }
+            int d = 1;
+            int e = 0;
+             string starCard = "";
+                while (d <= 15)
+                {
+                    if (d % 5 == 0 && d != 0)
+                    {
+                        starCard += " ";
+                    }
+                    else
+                    {
+                        starCard += "*";
+
+                    }
+                    d += 1;
+                }
+                int f = card.Length - 4;
+                int r = card.Length;
+                while (f != r)
+                {
+                    starCard += card[f];
+                    f += 1;
+                }
+            return starCard;
+            }
+            
+        
 
         [HttpPost]
-        public ActionResult Checkout([Bind(Include = "OrderDetailID,GifteeEmail,CreditCardNumber")] OrderDetail shoppingCart)
+        public ActionResult Checkout([Bind(Include = "OrderDetailID,GifteeEmail,CreditCardNumber")] OrderDetail shoppingCart, string CreditCardType, string OnFileCard)
         {
             
-            
-            db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardNumber = shoppingCart.CreditCardNumber;
+            if((shoppingCart.CreditCardNumber != null || Convert.ToInt32(CreditCardType) != 0)&& Convert.ToInt32(OnFileCard) != 0)
+            {
+                return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "Only choose one type of card, one on file or enter one." });
+            }
+            else
+            {
+                if((shoppingCart.CreditCardNumber == null || Convert.ToInt32(CreditCardType) == 0) && Convert.ToInt32(OnFileCard) == 0)
+                {
+                    return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "Must choose a card and type, unless choosing card on file." });
+                }
+            }
+            if(OnFileCard != null)
+            {
+                if (Convert.ToInt32(OnFileCard) == 1)
+                {
+                    OrderDetail detail = new OrderDetail();
+                    detail = db.OrderDetails.Find(shoppingCart.OrderDetailID);
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardType = db.Users.FirstOrDefault(a => a.UserName.Contains(detail.User.UserName)).CreditCardTypeOne.ToString();
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardNumber = db.Users.FirstOrDefault(a => a.UserName.Contains(detail.User.UserName)).CreditCardOne;
+                    db.SaveChanges();
+                }
+                if (Convert.ToInt32(OnFileCard) == 2)
+                {
+                    OrderDetail detail = new OrderDetail();
+                    detail = db.OrderDetails.Find(shoppingCart.OrderDetailID);
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardType = db.Users.FirstOrDefault(a => a.UserName.Contains(detail.User.UserName)).CreditCardTypeTwo.ToString();
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardNumber = db.Users.FirstOrDefault(a => a.UserName.Contains(detail.User.UserName)).CreditCardTwo;
+                    db.SaveChanges();
+                }
+            }else
+            {
+                db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardNumber = shoppingCart.CreditCardNumber;
+                if(Convert.ToInt32(OnFileCard) == 1)
+                {
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardType = "Visa";
+                }
+                if (Convert.ToInt32(OnFileCard) == 2)
+                {
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardType = "MasterCard";
+                }
+                if (Convert.ToInt32(OnFileCard) == 3)
+                {
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardType = "Discover";
+                }
+                if (Convert.ToInt32(OnFileCard) == 4)
+                {
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).CreditCardType = "AmericanExpress";
+                }
+            }
+           
             db.OrderDetails.Find(shoppingCart.OrderDetailID).GifteeEmail = shoppingCart.GifteeEmail;
             db.OrderDetails.Find(shoppingCart.OrderDetailID).GifterEmail = db.OrderDetails.Find(shoppingCart.OrderDetailID).User.UserName;
             db.SaveChanges();
@@ -267,6 +382,7 @@ namespace Team7_LonghornMusic.Controllers
             newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart);
             newShoppingCart.Tax = CalcTax(newShoppingCart);
             newShoppingCart.Total = newShoppingCart.SubTotal + newShoppingCart.Tax;
+            newShoppingCart.DisplayCard = newShoppingCart.OrderDetail.CreditCardNumber;
             
 
             return View(newShoppingCart);
@@ -280,6 +396,16 @@ namespace Team7_LonghornMusic.Controllers
                 db.OrderDetails.Find(shoppingCart.OrderDetailID).User = db.Users.FirstOrDefault(a=>a.UserName.Contains(shoppingCart.GifteeEmail));
             }
             db.OrderDetails.Find(shoppingCart.OrderDetailID).IsConfirmed = true;
+            foreach(Discount item in shoppingCart.Discounts){
+                if(item.Album != null)
+                {
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).AlbumArchive.Add(item.Album);
+                }else
+                {
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).SongArchive.Add(item.Song);
+                }
+            }
+            
             db.SaveChanges();
          
 
@@ -296,6 +422,7 @@ namespace Team7_LonghornMusic.Controllers
             {
                 return HttpNotFound();
             }
+           
             return View(orderDetail);
         }
 
