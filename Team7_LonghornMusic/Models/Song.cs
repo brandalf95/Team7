@@ -24,6 +24,14 @@ namespace Team7_LonghornMusic.Models
         [DataType(DataType.Currency)]
         public decimal SongPrice { get; set; }
 
+        [Display(Name = "Discount Amount")]
+        [DataType(DataType.Currency)]
+        public decimal DiscountPrice { get; set; }
+
+        [Display(Name = "Display Amount")]
+        [DataType(DataType.Currency)]
+        public decimal DisplayPrice { get; set; }
+
         [Display(Name = "Song's Genres")]
         public virtual List<Genre> SongGenres { get; set; }
 
@@ -53,6 +61,10 @@ namespace Team7_LonghornMusic.Models
             if(this.SongAlbums == null)
             {
                 this.SongAlbums = new List<Album>();
+            }
+            if(this.DisplayPrice == 0)
+            {
+                this.DisplayPrice = this.SongPrice;
             }
         }
     }
