@@ -342,6 +342,18 @@ namespace Team7_LonghornMusic.Controllers
             return allAlbumsList;
         }
 
+        public List<String> CheckAllSongs()
+        {
+            var query = from s in db.Songs
+                        orderby s.SongTitle
+                        select s.SongTitle;
+
+            List<String> AllSongs = query.ToList();
+
+            return AllSongs;
+        }
+
+
         
         // GET: Songs/Details/5
         public ActionResult Details(int? id)
@@ -377,7 +389,7 @@ namespace Team7_LonghornMusic.Controllers
         public ActionResult Create([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice")] Song song, int[] SelectedGenres, int[] SelectedArtists)
         {
             if (ModelState.IsValid)
-            {
+            {                            
                 if (SelectedGenres != null && SelectedArtists != null)
                 {
                     foreach (int GenreID in SelectedGenres)
