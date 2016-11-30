@@ -24,6 +24,12 @@
         <th>
             Song Price
         </th>
+        <th>
+            Discount Price
+        </th>
+        <th>
+            Savings Amount
+        </th>
     </tr>
     @foreach (var x in Model.OrderDetail.Discounts)
     {
@@ -50,6 +56,50 @@
                @Html.DisplayFor(modelItem => x.Song.SongPrice) 
             </td>
             <td>
+                @if (x.Song != null)
+                {
+                    if (x.Song.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgSongRatings)
+                        {
+                            if (x.Song.SongID == y.Song.SongID)
+                            {
+                                if (y.SavingsAmount != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => x.Song.DisplayPrice)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
+
+                    }
+                }
+            </td>
+            <td>
+                @if (x.Song != null)
+                {
+                    if (x.Song.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgSongRatings)
+                        {
+                            if (x.Song.SongID == y.Song.SongID)
+                            {
+                                if (y.SavingsAmount != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => y.SavingsAmount)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
+
+                    }
+                }
+            </td>
+            <td>
                 @if (x.Song != null) {
                 @Html.ActionLink("Delete", "Delete", new { discountID = x.DiscountID, OrderID = Model.OrderDetail.OrderDetailID })}
             </td>
@@ -69,6 +119,12 @@
         </th>
         <th>
             Album Price
+        </th>
+        <th>
+            Discount Price
+        </th>
+        <th>
+            Savings 
         </th>
     </tr>
     @foreach (var x in Model.OrderDetail.Discounts)
@@ -95,6 +151,49 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => x.Album.AlbumPrice) 
+            </td>
+            <td>
+                @if (x.Album != null)
+            {
+                if (x.Album.DiscountPrice != 0)
+                {
+                    foreach (var y in Model.avgAlbumRatings)
+                    {
+                        if (x.Album.AlbumID == y.Album.AlbumID)
+                        {
+                            if (y.SavingsAmount != 0)
+                            {
+                                @Html.DisplayFor(modelItem => x.Album.DisplayPrice)}
+                                else
+                                {
+                                @Html.Display("N/A")
+                            }
+                        }
+                    }
+
+                }
+            }
+            </td>
+            <td>
+                @if (x.Album != null)
+                {
+                    if (x.Album.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgAlbumRatings)
+                        {
+                            if (x.Album.AlbumID == y.Album.AlbumID)
+                            {
+                                if (y.SavingsAmount != 0) {
+                                @Html.DisplayFor(modelItem => y.SavingsAmount)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
+
+                    }
+                }
             </td>
             <td>
                 @if (x.Album != null) {

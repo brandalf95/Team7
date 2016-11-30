@@ -77,6 +77,7 @@ namespace Team7_LonghornMusic.Controllers
                     AvgAlbumRating album = new AvgAlbumRating();
                     album.Album = item.Album;
                     album.AvgRating = ComputeAlbumAverage(album.Album.AlbumID);
+                    album.SavingsAmount = album.Album.AlbumPrice - album.Album.DisplayPrice;
                     shoppingCart.avgAlbumRatings.Add(album);
                 }
                 else
@@ -84,6 +85,7 @@ namespace Team7_LonghornMusic.Controllers
                     AvgSongRating song = new AvgSongRating();
                     song.Song = item.Song;
                     song.AvgRating = ComputeSongAverage(song.Song.SongID);
+                    song.SavingsAmount = song.Song.SongPrice - song.Song.DisplayPrice;
                     shoppingCart.avgSongRatings.Add(song);
                 }
 
@@ -91,6 +93,7 @@ namespace Team7_LonghornMusic.Controllers
                
 
             }
+            
             return View(shoppingCart);
         }
 

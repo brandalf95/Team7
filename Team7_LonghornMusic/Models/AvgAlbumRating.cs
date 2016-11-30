@@ -8,6 +8,7 @@ namespace Team7_LonghornMusic.Models
     public class AvgAlbumRating
     {
         public decimal AvgRating { get; set; }
+        public decimal SavingsAmount { get; set; }
 
         public virtual Album Album { get; set; }
     }
