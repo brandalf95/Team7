@@ -51,7 +51,7 @@ namespace Team7_LonghornMusic.Models
         public string MidInitial { get; set; }
 
         [Required(ErrorMessage = "Phone Number is required")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Enter a valid email address.")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Enter a phone number.")]
         [Display(Name = "Phone Number")]
         [DisplayFormat(DataFormatString = "{0:###-###-####}", ApplyFormatInEditMode = true)]
         public string PhoneNumber { get; set; }
@@ -73,7 +73,7 @@ namespace Team7_LonghornMusic.Models
         public string ZipCode { get; set; }
 
 
-        [Display(Name = "Credit Card")]
+        [Display(Name = "Credit Card #")]
         public string CreditCardOne { get; set; }
 
         [Display(Name = "Card Type")]

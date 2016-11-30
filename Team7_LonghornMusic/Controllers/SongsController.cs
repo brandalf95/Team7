@@ -259,11 +259,27 @@ namespace Team7_LonghornMusic.Controllers
 
             List<Genre> allGenres = query.ToList();
 
-            //Add in choice for not selecting a frequency
-            //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
-            //allGenres.Add(NoChoice);
             MultiSelectList GenreList = new MultiSelectList(allGenres.OrderBy(g => g.GenreName), "GenreID", "GenreName");
             return GenreList;
+        }
+
+        public MultiSelectList GetAllGenres(Song song)
+        {
+            var query = from c in db.Genres
+                        orderby c.GenreName
+                        select c;
+
+            List<Genre> allGenres = query.ToList();
+
+            List<Int32> SelectedGenres = new List<Int32>();
+
+            foreach (Genre g in song.SongGenres)
+            {
+                SelectedGenres.Add(g.GenreID);
+            }
+
+            MultiSelectList allGenresList = new MultiSelectList(allGenres, "GenreID", "GenreName", SelectedGenres);
+            return allGenresList;
         }
 
         public MultiSelectList GetAllArtists()
@@ -274,11 +290,27 @@ namespace Team7_LonghornMusic.Controllers
 
             List<Artist> allArtists = query.ToList();
 
-            //Add in choice for not selecting a frequency
-            //Genre NoChoice = new Genre() { GenreID = 0, GenreName = "All" };
-            //allGenres.Add(NoChoice);
             MultiSelectList ArtistList = new MultiSelectList(allArtists.OrderBy(a => a.ArtistName), "ArtistID", "ArtistName");
             return ArtistList;
+        }
+
+        public MultiSelectList GetAllArtists(Song song)
+        {
+            var query = from c in db.Artists
+                        orderby c.ArtistName
+                        select c;
+
+            List<Artist> allArtists = query.ToList();
+
+            List<Int32> SelectedArtists = new List<Int32>();
+
+            foreach (Artist a in song.SongArtists)
+            {
+                SelectedArtists.Add(a.ArtistID);
+            }
+
+            MultiSelectList allArtistsList = new MultiSelectList(allArtists, "ArtistID", "ArtistName", SelectedArtists);
+            return allArtistsList;
         }
 
         public MultiSelectList GetAllAlbums()
@@ -292,6 +324,25 @@ namespace Team7_LonghornMusic.Controllers
             return AlbumList;
         }
 
+        public MultiSelectList GetAllAlbums(Song song)
+        {
+            var query = from c in db.Albums
+                        orderby c.AlbumTitle
+                        select c;
+
+            List<Album> allAlbums = query.ToList();
+            List<Int32> SelectedAlbums = new List<Int32>();
+
+            foreach (Album a in song.SongAlbums)
+            {
+                SelectedAlbums.Add(a.AlbumID);
+            }
+
+            MultiSelectList allAlbumsList = new MultiSelectList(allAlbums, "AlbumID", "AlbumTitle", SelectedAlbums);
+            return allAlbumsList;
+        }
+
+        
         // GET: Songs/Details/5
         public ActionResult Details(int? id)
         {
@@ -313,6 +364,8 @@ namespace Team7_LonghornMusic.Controllers
         // GET: Songs/Create
         public ActionResult Create()
         {
+            ViewBag.AllGenres = GetAllGenres();
+            ViewBag.AllArtists = GetAllArtists();
             return View();
         }
 
@@ -321,16 +374,42 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice")] Song song)
+        public ActionResult Create([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice")] Song song, int[] SelectedGenres, int[] SelectedArtists)
         {
             if (ModelState.IsValid)
             {
-                db.Songs.Add(song);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (SelectedGenres != null && SelectedArtists != null)
+                {
+                    foreach (int GenreID in SelectedGenres)
+                    {
+                        Genre genreToAdd = db.Genres.Find(GenreID);
+                        song.SongGenres.Add(genreToAdd);
+                    }
+
+                    foreach (int ArtistID in SelectedArtists)
+                    {
+                        Artist artistToAdd = db.Artists.Find(ArtistID);
+                        song.SongArtists.Add(artistToAdd);
+                    }
+
+                    db.Songs.Add(song);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                else
+                {
+                    ViewBag.Message = "An album must belong to at least one genre, and at least one artist";
+                    ViewBag.AllGenres = GetAllGenres();
+                    ViewBag.AllArtists = GetAllArtists();
+                    return View(song);
+                }
             }
 
+            ViewBag.AllGenres = GetAllGenres();
+            ViewBag.AllArtists = GetAllArtists();
             return View(song);
+       
         }
 
         // GET: Songs/Edit/5

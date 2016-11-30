@@ -19,34 +19,44 @@ namespace Team7_LonghornMusic.Models
     public class AppUser : IdentityUser
     {
         //TODO: Put any additional fields that you need for your users here
-        [Required]
+       
+        [Required(ErrorMessage = "First Name is required.")]
         [Display(Name = "First Name")]
         public string FName { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Last Name is required.")]
         [Display(Name = "Last Name")]
         public string LName { get; set; }
+
+        [StringLength(1, ErrorMessage = "1 Letter Max")]
         [Display(Name = "Middle Initial")]
         public string MidInitial { get; set; }
 
         [Display(Name = "Account enabled?")]
         public bool IsDisabled { get; set; }
-        // TODO: Figure out if we need: public int SSN { get; set; }
-        [Required]
+        
+        [Required(ErrorMessage = "Address is required.")]
         public string Address { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "City is required.")]
         public string City { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "State is required.")]
         public State State { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "ZipCode is required.")]
         public string ZipCode { get; set; }
 
-        [Display(Name = "Card One")]
+        [Display(Name = "Credit Card #1")]
         public string CreditCardOne { get; set; }
-        [Display(Name = "Card One Type")]
+
+        [Display(Name = "Card #1 Type")]
         public CardType CreditCardTypeOne { get; set; }
-        [Display(Name = "Card Two")]
+
+        [Display(Name = "Credit Card #2")]
         public string CreditCardTwo { get; set; }
-        [Display(Name = "Card Two Type")]
+
+        [Display(Name = "Card #2 Type")]
         public CardType CreditCardTypeTwo { get; set; }
 
         //Navigation Properties
