@@ -234,6 +234,7 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\ArtistReviewsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
+    <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderDetailsController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
@@ -362,6 +363,15 @@
     <Content Include="Views\SongReviews\MyReviewIndex.cshtml" />
     <Content Include="Views\Home\CustomerHome.cshtml" />
     <Content Include="Views\AppUsers\EditEmployee.cshtml" />
+    <Content Include="Views\Home\FiredHome.cshtml" />
+    <Content Include="Views\Genres\Create.cshtml" />
+    <Content Include="Views\Genres\Delete.cshtml" />
+    <Content Include="Views\Genres\Details.cshtml" />
+    <Content Include="Views\Genres\Edit.cshtml" />
+    <Content Include="Views\Genres\Index.cshtml" />
+    <Content Include="Views\Home\ContentHome.cshtml" />
+    <Content Include="Views\Home\ReviewHome.cshtml" />
+    <Content Include="Views\Albums\SongSelection.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

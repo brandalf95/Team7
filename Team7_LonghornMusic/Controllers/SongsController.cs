@@ -466,12 +466,15 @@ namespace Team7_LonghornMusic.Controllers
                         songToChange.SongArtists.Add(artistToAdd);
                     }
 
-                    foreach (int AlbumID in SelectedAlbums)
+                    if (SelectedAlbums != null)
                     {
-                        Album albumToAdd = db.Albums.Find(AlbumID);
-                        songToChange.SongAlbums.Add(albumToAdd);
+                        foreach (int AlbumID in SelectedAlbums)
+                        {
+                            Album albumToAdd = db.Albums.Find(AlbumID);
+                            songToChange.SongAlbums.Add(albumToAdd);
+                        }
                     }
-
+                    
                     songToChange.SongTitle = song.SongTitle;
                     songToChange.IsFeatured = song.IsFeatured;
                     songToChange.SongPrice = song.SongPrice;

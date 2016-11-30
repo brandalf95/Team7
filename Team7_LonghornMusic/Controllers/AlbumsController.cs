@@ -287,6 +287,18 @@ namespace Team7_LonghornMusic.Controllers
             return allArtistsList;
         }
 
+        public MultiSelectList GetAllSongs(Album album)
+        {
+            var query = from c in db.Songs
+                        orderby c.SongTitle
+                        select c;
+
+            List < Song > allSongs = query.ToList();
+
+            MultiSelectList SongList = new MultiSelectList(allSongs, "SongID", "SongTitle");
+            return SongList;
+        }
+
 
         // GET: Albums/Details/5
         public ActionResult Details(int? id)
@@ -339,7 +351,7 @@ namespace Team7_LonghornMusic.Controllers
 
                     db.Albums.Add(album);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("SongSelection");
                 }
 
                 else
@@ -354,6 +366,43 @@ namespace Team7_LonghornMusic.Controllers
             ViewBag.AllGenres = GetAllGenres();
             ViewBag.AllArtists = GetAllArtists();
             return View(album);
+        }
+
+        public ActionResult SongSelection(int? id)
+        {
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            Album album = db.Albums.Find(id);
+            //if (album == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            ViewBag.AllSongs = GetAllSongs(album);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SongSelection([Bind(Include = "AlbumID")] Album album, int[] SelectedSongs)
+        {
+            Album albumToChange = db.Albums.Find(album.AlbumID);
+
+            albumToChange.AlbumSongs.Clear();
+
+            //if (SelectedSongs != null)
+            //{
+                foreach (int SongID in SelectedSongs)
+                {
+                    Song songToAdd = db.Songs.Find(SongID);
+                    albumToChange.AlbumSongs.Add(songToAdd);
+                }
+
+                db.Entry(albumToChange).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+             //}
         }
 
 
