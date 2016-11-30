@@ -273,7 +273,6 @@ namespace Team7_LonghornMusic.Controllers
 
             if (ModelState.IsValid)
             {
-                //Artist artistToChange = db.Artists.Find(artist.ArtistID);
                 if (SelectedGenres != null)
                 {
                     foreach (int GenreID in SelectedGenres)
@@ -281,17 +280,21 @@ namespace Team7_LonghornMusic.Controllers
                         Genre genreToAdd = db.Genres.Find(GenreID);
                         artist.ArtistGenres.Add(genreToAdd);
                     }
-               
 
                     db.Artists.Add(artist);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
 
-                ViewBag.AllGenres = GetAllGenres();
-                return View(artist);               
+                else
+                {
+                    ViewBag.Message ="An artist must belong to at least one genre.";
+                    ViewBag.AllGenres = GetAllGenres();
+                    return View(artist);
+                }           
             }
 
+            ViewBag.AllGenres = GetAllGenres();
             return View(artist);
         }
 
@@ -333,14 +336,23 @@ namespace Team7_LonghornMusic.Controllers
                         Genre genreToAdd = db.Genres.Find(GenreID);
                         artistToChange.ArtistGenres.Add(genreToAdd);
                     }
+
+                    artistToChange.ArtistName = artist.ArtistName;
+                    artistToChange.IsFeatured = artist.IsFeatured;
+
+                    db.Entry(artistToChange).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
 
-                artistToChange.ArtistName = artist.ArtistName;
-                artistToChange.IsFeatured = artist.IsFeatured;
+                else
+                {
+                    ViewBag.Message = "An artist must belong to at least one genre.";
+                    ViewBag.AllGenres = GetAllGenres(artist);
+                    return View(artist);
+                }
 
-                db.Entry(artistToChange).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
             }
 
             ViewBag.AllGenres = GetAllGenres(artist);
