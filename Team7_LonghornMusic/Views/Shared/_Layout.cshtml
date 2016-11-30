@@ -47,7 +47,7 @@
                 }
                 @if (User.IsInRole("Customer"))
                 {   <ul class="nav navbar-nav">                   
-                        <li>@Html.ActionLink("My Shopping Cart", "Index", "OrderDetails")</li>                  
+                        <li>@Html.ActionLink("My Shopping Cart", "ShoppingCart", "OrderDetails", new { UserName = User.Identity.Name }, null)</li>                  
                     </ul>
                 }
                 @if (User.IsInRole("Employee"))

@@ -47,6 +47,7 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [StringLength(1, ErrorMessage = "Middle Intial: 1 Letter Max")]
         [Display(Name = "Middle Initial")]
         public string MidInitial { get; set; }
 
@@ -68,11 +69,13 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "State")]
         public State State { get; set; }
 
+        
         [Required(ErrorMessage = "ZipCode is required.")]
+        [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid Zip")]
         [Display(Name = "ZipCode")]
         public string ZipCode { get; set; }
 
-
+        [StringLength(16, ErrorMessage = "Please enter a valid credit card number.", MinimumLength = 15)]
         [Display(Name = "Credit Card #")]
         public string CreditCardOne { get; set; }
 
