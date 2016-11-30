@@ -207,7 +207,7 @@ namespace Team7_LonghornMusic.Controllers
                 
                 if(User.IsInRole("Customer"))
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MyAccountIndex", "Home");
                 }
 
                 if (User.IsInRole("Manager"))
@@ -225,6 +225,53 @@ namespace Team7_LonghornMusic.Controllers
             }
 
             return View(appUser);
+        }
+
+        public ActionResult EditEmployee(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AppUser appUser = db.Users.Find(id);
+            if (appUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(appUser);
+        }
+
+        // POST: AppUsers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditEmployee([Bind(Include = "Id,Address,City,State,ZipCode,PhoneNumber")] AppUser appUser)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser appUserToChange = db.Users.Find(appUser.Id);
+
+                appUserToChange.Address = appUser.Address;
+                appUserToChange.City = appUser.City;
+                appUserToChange.State = appUser.State;
+                appUserToChange.ZipCode = appUser.ZipCode;
+                appUserToChange.PhoneNumber = appUser.PhoneNumber;
+
+                db.Entry(appUserToChange).State = EntityState.Modified;
+                db.SaveChanges();
+
+                
+                if (User.IsInRole("Employee"))
+                {
+                    return RedirectToAction("Index","Home");
+                }
+
+
+
+            }
+
+            return RedirectToAction("MyAccountIndex","AppUsers");
         }
 
         // GET: AppUsers/Delete/5
