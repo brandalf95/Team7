@@ -479,7 +479,7 @@ namespace Team7_LonghornMusic.Controllers
 
                     db.Entry(songToChange).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ContentHome", "Home");
                 }
 
                 else

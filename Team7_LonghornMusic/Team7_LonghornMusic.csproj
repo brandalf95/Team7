@@ -288,6 +288,7 @@
     <Compile Include="Models\AvgAlbumRating.cs" />
     <Compile Include="Models\AvgArtistRating.cs" />
     <Compile Include="Models\AvgSongRating.cs" />
+    <Compile Include="Models\FeaturedViewModel.cs" />
     <Compile Include="Models\ShoppingCartViewModel.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Discount.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Views\ArtistReviews\MyReviewIndex.cshtml" />
     <Content Include="Views\SongReviews\MyReviewIndex.cshtml" />
     <Content Include="Views\AppUsers\EmployeeEdit.cshtml" />
+    <Content Include="Views\Home\CustomerHome.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -41,6 +41,12 @@
         <th>
             Average Rating
         </th>
+        @if(User.IsInRole("Manager"))
+        {
+            <th>
+                Is Featured? (Check 1 Only)
+            </th>
+        }
     </tr>
 
 @foreach (var item in Model) {
@@ -61,6 +67,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.AvgRating)
         </td>
+        @if(User.IsInRole("Manager"))
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Artist.IsFeatured)
+            </td>
+        }
         <td>
             @if(User.IsInRole("Manager"))
             {

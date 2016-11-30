@@ -1,23 +1,44 @@
-﻿
+﻿@model Team7_LonghornMusic.Models.FeaturedViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "CustomerHome";
 }
 
-<h2>Welcome to Longhorn Music!</h2>
+<h2>Featured Items of the Week!</h2>
+<p>
+    <h3>***Songs***</h3>
+    [  @ViewBag.Song  ]
 
-
-
+    $@ViewBag.SongPrice
+</p>
 <p>
     <input type="button" class="btn btn-primary" value="Browse Songs" onclick="location.href='@Url.Action("Index", "Songs")'" />
 </p>
 
+
+<p>
+    <h3>***Albums***</h3>
+    [  @ViewBag.Album  ]
+
+    $@ViewBag.AlbumPrice
+</p>
 <p>
     <input type="button" class="btn btn-primary" value="Browse Albums" onclick="location.href='@Url.Action("Index", "Albums")'" />
 </p>
 
-<p>   
+
+<p>
+    <h3>***Artists***</h3>
+    @ViewBag.Artist
+</p>
+<p>
     <input type="button" class="btn btn-primary" value="Browse Artists" onclick="location.href='@Url.Action("Index", "Artists")'" />
 </p>
+
+
+
+
+
+
 
 
 

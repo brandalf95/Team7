@@ -46,6 +46,9 @@
         <th>
             Rating
         </th>
+        <th>
+            Is Featured? (Check 1 Only)
+        </th>
         <th></th>
     </tr>
 
@@ -76,6 +79,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.AvgRating)
         </td>
+        @if (User.IsInRole("Manager"))
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.Song.IsFeatured)
+        </td>
+        }
         <td>
 
             @if (User.IsInRole("Manager"))
