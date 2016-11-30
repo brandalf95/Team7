@@ -31,12 +31,20 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: OrderDetails/Details/5
-        public ActionResult ShoppingCart(string UserName)
+        public ActionResult ShoppingCart(string UserName, string error)
         {
+            if(error == null)
+            {
+                ViewBag.Error = "";
+            }else
+            {
+                ViewBag.Error = error;
+            }
             if (UserName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            
             OrderDetail orderDetail = new OrderDetail();
             List<OrderDetail> listDetails = new List<OrderDetail>();
             listDetails = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
@@ -53,8 +61,27 @@ namespace Team7_LonghornMusic.Controllers
             shoppingCart.SubTotal = CalcSubTotal(shoppingCart);
             shoppingCart.Tax = CalcTax(shoppingCart);
             shoppingCart.Total = (shoppingCart.Tax + shoppingCart.SubTotal);
-            List<ShoppingCartViewModel> shoppingCartList = new List<ShoppingCartViewModel>();
-            shoppingCartList.Add(shoppingCart);
+            foreach (Discount item in shoppingCart.OrderDetail.Discounts)
+            {
+                if (item.Album != null)
+                {
+                    AvgAlbumRating album = new AvgAlbumRating();
+                    album.Album = item.Album;
+                    album.AvgRating = ComputeAlbumAverage(album.Album.AlbumID);
+                    shoppingCart.avgAlbumRatings.Add(album);
+                }
+                else
+                {
+                    AvgSongRating song = new AvgSongRating();
+                    song.Song = item.Song;
+                    song.AvgRating = ComputeSongAverage(song.Song.SongID);
+                    shoppingCart.avgSongRatings.Add(song);
+                }
+
+
+               
+
+            }
             return View(shoppingCart);
         }
 
@@ -157,7 +184,50 @@ namespace Team7_LonghornMusic.Controllers
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
             OrderDetail orderDetail = db.OrderDetails.Find(id);
-            return View(orderDetail);
+            bool dummy = true;
+            
+            int i = orderDetail.Discounts.ToArray().Length-1;
+            int j = i - 1;
+            while (j>=0)
+            {
+               
+                if (orderDetail.Discounts[i].Song != null)
+                {
+                    if (orderDetail.Discounts[j].Song != null)
+                    {
+                        if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Song)
+                        {
+                            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs." }); ;
+                        }
+                        
+                    }
+
+                }else
+                {
+                    
+                    if (orderDetail.Discounts[j].Album != null)
+                    {
+                        int q = orderDetail.Discounts[j].Album.AlbumSongs.ToArray().Length-1;
+                        while (q>=0)
+                        {
+                            if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Album.AlbumSongs[q])
+                            {
+                                dummy = false;
+
+                            }
+                            q -= 1;
+
+                        }
+                    }
+                }
+                i -= 1;
+                j -= 1;
+                
+            }
+           
+                return View(orderDetail);
+         
+            
         }
 
         [HttpPost]
@@ -181,6 +251,7 @@ namespace Team7_LonghornMusic.Controllers
             newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart);
             newShoppingCart.Tax = CalcTax(newShoppingCart);
             newShoppingCart.Total = newShoppingCart.SubTotal + newShoppingCart.Tax;
+            
 
             return View(newShoppingCart);
         }
@@ -229,18 +300,29 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: OrderDetails/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int OrderID, int? SongID, int? AlbumID)
         {
-            if (id == null)
+            if (SongID == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if(AlbumID != null)
+                {
+                    db.OrderDetails.Find(OrderID).Discounts.Remove(db.OrderDetails.Find(OrderID).Discounts.FirstOrDefault(a => a.Album.AlbumID.Equals(AlbumID))); 
+                }
+
+            }else
+            {
+                if(SongID != null)
+                {
+                    db.OrderDetails.Find(OrderID).Discounts.Remove(db.OrderDetails.Find(OrderID).Discounts.FirstOrDefault(a => a.Song.SongID.Equals(SongID)));
+                }
             }
-            OrderDetail orderDetail = db.OrderDetails.Find(id);
+            db.SaveChanges();
+            OrderDetail orderDetail = db.OrderDetails.Find(OrderID);
             if (orderDetail == null)
             {
                 return HttpNotFound();
             }
-            return View(orderDetail);
+            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName });
         }
 
         // POST: OrderDetails/Delete/5
@@ -302,6 +384,51 @@ namespace Team7_LonghornMusic.Controllers
             tax = Convert.ToDecimal(.0825) * shoppingCart.SubTotal;
             return tax;
         }
+        public decimal ComputeSongAverage(Int32 Song)
+        {
 
+            AvgSongRating rating = new AvgSongRating();
+            Song song = db.Songs.Find(Song);
+            List<SongReview> reviewList = new List<SongReview>();
+            reviewList = db.SongReviews.ToList();
+            List<SongReview> selectedReviewList = new List<SongReview>();
+            selectedReviewList = db.SongReviews.Where(a => a.Song.SongTitle.Contains(song.SongTitle)).ToList();
+            decimal sum = new decimal();
+            decimal count = new decimal();
+            foreach (SongReview a in selectedReviewList)
+            {
+                sum += a.Rating;
+                count += 1;
+            }
+
+            if (count == 0)
+            {
+                return (0);
+            }
+            return (sum / count);
+        }
+        public decimal ComputeAlbumAverage(Int32 Artist)
+        {
+
+            AvgAlbumRating rating = new AvgAlbumRating();
+            Album artist = db.Albums.Find(Artist);
+            List<AlbumReview> reviewList = new List<AlbumReview>();
+            reviewList = db.AlbumReviews.ToList();
+            List<AlbumReview> selectedReviewList = new List<AlbumReview>();
+            selectedReviewList = db.AlbumReviews.Where(a => a.Album.AlbumTitle.Contains(artist.AlbumTitle)).ToList();
+            decimal sum = new decimal();
+            decimal count = new decimal();
+            foreach (AlbumReview a in selectedReviewList)
+            {
+                sum += a.Rating;
+                count += 1;
+            }
+
+            if (count == 0)
+            {
+                return (0);
+            }
+            return (sum / count);
+        }
     }
 }

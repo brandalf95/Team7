@@ -15,6 +15,20 @@ namespace Team7_LonghornMusic.Models
         public string DisplayCard { get; set; }
         public decimal AverageRating { get; set; }
 
+        public virtual List<AvgSongRating> avgSongRatings {get;set;}
+        public virtual List<AvgAlbumRating> avgAlbumRatings { get; set; }
         public virtual OrderDetail OrderDetail { get; set; }
+
+        public ShoppingCartViewModel()
+        {
+            if (this.avgSongRatings == null)
+            {
+                this.avgSongRatings = new List<AvgSongRating>();
+            }
+            if(this.avgAlbumRatings == null)
+            {
+                this.avgAlbumRatings = new List<AvgAlbumRating>();
+            }
+        }
     }
 }
