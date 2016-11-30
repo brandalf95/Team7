@@ -9,7 +9,7 @@
     <input type="button" class="btn btn-primary" value="Hire Employee" onclick="location.href='@Url.Action("Create", "AppUsers")'" />
 </p>
 <p>
-    <input type="button" class="btn btn-primary" value="Promote Employee" onclick="location.href='@Url.Action("Index", "RoleAdmin")'" />
+    <input type="button" class="btn btn-primary" value="Promote/Fire Employee" onclick="location.href='@Url.Action("Index", "RoleAdmin")'" />
 </p>
 
 @if (User.IsInRole("Manager"))

@@ -18,6 +18,26 @@
 <p>   
     <input type="button" class="btn btn-primary" value="Browse Artists" onclick="location.href='@Url.Action("Index", "Artists")'" />
 </p>
+<p>
+    <input type="button" class="btn btn-primary" value="Browse Genres" onclick="location.href='@Url.Action("Index", "Genres")'" />
+</p>
 
+@if (User.IsInRole("Manager"))
+{
+    <p>
+        <input type="button" class="btn btn-primary" value="Create Songs" onclick="location.href='@Url.Action("Create", "Songs")'" />
+    </p>
+    <p>
+        <input type="button" class="btn btn-primary" value="Create Albums" onclick="location.href='@Url.Action("Create", "Albums")'" />
+    </p>
+
+    <p>
+        <input type="button" class="btn btn-primary" value="Create Artists" onclick="location.href='@Url.Action("Create", "Artists")'" />
+    </p>
+
+    <p>
+        <input type="button" class="btn btn-primary" value="Create Genres" onclick="location.href='@Url.Action("Create", "Genres")'" />
+    </p>
+}
 
 

@@ -17,6 +17,12 @@ namespace Team7_LonghornMusic.Controllers
             {
                 return RedirectToAction("CustomerHome", "Home");          
             }
+
+            if(User.IsInRole("FiredEmployee"))
+            {
+                return RedirectToAction("FiredHome", "Home");
+            }
+
             return View();
         }
 
@@ -26,6 +32,11 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         public ActionResult ContentHome()
+        {
+            return View();
+        }
+
+        public ActionResult FiredHome()
         {
             return View();
         }
