@@ -20,6 +20,18 @@ namespace Team7_LonghornMusic.Controllers
             List<Song> SelectedSongs = new List<Song>();
             List<Song> TotalSongs  = new List<Song>();
             TotalSongs = db.Songs.ToList();
+            foreach(Song item in TotalSongs)
+            {
+                if(item.DiscountPrice != 0)
+                {
+                    item.DisplayPrice = item.DiscountPrice;
+                }else
+                {
+                    item.DisplayPrice = item.SongPrice;
+                }
+                db.Songs.Find(item.SongID).DisplayPrice = item.DisplayPrice;
+            }
+            db.SaveChanges();
 
             if (SearchString == null || SearchString == "")
             {
@@ -341,11 +353,16 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice")] Song song)
+        public ActionResult Edit([Bind(Include = "SongID,SongTitle,IsFeatured,SongPrice,DiscountPrice")] Song song)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(song).State = EntityState.Modified;
+                if(song.DiscountPrice != 0)
+                {
+                    song.DisplayPrice = song.DiscountPrice;
+                }else {song.DisplayPrice = song.SongPrice; }
+                db.Songs.Find(song.SongID).DisplayPrice = song.DisplayPrice;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -21,6 +21,19 @@ namespace Team7_LonghornMusic.Controllers
             List<Album> SelectedAlbums = new List<Album>();
             List<Album> TotalAlbums = new List<Album>();
             TotalAlbums = db.Albums.ToList();
+            foreach (Album item in TotalAlbums)
+            {
+                if (item.DiscountPrice != 0)
+                {
+                    item.DisplayPrice = item.DiscountPrice;
+                }
+                else
+                {
+                    item.DisplayPrice = item.AlbumPrice;
+                }
+                db.Albums.Find(item.AlbumID).DisplayPrice = item.DisplayPrice;
+            }
+            db.SaveChanges();
 
             if (SearchString == null || SearchString == "")
             {
@@ -304,11 +317,17 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AlbumID,AlbumTitle,IsFeatured,AlbumPrice")] Album album)
+        public ActionResult Edit([Bind(Include = "AlbumID,AlbumTitle,IsFeatured,AlbumPrice,DiscountPrice")] Album album)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(album).State = EntityState.Modified;
+                if (album.DiscountPrice != 0)
+                {
+                    album.DisplayPrice = album.DiscountPrice;
+                }
+                else { album.DisplayPrice = album.AlbumPrice; }
+                db.Albums.Find(album.AlbumID).DisplayPrice = album.DisplayPrice;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -1,4 +1,9 @@
 ﻿@model IEnumerable < Team7_LonghornMusic.Models.OrderDetail>
 
+@foreach(var item in Model)
+{
+    foreach(var x in item.Discounts) {
 
+    @Html.DisplayFor(modelItem => x.Song.DisplayPrice)}
+}
 

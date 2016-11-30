@@ -19,30 +19,14 @@ namespace Team7_LonghornMusic.Controllers
 
         // GET: OrderDetails
 
-        public ActionResult Index(String id)
+        public ActionResult Index()
 
         {
-            if (id == null)
-            {
-                return View();
-                
-            } else
-            {
-                String ids = id;
-                OrderDetail orderDetail = new OrderDetail();
-                List<OrderDetail> listDetails = new List<OrderDetail>();
-                listDetails = db.OrderDetails.Where(a => a.User.UserName.Contains(ids)).ToList();
-                foreach (OrderDetail item in listDetails)
-                {
-                    if (!item.IsConfirmed)
-                    {
-                        orderDetail = item;
-                    }
-                }
+            
                 List<OrderDetail> details = new List<OrderDetail>();
-                details.Add(orderDetail);
-                return View();
-            }
+                details = db.OrderDetails.ToList();
+                return View(details);
+            
            
         }
 

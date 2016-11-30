@@ -34,6 +34,18 @@
             @Html.DisplayFor(model => model.Song.SongPrice)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Song.DiscountPrice)
+        </dt>
+
+        <dd>
+            @if (Model.Song.DiscountPrice != 0) {
+                @Html.DisplayFor(model => model.Song.DiscountPrice)}else
+            {
+                @Html.Display("N/A")
+            }
+        </dd>
+
     </dl>
     <table class="table table-bordered">
         <tr>

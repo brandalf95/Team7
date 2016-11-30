@@ -57,7 +57,7 @@
             @Html.DisplayFor(modelItem => item.IsFeatured)
         </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.Album.AlbumPrice)
+            @Html.DisplayFor(modelItem => item.Album.DisplayPrice)
         </td>
         <td>
             @foreach (var x in item.Album.AlbumArtists)
