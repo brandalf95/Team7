@@ -26,6 +26,10 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Is it Refunded?")]
         public bool IsRefunded { get; set; }
 
+        public List<Song> SongArchive { get; set; }
+
+        public List<Album> AlbumArchive { get; set; }
+
         public virtual AppUser User { get; set; }
 
         public virtual List<Discount> Discounts { get; set; }
@@ -39,6 +43,14 @@ namespace Team7_LonghornMusic.Models
             if (this.CreditCardNumber == null)
             {
                 this.CreditCardNumber = "";
+            }
+            if (this.SongArchive == null)
+            {
+                this.SongArchive = new List<Song>();
+            }
+            if (this.AlbumArchive == null)
+            {
+                this.AlbumArchive = new List<Album>();
             }
         }
     }
