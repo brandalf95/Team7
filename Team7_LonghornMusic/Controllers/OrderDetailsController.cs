@@ -55,6 +55,15 @@ namespace Team7_LonghornMusic.Controllers
                     orderDetail = item;
                 }
             }
+            foreach(Discount item in orderDetail.Discounts)
+            {
+                if(item.Song == null && item.Album == null)
+                {
+                    db.OrderDetails.Find(orderDetail.OrderDetailID).Discounts.Remove(item);
+                    db.SaveChanges();
+                    orderDetail = db.OrderDetails.Find(orderDetail.OrderDetailID);
+                }
+            }
             ShoppingCartViewModel shoppingCart = new ShoppingCartViewModel();
             shoppingCart.OrderDetail = orderDetail;
 
@@ -197,26 +206,26 @@ namespace Team7_LonghornMusic.Controllers
                     {
                         if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Song)
                         {
-                            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs." }); ;
+                            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs." });
                         }
                         
                     }
-
-                }else
-                {
-                    
-                    if (orderDetail.Discounts[j].Album != null)
+                    else
                     {
-                        int q = orderDetail.Discounts[j].Album.AlbumSongs.ToArray().Length-1;
-                        while (q>=0)
+
+                        if (orderDetail.Discounts[j].Album != null)
                         {
-                            if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Album.AlbumSongs[q])
+                            int q = orderDetail.Discounts[j].Album.AlbumSongs.ToArray().Length - 1;
+                            while (q >= 0)
                             {
-                                dummy = false;
+                                if (orderDetail.Discounts[i].Song == orderDetail.Discounts[j].Album.AlbumSongs[q])
+                                {
+                                    return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs." });
+
+                                }
+                                q -= 1;
 
                             }
-                            q -= 1;
-
                         }
                     }
                 }
@@ -300,22 +309,23 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: OrderDetails/Delete/5
-        public ActionResult Delete(int OrderID, int? SongID, int? AlbumID)
+        public ActionResult Delete(int OrderID, Int32 discountID)
         {
-            if (SongID == null)
-            {
-                if(AlbumID != null)
-                {
-                    db.OrderDetails.Find(OrderID).Discounts.Remove(db.OrderDetails.Find(OrderID).Discounts.FirstOrDefault(a => a.Album.AlbumID.Equals(AlbumID))); 
-                }
+            //if (SongID == null)
+            //{
+            //    if(AlbumID != null)
+            //    {
+            //        db.OrderDetails.Find(OrderID).Discounts.Remove(db.OrderDetails.Find(OrderID).Discounts.FirstOrDefault(a => a.Album.AlbumID.Equals(AlbumID))); 
+            //    }
 
-            }else
-            {
-                if(SongID != null)
-                {
-                    db.OrderDetails.Find(OrderID).Discounts.Remove(db.OrderDetails.Find(OrderID).Discounts.FirstOrDefault(a => a.Song.SongID.Equals(SongID)));
-                }
-            }
+            //}else
+            //{
+            //    if(SongID != null)
+            //    {
+            //        db.OrderDetails.Find(OrderID).Discounts.Remove(Discount);
+            //    }
+            //}
+            db.OrderDetails.Find(OrderID).Discounts.Remove(db.Discounts.Find(discountID));
             db.SaveChanges();
             OrderDetail orderDetail = db.OrderDetails.Find(OrderID);
             if (orderDetail == null)

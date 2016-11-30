@@ -32,7 +32,11 @@
                @Html.DisplayFor(modelItem => x.Song.SongTitle)
             </td>  
             <td>
-               @Html.DisplayFor(modelItem => x.Song.SongArtists)
+                @if (x.Song != null)
+                {
+                foreach (var y in x.Song.SongArtists)
+                {
+               @Html.DisplayFor(modelItem => y.ArtistName)}}
             </td>
             <td>
                 @foreach (var y in Model.avgSongRatings)
@@ -46,7 +50,8 @@
                @Html.DisplayFor(modelItem => x.Song.SongPrice) 
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { SongID = x.Song.SongID, OrderID = Model.OrderDetail.OrderDetailID })
+                @if (x.Song != null) {
+                @Html.ActionLink("Delete", "Delete", new { discountID = x.DiscountID, OrderID = Model.OrderDetail.OrderDetailID })}
             </td>
         </tr>
     }
@@ -73,17 +78,27 @@
                 @Html.DisplayFor(modelItem => x.Album.AlbumTitle) 
             </td>
             <td>
-                @Html.DisplayFor(modelItem => x.Album.AlbumArtists)
+                @if (x.Album != null)
+                {
+                    foreach (var y in x.Album.AlbumArtists)
+                    {
+                        @Html.DisplayFor(modelItem => y.ArtistName)}
+                }
             </td>
             <td>
-                Average Rating
+                @foreach (var y in Model.avgAlbumRatings)
+                {
+                    if (y.Album == x.Album)
+                    {
+                        @Html.DisplayFor(modelItem => y.AvgRating)}
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => x.Album.AlbumPrice) 
             </td>
             <td>
                 @if (x.Album != null) {
-                @Html.ActionLink("Delete", "Delete", new { AlbumID = x.Album.AlbumID, OrderID = Model.OrderDetail.OrderDetailID })}
+                @Html.ActionLink("Delete", "Delete", new { DiscountID = x.DiscountID, OrderID = Model.OrderDetail.OrderDetailID })}
             </td>
         </tr>
     }
