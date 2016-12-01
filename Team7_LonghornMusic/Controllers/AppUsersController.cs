@@ -195,7 +195,7 @@ namespace Team7_LonghornMusic.Controllers
                 appUserToChange.CreditCardTypeOne = appUser.CreditCardTypeOne;
                 appUserToChange.CreditCardTypeTwo = appUser.CreditCardTypeTwo;
 
-                if(User.IsInRole("Employee"))
+                if(User.IsInRole("Employee") && User.IsInRole("Manager"))
                 {
                     appUserToChange.IsDisabled = appUser.IsDisabled;
 
@@ -273,6 +273,58 @@ namespace Team7_LonghornMusic.Controllers
 
             return RedirectToAction("MyAccountIndex","AppUsers");
         }
+
+
+        // GET: /AccountAdmin/ResetPassword
+        public ActionResult ResetPassword(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ResetPasswordViewModel model = new ResetPasswordViewModel() { Id = id };
+            return View(model);
+        }
+
+        //
+        // POST: /AccountAdmin/ResetPassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var removePassword = UserManager.RemovePassword(model.Id);
+            if (removePassword.Succeeded)
+            {
+                //Removed Password Success
+                var AddPassword = UserManager.AddPassword(model.Id, model.NewPassword);
+                if (AddPassword.Succeeded)
+                {
+                    return View();
+                }
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         // GET: AppUsers/Delete/5
         public ActionResult Delete(string id)

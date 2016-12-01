@@ -46,15 +46,17 @@
                     @Html.DisplayFor(modelItem => item.User.LName)
                 </td>
             }
-            <td>
-                @if (User.IsInRole("Employee"))
-                {
+            @if (User.IsInRole("Employee"))
+            {
+                <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.SongReviewID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.SongReviewID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.SongReviewID })
-            </td>
+                    @Html.ActionLink("Details", "Details", new { id = item.SongReviewID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.SongReviewID })
+                </td>
             }
+            
         </tr>
                 }
 
+    
 </table>

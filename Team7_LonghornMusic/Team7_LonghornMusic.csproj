@@ -375,6 +375,7 @@
     <Content Include="Views\Albums\SongSelection.cshtml" />
     <Content Include="Views\OrderDetails\MyMusic.cshtml" />
     <Content Include="Views\OrderDetails\OrderHistory.cshtml" />
+    <Content Include="Views\AppUsers\ResetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

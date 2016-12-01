@@ -11,7 +11,7 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IsDisabled)
+                Account Disabled?
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FName)
@@ -80,6 +80,7 @@
 
                     <td>
                         <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "AppUsers", new { id = item.Id }, null)'" />
+                        <input type="button" class="btn btn-primary" value="Edit User Password" onclick="location.href='@Url.Action("ResetPassword", "AppUsers", new { id = item.Id }, null)'" />
                         <input type="button" class="btn btn-primary" value="Details" onclick="location.href='@Url.Action("Details", "AppUsers", new { id = item.Id }, null)'" />
                         <input type="button" class="btn btn-primary" value="Delete" onclick="location.href='@Url.Action("Delete", "AppUsers", new { id = item.Id }, null)'" />
                         @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
