@@ -1,0 +1,63 @@
+﻿@model IEnumerable < Team7_LonghornMusic.Models.Song >
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MyMusic</title>
+</head>
+
+<table class="table">
+    <tr>
+        <th>
+            Song Title
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Genre
+        </th>
+        <th>
+            Album
+        </th>
+
+    </tr>
+    @foreach (var x in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => x.SongTitle)
+            </td>
+            <td>
+               @foreach(var y in x.SongArtists) { 
+               @Html.DisplayFor(modelItem => y.ArtistName)}
+            </td>
+            <td>
+                @foreach (var y in x.SongAlbums)
+                {
+                    @Html.DisplayFor(modelItem => y.AlbumTitle)}
+
+            </td>
+            <td>
+                @foreach (var y in x.SongGenres)
+                {
+                    @Html.DisplayFor(modelItem => y.GenreName)}
+            </td>
+            
+            
+            @*<td>
+                @if (x.Song != null)
+                {
+                    @Html.ActionLink("Details", "Delete", new { discountID = x.DiscountID, OrderID = Model.OrderDetail.OrderDetailID })}
+            </td>*@
+        </tr>
+        }
+    
+</table>
+
+    
+
+
+
+

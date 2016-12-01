@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Team7_LonghornMusic.Models.ShoppingCartViewModel>
+@*@{
+        Layout = null;
+    }*@
+
+
+
+
+<h2>Order History</h2>
+
+@foreach (var item in Model)
+{
+<table class="table">
+    <tr>
+        <th>
+            Song Title
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Price of Song When Bought
+        </th>
+    </tr>
+    @foreach (var x in item.OrderDetail.Discounts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => x.Song.SongTitle)
+            </td>
+            <td>
+                @if (x.Song != null)
+                {
+                    foreach (var y in x.Song.SongArtists)
+                    {
+                        @Html.DisplayFor(modelItem => y.ArtistName)}
+                }
+            </td>
+
+            <td>
+                @if (x.Song != null)
+                {
+                    @Html.DisplayFor(modelItem => x.DiscountAmt)
+                }
+            </td>
+           
+        </tr>
+    }
+</table>
+<table class="table">
+    <tr>
+        <th>
+            Album Title
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Price of Album When Bought
+        </th>
+    </tr>
+    @foreach (var x in item.OrderDetail.Discounts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => x.Album.AlbumTitle)
+            </td>
+            <td>
+                @if (x.Album != null)
+                {
+                    foreach (var y in x.Album.AlbumArtists)
+                    {
+                        @Html.DisplayFor(modelItem => y.ArtistName)}
+                }
+            </td>
+            <td>
+                @if(x.Album != null) { 
+                @Html.DisplayFor(modelItem => x.DiscountAmt)
+                }
+            </td>
+
+        </tr>
+    }
+</table>
+<p>
+    Cart Subtotal: $@Html.DisplayFor(model => item.SubTotal)
+</p>
+
+<p>
+    Cart Tax:      $@Html.DisplayFor(model => item.Tax)
+</p>
+
+<p>
+    Cart Total:    $@Html.DisplayFor(model => item.Total)
+</p>
+ <p>
+    Card Used:     @Html.DisplayFor(model => item.DisplayCard)  
+ </p>
+}
+

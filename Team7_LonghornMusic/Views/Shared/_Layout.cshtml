@@ -49,6 +49,12 @@
                 {   <ul class="nav navbar-nav">                   
                         <li>@Html.ActionLink("My Shopping Cart", "ShoppingCart", "OrderDetails", new { UserName = User.Identity.Name }, null)</li>                  
                     </ul>
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("My Music", "MyMusic", "OrderDetails", new { UserName = User.Identity.Name }, null)</li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Order History", "OrderHistory", "OrderDetails", new { UserName = User.Identity.Name }, null)</li>
+                    </ul>
                 }
                 @if (User.IsInRole("Employee"))
                 {
