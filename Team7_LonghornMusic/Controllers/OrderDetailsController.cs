@@ -69,7 +69,7 @@ namespace Team7_LonghornMusic.Controllers
             ShoppingCartViewModel shoppingCart = new ShoppingCartViewModel();
             shoppingCart.OrderDetail = orderDetail;
 
-            shoppingCart.SubTotal = CalcSubTotal(shoppingCart);
+            shoppingCart.SubTotal = CalcSubTotal(shoppingCart,false);
             shoppingCart.Tax = CalcTax(shoppingCart);
             shoppingCart.Total = (shoppingCart.Tax + shoppingCart.SubTotal);
             foreach (Discount item in shoppingCart.OrderDetail.Discounts)
@@ -386,6 +386,40 @@ namespace Team7_LonghornMusic.Controllers
             return RedirectToAction("Confirm", shoppingCart);
         }
 
+        //public ActionResult Report()
+        //{
+        //    List<Report> reports = new List<Report>();
+        //    foreach(Song item in db.Songs.ToList())
+        //    {
+        //        Report report = new Report();
+        //        report.Discount.Song = item;
+        //        foreach (Discount x in db.Discounts.ToList()) {
+        //            if (x.Song != null && x.Song == item && x.DiscountAmt!=0)
+        //            {
+        //                report.TotalPurchases += 1;
+        //                report.Revenue += x.DiscountAmt;
+        //            }
+        //        }
+        //        reports.Add(report);
+        //    }
+        //    foreach (Album item in db.Albums.ToList())
+        //    {
+        //        Report report = new Report();
+        //        report.Discount.Album = item;
+        //        foreach (Discount x in db.Discounts.ToList())
+        //        {
+        //            if (x.Album != null && x.Album == item && x.DiscountAmt != 0)
+        //            {
+        //                report.TotalPurchases += 1;
+        //                report.Revenue += x.DiscountAmt;
+        //            }
+        //        }
+        //        reports.Add(report);
+        //    }
+        //    return View(reports);
+
+        //}
+
         public ActionResult MyMusic(string UserName)
         {
             List<OrderDetail> orderList = new List<OrderDetail>();
@@ -424,16 +458,16 @@ namespace Team7_LonghornMusic.Controllers
             List<OrderDetail> orderList = new List<OrderDetail>();
             List<OrderDetail> newOrderList = new List<OrderDetail>();
             orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
-            newOrderList = orderList;
-            foreach(OrderDetail item in orderList)
+
+            foreach (OrderDetail item in orderList)
             {
-                if(item.IsConfirmed != true)
+                if (item.IsConfirmed == true)
                 {
-                    newOrderList.Remove(item);
+                    newOrderList.Add(item);
                 }
-                if(item.IsRefunded == true)
+                if (item.IsRefunded != true)
                 {
-                    newOrderList.Remove(item);
+                    newOrderList.Add(item);
                 }
             }
             List<ShoppingCartViewModel> orders = new List<ShoppingCartViewModel>();
@@ -441,8 +475,8 @@ namespace Team7_LonghornMusic.Controllers
             {
                 ShoppingCartViewModel addOrder = new ShoppingCartViewModel();
                 addOrder.OrderDetail = item;
-                addOrder.SubTotal = CalcSubTotal(addOrder);
-                addOrder.Tax = CalcSubTotal(addOrder);
+                addOrder.SubTotal = CalcSubTotal(addOrder,true);
+                addOrder.Tax = CalcTax(addOrder);
                 addOrder.Total = (addOrder.SubTotal + addOrder.Tax);
                 addOrder.DisplayCard = HideCard(item.CreditCardNumber);
                 orders.Add(addOrder);
@@ -454,7 +488,7 @@ namespace Team7_LonghornMusic.Controllers
         {
             ShoppingCartViewModel newShoppingCart = new ShoppingCartViewModel();
             newShoppingCart.OrderDetail = db.OrderDetails.Find(shoppingCart.OrderDetailID);
-            newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart);
+            newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart,false);
             newShoppingCart.Tax = CalcTax(newShoppingCart);
             newShoppingCart.Total = newShoppingCart.SubTotal + newShoppingCart.Tax;
             newShoppingCart.DisplayCard = newShoppingCart.OrderDetail.CreditCardNumber;
@@ -595,23 +629,50 @@ namespace Team7_LonghornMusic.Controllers
             }
             base.Dispose(disposing);
         }
-        public decimal CalcSubTotal(ShoppingCartViewModel orderDetail)
+        public decimal CalcSubTotal(ShoppingCartViewModel orderDetail, bool dummy)
         {
-            List<decimal> songList = new List<decimal>();
-            List<decimal> albumList = new List<decimal>();
-            List<decimal> discountList = new List<decimal>();
             List<Discount> list = new List<Discount>();
             list = orderDetail.OrderDetail.Discounts.ToList();
-            decimal subtotal = new decimal();
-            foreach (Discount item in list)
+            List<decimal> albumList = new List<decimal>();
+            List<decimal> songList = new List<decimal>();
+            List<decimal> discountList = new List<decimal>();
+            if (dummy)
             {
-                subtotal += item.DiscountAmt;
                 
+                decimal subtotal = new decimal();
+                foreach (Discount item in list)
+                {
+                    subtotal += item.DiscountAmt;
+
+                }
+
+
+                return subtotal;
+            }else
+            {
+                foreach (Discount item in list)
+                {
+                    if (item.Song == null)
+                    {
+                        albumList.Add(item.Album.DisplayPrice);
+                    }
+                    else
+                    {
+                        songList.Add(item.Song.DisplayPrice);
+                    }
+                    
+                }
+                decimal subtotal = new decimal();
+                foreach (decimal item in albumList)
+                {
+                    subtotal += item;
+                }
+                foreach (decimal item in songList)
+                {
+                    subtotal += item;
+                }
+                return subtotal;
             }
-            
-
-            return subtotal;
-
         }
         public decimal CalcTax(ShoppingCartViewModel shoppingCart)
         {
@@ -680,6 +741,21 @@ namespace Team7_LonghornMusic.Controllers
                 }
             }
             db.SaveChanges();
+        }
+        public void MakeDiscountsInitial()
+        {
+            foreach(Song item in db.Songs.ToList())
+            {
+                Discount discount = new Discount();
+                discount.Song = item;
+                db.Discounts.Add(discount);
+            }
+            foreach(Album item in db.Albums.ToList())
+            {
+                Discount discount = new Discount();
+                discount.Album = item;
+                db.Discounts.Add(discount);
+            }
         }
     }
 }
