@@ -389,7 +389,6 @@ namespace Team7_LonghornMusic.Controllers
         {
             Album albumToChange = db.Albums.Find(album.AlbumID);
 
-            albumToChange.AlbumSongs.Clear();
 
             //if (SelectedSongs != null)
             //{

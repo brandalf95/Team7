@@ -243,6 +243,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Messaging\EmailMessaging.cs" />
     <Compile Include="Migrations\201611171823220_InitialSetup.cs" />
     <Compile Include="Migrations\201611171823220_InitialSetup.Designer.cs">
       <DependentUpon>201611171823220_InitialSetup.cs</DependentUpon>

@@ -6,6 +6,9 @@ using Microsoft.Owin.Security;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Team7_LonghornMusic.Messaging;
+using System.Net.Mail;
+using System.Net;
 
 //TODO: Change the namespace here to match your project's name
 namespace Team7_LonghornMusic.Controllers
@@ -148,12 +151,12 @@ namespace Team7_LonghornMusic.Controllers
                     //sign the user in
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                    EmailMessaging.SendEmail(user.Email, "Welcome to LHM!", "Thank You for Joining Longhorn Music, " + user.FName + "!" );
+
                     //send them to the home page
                     return RedirectToAction("Index", "Home");
                 }
-
-                
-
+               
                 //if there was a problem, add the error messages to what we will display
                 AddErrors(result);
             }
