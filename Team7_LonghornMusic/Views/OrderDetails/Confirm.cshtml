@@ -1,73 +1,212 @@
 ﻿@model Team7_LonghornMusic.Models.ShoppingCartViewModel
-@{
-    Layout = null;
-}
 
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ShoppingCart</title>
-</head>
+<h2>My Shopping Cart</h2>
+
+
 <table class="table">
     <tr>
         <th>
             Song Title
         </th>
         <th>
+            Artist
+        </th>
+        <th>
+            Rating
+        </th>
+        <th>
             Song Price
         </th>
+        <th>
+            Discount Price
+        </th>
+        <th>
+            Savings Amount (if discounted)
+        </th>
+    </tr>
+    @foreach (var x in Model.OrderDetail.Discounts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => x.Song.SongTitle)
+            </td>
+            <td>
+                @if (x.Song != null)
+                {
+                    foreach (var y in x.Song.SongArtists)
+                    {
+                        @Html.DisplayFor(modelItem => y.ArtistName)}
+                }
+            </td>
+            <td>
+                @foreach (var y in Model.avgSongRatings)
+                {
+                    if (y.Song == x.Song)
+                    {
+                        @Html.DisplayFor(modelItem => y.AvgRating)}
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => x.Song.SongPrice)
+            </td>
+            <td>
+                @if (x.Song != null)
+                {
+                    if (x.Song.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgSongRatings)
+                        {
+                            if (x.Song.SongID == y.Song.SongID)
+                            {
+                                if (y.SavingsAmount != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => x.Song.DisplayPrice)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
+
+                    }
+                }
+            </td>
+            <td>
+                @if (x.Song != null)
+                {
+                    if (x.Song.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgSongRatings)
+                        {
+                            if (x.Song.SongID == y.Song.SongID)
+                            {
+                                if (y.SavingsAmount != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => y.SavingsAmount)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
+
+                    }
+                }
+            </td>
+        </tr>
+    }
+</table>
+<table class="table">
+    <tr>
         <th>
             Album Title
         </th>
         <th>
+            Artist
+        </th>
+        <th>
+            Rating
+        </th>
+        <th>
             Album Price
         </th>
-        @*<th>
-                Genre
-            </th>*@
-        @*<th>
-                Rating
-            </th>*@
-
+        <th>
+            Discount Price
+        </th>
+        <th>
+            Savings Amount (if discounted)
+        </th>
     </tr>
+    @foreach (var x in Model.OrderDetail.Discounts)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => x.Album.AlbumTitle)
+            </td>
+            <td>
+                @if (x.Album != null)
+                {
+                    foreach (var y in x.Album.AlbumArtists)
+                    {
+                        @Html.DisplayFor(modelItem => y.ArtistName)}
+                }
+            </td>
+            <td>
+                @foreach (var y in Model.avgAlbumRatings)
+                {
+                    if (y.Album == x.Album)
+                    {
+                        @Html.DisplayFor(modelItem => y.AvgRating)}
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => x.Album.AlbumPrice)
+            </td>
+            <td>
+                @if (x.Album != null)
+                {
+                    if (x.Album.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgAlbumRatings)
+                        {
+                            if (x.Album.AlbumID == y.Album.AlbumID)
+                            {
+                                if (y.SavingsAmount != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => x.Album.DisplayPrice)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
 
+                    }
+                }
+            </td>
+            <td>
+                @if (x.Album != null)
+                {
+                    if (x.Album.DiscountPrice != 0)
+                    {
+                        foreach (var y in Model.avgAlbumRatings)
+                        {
+                            if (x.Album.AlbumID == y.Album.AlbumID)
+                            {
+                                if (y.SavingsAmount != 0)
+                                {
+                                    @Html.DisplayFor(modelItem => y.SavingsAmount)}
+                                else
+                                {
+                                    @Html.Display("N/A")
+                                }
+                            }
+                        }
 
-    <tr>
-        <td>
-            @foreach (var x in Model.OrderDetail.Discounts)
-            {@Html.DisplayFor(modelItem => x.Song.SongTitle) }
-        </td>
-        @*<td>
-                @Html.DisplayFor(modelItem => item.IsFeatured)
-            </td>*@
-        <td>
-            @foreach (var x in Model.OrderDetail.Discounts)
-            {@Html.DisplayFor(modelItem => x.Song.SongPrice) }
-        </td>
-
-        <td>
-            @foreach (var x in Model.OrderDetail.Discounts)
-            {@Html.DisplayFor(modelItem => x.Album.AlbumTitle) }
-        </td>
-        <td>
-            @foreach (var x in Model.OrderDetail.Discounts)
-            {@Html.DisplayFor(modelItem => x.Album.AlbumPrice) }
-        </td>
-        <td></td>
-
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id = item.Song.SongID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Song.SongID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Song.SongID })*@
-        </td>
-
-
-
+                    }
+                }
+            </td>           
+        </tr>
+    }
 </table>
-@Html.DisplayFor(model => model.SubTotal)
-@Html.DisplayFor(model => model.Tax)
-@Html.DisplayFor(model => model.Total)
-@Html.DisplayFor(model => model.OrderDetail.CreditCardNumber)
+<p>
+    Cart Subtotal: $@Html.DisplayFor(model => model.SubTotal)
+</p>
+
+<p>
+    Cart Tax:      $@Html.DisplayFor(model => model.Tax)
+</p>
+
+<p>
+    Cart Total:    $@Html.DisplayFor(model => model.Total)
+</p>
+
+<p>
+    Cart Credit Card: @Html.DisplayFor(model => model.OrderDetail.CreditCardNumber)
+</p>
+
 
 @Html.ActionLink("Confirm", "ConfirmScreen", "OrderDetails", new { id = Model.OrderDetail.OrderDetailID }, null)
 
