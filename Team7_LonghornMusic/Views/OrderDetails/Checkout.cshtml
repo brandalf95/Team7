@@ -14,30 +14,43 @@
     @Html.ValidationSummary("", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.OrderDetailID)
     <div class="form-group">
-        If this is a gift, type the user email. Otherwise, put the number 1.
-        <div class="col-md-10">
+       
+        <div class="col-md-10"> 
+            If this is a gift, type the user email. Otherwise, put the number 1.
             @Html.TextBoxFor(m => m.GifteeEmail, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.CreditCardNumber, new { @class = "col-md-2 control-label" })
+        
         <div class="col-md-10">
+            New Credit Card Number:
             @Html.TextBoxFor(m => m.CreditCardNumber, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2">Credit Card Type</label>
+        
         <div class="col-md-10">
+            Credit Card Type:
             @Html.DropDownList("CreditCardType", (SelectList)ViewBag.TypeList, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-md-2">Or, Choose a Card on File!</label>
+    <div class="form-group">        
         <div class="col-md-10">
+            Choose a Credit Card on File: 
             @Html.DropDownList("OnFileCard", (SelectList)ViewBag.CreditCardList, new { @class = "form-control" })
         </div>
     </div>
-    
+    @*<p>
+        Cart Subtotal: $@Html.DisplayFor(model => model.SubTotal)
+    </p>
+
+    <p>
+        Cart Tax:      $@Html.DisplayFor(model => model.Tax)
+    </p>
+
+    <p>
+        Cart Total:    $@Html.DisplayFor(model => model.Total)
+    </p>*@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Checkout" class="btn btn-default" />
