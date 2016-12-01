@@ -337,7 +337,7 @@ namespace Team7_LonghornMusic.Controllers
                     return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "Must choose a card and type, unless choosing card on file." });
                 }
             }
-            if(OnFileCard != null)
+            if(Convert.ToInt32(OnFileCard) != 0)
             {
                 if (Convert.ToInt32(OnFileCard) == 1)
                 {
@@ -384,6 +384,70 @@ namespace Team7_LonghornMusic.Controllers
             return RedirectToAction("Confirm", shoppingCart);
         }
 
+        public ActionResult MyMusic(string UserName)
+        {
+            List<OrderDetail> orderList = new List<OrderDetail>();
+            orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            List<OrderDetail> newOrderList = new List<OrderDetail>();
+            foreach(OrderDetail item in orderList)
+            {
+                if (item.IsConfirmed == false)
+                {
+                    newOrderList.Remove(item);
+                }
+            }
+            List<Song> songList = new List<Song>();
+            newOrderList = orderList;
+            foreach(OrderDetail item in newOrderList)
+            {
+                foreach(Discount x in item.Discounts)
+                {
+                    if (x.Album != null)
+                    {
+                        foreach(Song y in x.Album.AlbumSongs)
+                        {
+                            songList.Add(y);
+                        }
+                    }else
+                    {
+                        songList.Add(x.Song);
+                    }
+                }
+            }
+            return View(songList);
+        }
+
+        public ActionResult OrderHistory(string UserName)
+        {
+            List<OrderDetail> orderList = new List<OrderDetail>();
+            List<OrderDetail> newOrderList = new List<OrderDetail>();
+            orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            newOrderList = orderList;
+            foreach(OrderDetail item in orderList)
+            {
+                if(item.IsConfirmed != true)
+                {
+                    newOrderList.Remove(item);
+                }
+                if(item.IsRefunded == true)
+                {
+                    newOrderList.Remove(item);
+                }
+            }
+            List<ShoppingCartViewModel> orders = new List<ShoppingCartViewModel>();
+            foreach(OrderDetail item in newOrderList)
+            {
+                ShoppingCartViewModel addOrder = new ShoppingCartViewModel();
+                addOrder.OrderDetail = item;
+                addOrder.SubTotal = CalcSubTotal(addOrder);
+                addOrder.Tax = CalcSubTotal(addOrder);
+                addOrder.Total = (addOrder.SubTotal + addOrder.Tax);
+                addOrder.DisplayCard = HideCard(item.CreditCardNumber);
+                orders.Add(addOrder);
+            }
+            return View(orders);
+        }
+
         public ActionResult Confirm(OrderDetail shoppingCart)
         {
             ShoppingCartViewModel newShoppingCart = new ShoppingCartViewModel();
@@ -408,10 +472,10 @@ namespace Team7_LonghornMusic.Controllers
             foreach(Discount item in shoppingCart.Discounts){
                 if(item.Album != null)
                 {
-                    db.OrderDetails.Find(shoppingCart.OrderDetailID).AlbumArchive.Add(item.Album);
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).Discounts.FirstOrDefault(a=>a.DiscountID.Equals(item.DiscountID)).DiscountAmt = item.Album.DisplayPrice;
                 }else
                 {
-                    db.OrderDetails.Find(shoppingCart.OrderDetailID).SongArchive.Add(item.Song);
+                    db.OrderDetails.Find(shoppingCart.OrderDetailID).Discounts.FirstOrDefault(a => a.DiscountID.Equals(item.DiscountID)).DiscountAmt = item.Song.DisplayPrice;
                 }
             }
             
@@ -504,30 +568,14 @@ namespace Team7_LonghornMusic.Controllers
             List<decimal> discountList = new List<decimal>();
             List<Discount> list = new List<Discount>();
             list = orderDetail.OrderDetail.Discounts.ToList();
-            foreach(Discount item in list)
-            {
-                if(item.Song == null)
-                {
-                    albumList.Add(item.Album.AlbumPrice);
-                }else
-                {
-                    songList.Add(item.Song.SongPrice);
-                }
-                discountList.Add(item.DiscountAmt);
-            }
             decimal subtotal = new decimal();
-            foreach(decimal item in albumList)
+            foreach (Discount item in list)
             {
-                subtotal += item;
+                subtotal += item.DiscountAmt;
+                
             }
-            foreach (decimal item in songList)
-            {
-                subtotal += item;
-            }
-            foreach (decimal item in discountList)
-            {
-                subtotal -= item;
-            }
+            
+
             return subtotal;
 
         }
@@ -582,6 +630,22 @@ namespace Team7_LonghornMusic.Controllers
                 return (0);
             }
             return (sum / count);
+        }
+        public void UpdateDiscountAmt(OrderDetail orderDetail)
+        {
+            
+            foreach (Discount item in orderDetail.Discounts)
+            {
+                if (item.Album != null)
+                {
+                    db.Discounts.Find(item.DiscountID).DiscountAmt = item.Album.DisplayPrice;
+                }
+                else
+                {
+                    db.Discounts.Find(item.DiscountID).DiscountAmt = item.Song.DisplayPrice;
+                }
+            }
+            db.SaveChanges();
         }
     }
 }

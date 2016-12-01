@@ -373,6 +373,8 @@
     <Content Include="Views\Home\ContentHome.cshtml" />
     <Content Include="Views\Home\ReviewHome.cshtml" />
     <Content Include="Views\Albums\SongSelection.cshtml" />
+    <Content Include="Views\OrderDetails\MyMusic.cshtml" />
+    <Content Include="Views\OrderDetails\OrderHistory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
