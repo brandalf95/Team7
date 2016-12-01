@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Team7_LonghornMusic.Models;
+using System.Text;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Team7_LonghornMusic.Messaging;
 
 namespace Team7_LonghornMusic.Controllers
 {
@@ -416,7 +418,39 @@ namespace Team7_LonghornMusic.Controllers
             }
             
             db.SaveChanges();
-         
+            StringBuilder strPurchasedItems = new StringBuilder();
+            foreach (Discount item in shoppingCart.Discounts)
+            {
+                if (item.Album != null && item.Song != null)
+                {
+                    strPurchasedItems.Append(item.Song.SongTitle + ": $" + item.Song.SongPrice);
+                    strPurchasedItems.AppendLine();
+                    strPurchasedItems.Append(item.Album.AlbumTitle + ": $" + item.Album.AlbumPrice);
+                }
+
+                if (item.Album != null && item.Song == null)
+                {
+                    strPurchasedItems.Append(item.Album.AlbumTitle + ": $" + item.Album.AlbumPrice);
+                    strPurchasedItems.AppendLine();
+                }
+
+                if (item.Album == null && item.Song != null)
+                {
+                    strPurchasedItems.Append(item.Song.SongTitle + ": $" + item.Song.SongPrice);
+                    strPurchasedItems.AppendLine();
+                }
+            }
+
+            if (shoppingCart.GifteeEmail.Length < 2)
+            {
+                EmailMessaging.SendEmail(shoppingCart.GifterEmail, "Thanks for the Purchase!", "You purchased the Following Items:    " + strPurchasedItems);
+            }
+
+            else
+            {
+                EmailMessaging.SendEmail(shoppingCart.GifterEmail, "Thanks for the Purchase!", "Your gift order has gone to " + shoppingCart.GifteeEmail);
+                EmailMessaging.SendEmail(shoppingCart.GifteeEmail, "You have a gift!", "You have received the following items:    " + strPurchasedItems);
+            }
 
             return View();
         }
