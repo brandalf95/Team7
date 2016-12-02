@@ -21,7 +21,7 @@ namespace Team7_LonghornMusic.Messaging
 
             //Add anything that you need to the body of the message
             // /n is a new line – this will add some white space after the main body of the message
-            String finalMessage = emailBody + "\n\n This is a disclaimer that will be on all    messages. ";
+            String finalMessage = emailBody + "\n\n Longhorn Music - 2016 - Team 7";
 
             //Create an email address object for the sender address
             MailAddress senderEmail = new MailAddress("team7lhm@gmail.com", "Longhorn Music");
