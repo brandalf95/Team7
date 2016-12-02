@@ -52,9 +52,52 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: ArtistReviews/Create
-        public ActionResult Create()
+        public ActionResult Create(Int32 ArtistID, string UserName)
         {
-            return View();
+            bool dummy = true;
+            List<OrderDetail> orders = new List<OrderDetail>();
+            orders = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            foreach(OrderDetail item in orders)
+            {
+                if(item.IsConfirmed && !(item.IsRefunded))
+                {
+                    foreach(Discount x in item.Discounts)
+                    {
+                        if(x.Song != null)
+                        {
+                            foreach(Artist y in x.Song.SongArtists)
+                            {
+                                if(y == db.Artists.Find(ArtistID))
+                                {
+                                    dummy = false;
+                                }
+                            }
+                        }else
+                        {
+                            if (x.Album != null)
+                            {
+                                foreach(Song z in x.Album.AlbumSongs) {
+                                    foreach (Artist y in z.SongArtists)
+                                    {
+                                        if (y == db.Artists.Find(ArtistID))
+                                        {
+                                            dummy = false;
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            if (dummy == false)
+            {
+                return View();
+            }else
+            {
+                return RedirectToAction("Index", "Artists", new { UserName = UserName, error = "You have to buy a song from the artist before you can review the artist." });
+            }
         }
 
         // POST: ArtistReviews/Create

@@ -424,8 +424,15 @@ namespace Team7_LonghornMusic.Controllers
 
         }
 
-        public ActionResult MyMusic(string UserName)
+        public ActionResult MyMusic(string UserName, string error)
         {
+            if(error == null)
+            {
+                ViewBag.Error = "";
+            }else
+            {
+                ViewBag.Error = error;
+            }
             List<OrderDetail> orderList = new List<OrderDetail>();
             orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
             List<OrderDetail> newOrderList = new List<OrderDetail>();
