@@ -207,7 +207,7 @@ namespace Team7_LonghornMusic.Controllers
                 
                 if(User.IsInRole("Customer"))
                 {
-                    return RedirectToAction("MyAccountIndex", "Home");
+                    return RedirectToAction("MyAccountIndex", "AppUsers");
                 }
 
                 if (User.IsInRole("Manager"))

@@ -227,7 +227,7 @@ namespace Team7_LonghornMusic.Controllers
                 }
             }
 
-            ViewBag.SelectedAlbumCount = "Displaying " + DisplayAlbums.Count() + " of " + TotalAlbums.Count() + " Records";
+            ViewBag.SelectedAlbumCount = "Displaying " + ratingList.Count() + " of " + TotalAlbums.Count() + " Records";
 
             return View("Index", ratingList);
         }
