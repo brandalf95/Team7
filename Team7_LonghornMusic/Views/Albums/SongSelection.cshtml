@@ -9,11 +9,11 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => Model.AlbumID);
 <div class="form-group">
     @Html.LabelFor(model => model.AlbumSongs, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.ListBox("SelectedSongs", (MultiSelectList)ViewBag.AllSongs, new { @class = "form-control" })
+        @Html.ListBox("SelectedSongs", (MultiSelectList)ViewBag.AllSongs, @*new { @class = "form-control" },*@ new { @style = "height: 400px;" })
     </div>
 </div>
 
