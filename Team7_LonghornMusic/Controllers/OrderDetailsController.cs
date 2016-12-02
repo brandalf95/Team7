@@ -205,6 +205,10 @@ namespace Team7_LonghornMusic.Controllers
                 ViewBag.Error = error;
             }
             OrderDetail orderDetail = db.OrderDetails.Find(id);
+            if(id == 0)
+            {
+                return RedirectToAction("Index","Home", new { error = "You cannot checkout with an empty shopping cart." });
+            }
             if (orderDetail.Discounts.ToArray().Length == 0)
             {
                 return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You cannot checkout with an empty shopping cart." });
