@@ -405,6 +405,14 @@ namespace Team7_LonghornMusic.Controllers
                 }
                 reports.Add(report);
             }
+            
+            return View(reports);
+
+        }
+
+        public ActionResult AlbumReport ()
+        {
+            List<Report> reports = new List<Report>();
             foreach (Album item in db.Albums.ToList())
             {
                 Report report = new Report();
@@ -421,9 +429,7 @@ namespace Team7_LonghornMusic.Controllers
                 reports.Add(report);
             }
             return View(reports);
-
         }
-
         public ActionResult MyMusic(string UserName)
         {
             List<OrderDetail> orderList = new List<OrderDetail>();

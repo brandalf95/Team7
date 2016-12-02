@@ -1,67 +1,85 @@
 ﻿@model IEnumerable<Team7_LonghornMusic.Models.Report>
-@{
+@*@{
     Layout = null;
-}
+}*@
 
-@foreach (var item in Model)
-{
-    if (item.Discount.Song != null) {
-    <table class="table">
-        <tr>
-            <th>
-                Song Title
-            </th>
-            <th>
-                Number of Purchases
-            </th>
-            <th>
-                Total Revenue
-            </th>
-        </tr>
+<h1> Master Song Report</h1>
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Discount.Song.SongTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPurchases)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Revenue)
-                </td>
 
-            </tr>
- 
-    </table>
-    } else {
-    <table class="table">
-        <tr>
-            <th>
-                Album Title
-            </th>
-            <th>
-                Artist
-            </th>
-            <th>
-                Price of Album When Bought
-            </th>
-        </tr>
 
+<table class="table">
+    <tr>
+        <th>
+            Song Title
+        </th>
+        <th>
+            Number of Purchases
+        </th>
+        <th>
+            Total Revenue
+        </th>
+    </tr>
         
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Discount.Album.AlbumTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPurchases)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Revenue)
-                </td>
+    @foreach (var item in Model)
+    {
 
-            </tr>
-        
-    </table>}
+            if (item.Discount.Song != null)
+            {
+        <tr>
+                <td>
+                     @Html.DisplayFor(modelItem => item.Discount.Song.SongTitle)
+                </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.TotalPurchases)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Revenue)
+        </td>
+           
+        </tr>
+            }
+    }
+</table>
+
+
+@*<h1>Master Album Report</h1>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Album Title
+        </th>
+        <th>
+            Artist
+        </th>
+        <th>
+            Price of Album When Bought
+        </th>
+    </tr>
+    @if (item.Discount.Album != null)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discount.Album.AlbumTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPurchases)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Revenue)
+        </td>
     
-}
+    </tr>
+    }
+</table>*@
+
+
+
+
+
+
+    

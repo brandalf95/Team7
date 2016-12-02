@@ -36,6 +36,11 @@ namespace Team7_LonghornMusic.Controllers
             return View();
         }
 
+        public ActionResult ReportHome()
+        {
+            return View();
+        }
+
         public ActionResult FiredHome()
         {
             return View();
