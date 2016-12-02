@@ -13,7 +13,6 @@
     Search: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
     <input type="submit" value="Search" class="btn btn-default" />
     @Html.ActionLink("Advanced Search", "DetailedSearch", "OrderDetails", new { UserName = User.Identity.Name }, new { @class = "btn btn-default" })
-    @Html.ActionLink("Show All", "MyMusic", null, new { @class = "btn btn-default" })
 </p>
 <p>
     @ViewBag.SelectedSongCount

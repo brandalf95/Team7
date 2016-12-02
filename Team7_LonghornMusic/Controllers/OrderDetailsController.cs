@@ -475,13 +475,16 @@ namespace Team7_LonghornMusic.Controllers
             if (SearchString == null || SearchString == "")
             {
                 SelectedSongs = SelectedSongs.ToList();
-                ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + "of" + TotalSongs;
+                TotalSongs = SelectedSongs.ToList();
+                ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + " of " + TotalSongs.Count() ;
             }
 
             else
             {
-                SelectedSongs = SelectedSongs.Where(a => a.SongTitle.Contains(SearchString)).ToList();
-                ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + "of" + TotalSongs;
+
+                SelectedSongs = SelectedSongs.Where(a => a.SongTitle.Contains(SearchString)).Distinct().ToList();
+                TotalSongs = TotalSongs.Distinct().ToList();
+                ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + " of " + TotalSongs.Count() + " Distinct Items";
             }
 
             SelectedSongs = SelectedSongs.OrderBy(a => a.SongTitle).ToList();
@@ -500,7 +503,37 @@ namespace Team7_LonghornMusic.Controllers
 
         public ActionResult SearchResults(string UserName, String SongSearchString, String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres, SortBy SelectedSortBy, SortOrder SelectedSortOrder)
         {
-            var query = from s in db.Songs
+            List<OrderDetail> orderList = new List<OrderDetail>();
+            orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            List<OrderDetail> newOrderList = new List<OrderDetail>();
+            foreach (OrderDetail item in orderList)
+            {
+                if (item.IsConfirmed == false)
+                {
+                    newOrderList.Remove(item);
+                }
+            }
+            List<Song> SelectedSongs = new List<Song>();
+            newOrderList = orderList;
+            foreach (OrderDetail item in newOrderList)
+            {
+                foreach (Discount x in item.Discounts)
+                {
+                    if (x.Album != null)
+                    {
+                        foreach (Song y in x.Album.AlbumSongs)
+                        {
+                            SelectedSongs.Add(y);
+                        }
+                    }
+                    else
+                    {
+                        SelectedSongs.Add(x.Song);
+                    }
+                }
+            }
+
+            var query = from s in SelectedSongs
                         select s;
 
 
@@ -560,9 +593,6 @@ namespace Team7_LonghornMusic.Controllers
                 }
             }
 
-
-            var TotalSongs = db.Songs.ToList();
-
             DisplaySongs = DisplaySongs.OrderBy(a => a.SongTitle).ToList();
 
             if (SelectedSortBy == SortBy.Song && SelectedSortOrder == SortOrder.Ascending)
@@ -611,8 +641,11 @@ namespace Team7_LonghornMusic.Controllers
                 DisplaySongs = (from a in DisplaySongs from g in a.SongGenres.Distinct() orderby g.GenreName descending select a).ToList();
                 DisplaySongs = DisplaySongs.Distinct().ToList();
             }
+            List<Song> TotalSongs = SelectedSongs.Distinct().ToList();
+            ViewBag.SelectedSongCount = "Displaying " + DisplaySongs.Count() + " of " + TotalSongs.Count() + " Distinct Items";
 
-            ViewBag.SelectedSongCount = "Displaying " + DisplaySongs.Count() + " of " + TotalSongs.Count() + " Records";
+
+
             List<Song> list = new List<Song>();
 
             return View ("MyMusic", DisplaySongs );
