@@ -28,6 +28,7 @@ namespace Team7_LonghornMusic.Messaging
 
 
             MailMessage mm = new MailMessage();
+            mm.IsBodyHtml = true;
             mm.Subject = emailSubject;
             mm.Sender = senderEmail;
             mm.From = senderEmail;
