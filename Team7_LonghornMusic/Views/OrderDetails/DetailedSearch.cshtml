@@ -1,0 +1,53 @@
+﻿@model Team7_LonghornMusic.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Detailed Search";
+}
+
+@using Team7_LonghornMusic.Controllers;
+
+<h2>Detailed Search</h2>
+
+@using (Html.BeginForm("SearchResults", "Songs", FormMethod.Get))
+{
+    <p class="form-group">
+        Song Title: @Html.TextBox("SongSearchString", null, new { @class = "form-control" }) <br />
+
+        Album: @Html.TextBox("AlbumSearchString", null, new { @class = "form-control" }) <br />
+
+        Artist: @Html.TextBox("ArtistSearchString", null, new { @class = "form-control" }) <br />
+
+        Genres: @Html.ListBox("SelectedGenres", (MultiSelectList)ViewBag.AllGenres, new { @class = "form-control" }) <br />
+
+        Sort By:
+        <div class="form-check">
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Song, true, new { @class = "form-check-input" }) Song
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Album, true, new { @class = "form-check-input" }) Album
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Artist, true, new { @class = "form-check-input" }) Artist
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortBy", SortBy.Genre, true, new { @class = "form-check-input" }) Genre
+            </label>
+        </div>
+
+        Sort Order:
+        <div class="form-check">
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortOrder", SortOrder.Ascending, true, new { @class = "form-check-input" }) Ascending
+            </label>
+            <label class="form-check-label">
+                @Html.RadioButton("SelectedSortOrder", SortOrder.Descending, true, new { @class = "form-check-input" }) Descending
+            </label>
+        </div>
+
+        <input type="submit" value="Search" class="btn btn-default" />
+
+    </p>
+
+}
+

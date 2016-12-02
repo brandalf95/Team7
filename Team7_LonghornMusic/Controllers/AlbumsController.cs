@@ -351,7 +351,8 @@ namespace Team7_LonghornMusic.Controllers
 
                     db.Albums.Add(album);
                     db.SaveChanges();
-                    return RedirectToAction("SongSelection");
+                    Album AlbumJustAdded = db.Albums.FirstOrDefault(x => x.AlbumTitle == album.AlbumTitle && x.AlbumPrice == album.AlbumPrice);
+                    return RedirectToAction("SongSelection", AlbumJustAdded);
                 }
 
                 else
@@ -367,43 +368,6 @@ namespace Team7_LonghornMusic.Controllers
             ViewBag.AllArtists = GetAllArtists();
             return View(album);
         }
-
-        public ActionResult SongSelection(int? id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            Album album = db.Albums.Find(id);
-            //if (album == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            ViewBag.AllSongs = GetAllSongs(album);
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SongSelection([Bind(Include = "AlbumID")] Album album, int[] SelectedSongs)
-        {
-            Album albumToChange = db.Albums.Find(album.AlbumID);
-
-
-            //if (SelectedSongs != null)
-            //{
-                foreach (int SongID in SelectedSongs)
-                {
-                    Song songToAdd = db.Songs.Find(SongID);
-                    albumToChange.AlbumSongs.Add(songToAdd);
-                }
-
-                db.Entry(albumToChange).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-             //}
-        }
-
 
         // GET: Albums/Edit/5
         public ActionResult Edit(int? id)
@@ -466,7 +430,8 @@ namespace Team7_LonghornMusic.Controllers
 
                     db.Entry(albumToChange).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    Album AlbumJustEdited = db.Albums.FirstOrDefault(x => x.AlbumTitle == album.AlbumTitle && x.AlbumPrice == album.AlbumPrice);
+                    return RedirectToAction("SongSelection", AlbumJustEdited);
                 }
 
                 else
@@ -483,7 +448,45 @@ namespace Team7_LonghornMusic.Controllers
             return View(album);
 
         }
-        
+
+        public ActionResult SongSelection(int? id)
+        {
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            Album album = db.Albums.Find(id);
+            //if (album == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            ViewBag.AllSongs = GetAllSongs(album);
+            return View(album);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SongSelection(Album album, String AlbumID, int[] SelectedSongs)
+        {
+            Album albumToChange = db.Albums.FirstOrDefault(a => a.AlbumTitle == album.AlbumTitle && a.AlbumPrice == album.AlbumPrice);
+
+            albumToChange.AlbumSongs.Clear();
+
+
+            //if (SelectedSongs != null)
+            //{
+            foreach (int SongID in SelectedSongs)
+            {
+                Song songToAdd = db.Songs.Find(SongID);
+                albumToChange.AlbumSongs.Add(songToAdd);
+            }
+
+            db.Entry(albumToChange).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            //}
+        }
+
 
         // GET: Albums/Delete/5
         public ActionResult Delete(int? id)

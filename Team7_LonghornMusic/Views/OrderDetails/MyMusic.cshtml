@@ -1,10 +1,21 @@
 ﻿@model IEnumerable < Team7_LonghornMusic.Models.Song >
 
+@ViewBag.Error
 
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>MyMusic</title>
 </head>
+
+<p class="form-group">
+    Search: @Html.TextBox("SearchString", null, new { @class = "form-control" }) <br />
+    <input type="submit" value="Search" class="btn btn-default" />
+    @Html.ActionLink("Advanced Search", "DetailedSearch", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Show All", "MyMusic", null, new { @class = "btn btn-default" })
+</p>
+<p>
+    @ViewBag.SelectedSongCount
+</p>
 
 <table class="table">
     <tr>
