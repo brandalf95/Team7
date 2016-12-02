@@ -1,0 +1,47 @@
+﻿
+@model IEnumerable<Team7_LonghornMusic.Models.Report>
+@*@{
+        Layout = null;
+    }*@
+
+<h1> Master Album Report</h1>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Album Title
+        </th>
+        <th>
+            Number of Purchases
+        </th>
+        <th>
+            Total Revenue
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        if (item.Discount.Album != null)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount.Album.AlbumTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPurchases)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Revenue)
+                </td>
+
+            </tr>
+        }
+    }
+</table>
+
+

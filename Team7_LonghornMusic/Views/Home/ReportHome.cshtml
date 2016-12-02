@@ -1,0 +1,19 @@
+﻿
+
+@{
+    ViewBag.Title = "ReportHome";
+}
+
+<h2>Longhorn Music Product Reports</h2>
+
+<p>
+    <input type="button" class="btn btn-primary" value="View Song Report" onclick="location.href='@Url.Action("Report", "OrderDetails")'" />
+</p>
+
+<p>
+    <input type="button" class="btn btn-primary" value="View Album Report" onclick="location.href='@Url.Action("AlbumReport", "OrderDetails")'" />
+</p>
+
+<p>
+    <input type="button" class="btn btn-primary" value="View Artist Report" onclick="location.href='@Url.Action("Index", "Artists")'" />
+</p>

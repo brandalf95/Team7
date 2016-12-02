@@ -386,6 +386,45 @@ namespace Team7_LonghornMusic.Controllers
             return RedirectToAction("Confirm", shoppingCart);
         }
 
+        //public ActionResult Report()
+        //{
+
+        //    List<Report> reports = new List<Report>();
+        //    foreach (Song item in db.Songs.ToList())
+        //    {
+        //        Report report = new Report();
+        //        report.Discount = new Discount();
+        //        report.Discount.Song = item;
+        //        foreach (Discount x in db.Discounts.ToList())
+        //        {
+        //            if (x.Song != null && x.Song == item && x.DiscountAmt != 0)
+        //            {
+        //                report.TotalPurchases += 1;
+        //                report.Revenue += x.DiscountAmt;
+        //            }
+        //        }
+        //        reports.Add(report);
+        //    }
+        //    foreach (Album item in db.Albums.ToList())
+        //    {
+        //        Report report = new Report();
+        //        report.Discount = new Discount();
+        //        report.Discount.Album = item;
+        //        foreach (Discount x in db.Discounts.ToList())
+        //        {
+        //            if (x.Album != null && x.Album == item && x.DiscountAmt != 0)
+        //            {
+        //                report.TotalPurchases += 1;
+        //                report.Revenue += x.DiscountAmt;
+        //            }
+        //        }
+        //        reports.Add(report);
+        //    }
+        //    return View(reports);
+
+        //}
+
+
         public ActionResult Report()
         {
 
@@ -405,6 +444,14 @@ namespace Team7_LonghornMusic.Controllers
                 }
                 reports.Add(report);
             }
+
+            return View(reports);
+
+        }
+
+        public ActionResult AlbumReport()
+        {
+            List<Report> reports = new List<Report>();
             foreach (Album item in db.Albums.ToList())
             {
                 Report report = new Report();
@@ -421,8 +468,9 @@ namespace Team7_LonghornMusic.Controllers
                 reports.Add(report);
             }
             return View(reports);
-
         }
+
+
 
         public ActionResult MyMusic(string UserName, string error, List<Song> list, string SearchString)
         {
