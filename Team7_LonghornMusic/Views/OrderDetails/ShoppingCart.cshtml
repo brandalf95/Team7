@@ -197,7 +197,7 @@
             </td>
             <td>
                 @if (x.Album != null) {
-                @Html.ActionLink("Delete", "Delete", new { DiscountID = x.DiscountID, OrderID = Model.OrderDetail.OrderDetailID })}
+                @Html.ActionLink("Delete", "Delete", "OrderDetails", new { discountID = x.DiscountID, OrderID = Model.OrderDetail.OrderDetailID },null)}
             </td>
         </tr>
     }

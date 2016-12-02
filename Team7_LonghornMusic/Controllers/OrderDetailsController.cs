@@ -267,8 +267,10 @@ namespace Team7_LonghornMusic.Controllers
                 {
                     if (orderDetail.Discounts[j].Album != null)
                     {
-                        return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs or albums." });
-
+                        if (orderDetail.Discounts[j].Album == orderDetail.Discounts[i].Album)
+                        {
+                            return RedirectToAction("ShoppingCart", new { UserName = orderDetail.User.UserName, error = "You can't have duplicate songs or albums." });
+                        }
                     }
                 }
                 i -= 1;
@@ -887,7 +889,8 @@ namespace Team7_LonghornMusic.Controllers
             //        db.OrderDetails.Find(OrderID).Discounts.Remove(Discount);
             //    }
             //}
-            db.OrderDetails.Find(OrderID).Discounts.Remove(db.Discounts.Find(discountID));
+            Discount discount = db.Discounts.Find(discountID);
+            db.OrderDetails.Find(OrderID).Discounts.Remove(discount);
             db.SaveChanges();
             OrderDetail orderDetail = db.OrderDetails.Find(OrderID);
             if (orderDetail == null)
