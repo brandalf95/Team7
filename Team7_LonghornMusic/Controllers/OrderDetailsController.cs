@@ -462,6 +462,7 @@ namespace Team7_LonghornMusic.Controllers
         {
             db.OrderDetails.Find(OrderDetailID).IsRefunded = true;
             db.SaveChanges();
+            EmailMessaging.SendEmail(db.OrderDetails.Find(OrderDetailID).User.Email, "Your Order has been Refunded", "The Items have been removed from your music.");
             return View("FinishedRefund");
         }
         public ActionResult Report()
@@ -531,16 +532,16 @@ namespace Team7_LonghornMusic.Controllers
             List<OrderDetail> orderList = new List<OrderDetail>();
             orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
             List<OrderDetail> newOrderList = new List<OrderDetail>();
-            foreach(OrderDetail item in orderList)
+            foreach (OrderDetail item in orderList)
             {
-                if (item.IsConfirmed == false)
+                if (item.IsConfirmed != false && item.IsRefunded != true)
                 {
-                    newOrderList.Remove(item);
+                    newOrderList.Add(item);
                 }
             }
             List<Song> SelectedSongs = new List<Song>();
-            newOrderList = orderList;
-            foreach(OrderDetail item in newOrderList)
+
+            foreach (OrderDetail item in newOrderList)
             {
                 foreach(Discount x in item.Discounts)
                 {
