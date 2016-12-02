@@ -462,7 +462,7 @@ namespace Team7_LonghornMusic.Controllers
         {
             db.OrderDetails.Find(OrderDetailID).IsRefunded = true;
             db.SaveChanges();
-            return View("Index","Home");
+            return View("FinishedRefund");
         }
         public ActionResult Report()
         {
@@ -483,7 +483,7 @@ namespace Team7_LonghornMusic.Controllers
                 }
                 reports.Add(report);
             }
-
+            ViewBag.SongCount = "Displaying " + reports.Count() + " Records";
             return View(reports);
 
         }
@@ -506,6 +506,7 @@ namespace Team7_LonghornMusic.Controllers
                 }
                 reports.Add(report);
             }
+            ViewBag.AlbumCount = "Displaying " + reports.Count() + " Records";
             return View(reports);
         }
 

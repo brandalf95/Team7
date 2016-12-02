@@ -10,7 +10,8 @@
 <body>
     <div> 
         Are you sure you want to refund?
-        @Html.ActionLink("I'm sure.", "RefundConfirm", "OrderDetails", new { OrderDetailID = Model.OrderDetailID},null)
+        <input type="button" class="btn btn-primary" value="Yes, I'm Sure" onclick="location.href='@Url.Action("RefundConfirm", "OrderDetails", new { OrderDetailID = Model.OrderDetailID},null )'" />
+        @*@Html.ActionLink("I'm sure.", "RefundConfirm", "OrderDetails", new { OrderDetailID = Model.OrderDetailID},null)*@
     </div>
 </body>
 </html>

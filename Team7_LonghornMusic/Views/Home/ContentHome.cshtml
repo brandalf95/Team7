@@ -19,14 +19,17 @@
 @if (User.IsInRole("Manager"))
 {
     <p>
-        <input type="button" class="btn btn-primary" value="Create Songs" onclick="location.href='@Url.Action("Create", "Songs")'" />
+        <input type="button" class="btn btn-primary" value="Edit Genres" onclick="location.href='@Url.Action("Index", "Genres")'" />
     </p>
     <p>
-        <input type="button" class="btn btn-primary" value="Create Albums" onclick="location.href='@Url.Action("Create", "Albums")'" />
+        <input type="button" class="btn btn-primary" value="Create Song" onclick="location.href='@Url.Action("Create", "Songs")'" />
+    </p>
+    <p>
+        <input type="button" class="btn btn-primary" value="Create Album" onclick="location.href='@Url.Action("Create", "Albums")'" />
     </p>
 
     <p>
-        <input type="button" class="btn btn-primary" value="Create Artists" onclick="location.href='@Url.Action("Create", "Artists")'" />
+        <input type="button" class="btn btn-primary" value="Create Artist" onclick="location.href='@Url.Action("Create", "Artists")'" />
     </p>
 
     <p>
