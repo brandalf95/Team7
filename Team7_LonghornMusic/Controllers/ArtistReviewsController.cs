@@ -52,11 +52,11 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: ArtistReviews/Create
-        public ActionResult Create(Int32 ArtistID, string UserName)
+        public ActionResult Create(Int32 ArtistID, string UserID)
         {
             bool dummy = true;
             List<OrderDetail> orders = new List<OrderDetail>();
-            orders = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            orders = db.OrderDetails.Where(a => a.User.UserName.Contains(UserID)).ToList();
             foreach(OrderDetail item in orders)
             {
                 if(item.IsConfirmed && !(item.IsRefunded))
@@ -74,8 +74,14 @@ namespace Team7_LonghornMusic.Controllers
                             }
                         }else
                         {
-                            if (x.Album != null)
-                            {
+                            
+                                foreach(Artist a in x.Album.AlbumArtists)
+                                {
+                                    if (a == db.Artists.Find(ArtistID))
+                                    {
+                                        dummy = false;
+                                    }
+                                }
                                 foreach(Song z in x.Album.AlbumSongs) {
                                     foreach (Artist y in z.SongArtists)
                                     {
@@ -87,7 +93,7 @@ namespace Team7_LonghornMusic.Controllers
                                 }
                                 
                             }
-                        }
+                        
                     }
                 }
             }
@@ -96,7 +102,7 @@ namespace Team7_LonghornMusic.Controllers
                 return View();
             }else
             {
-                return RedirectToAction("Index", "Artists", new { UserName = UserName, error = "You have to buy a song from the artist before you can review the artist." });
+                return RedirectToAction("Index", "Artists", new { UserName = UserID, error = "You have to buy a song from the artist before you can review the artist." });
             }
         }
 
@@ -105,13 +111,13 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, string UserName, Int32 ArtistID)
+        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, string UserID, Int32 ArtistID)
         {
             if (ModelState.IsValid)
             {
                 artistReview.Artist = db.Artists.Find(ArtistID);
                 List<AppUser> theseUsers = new List<AppUser>();
-                theseUsers = db.Users.Where(a=>a.UserName.Contains(UserName)).ToList();
+                theseUsers = db.Users.Where(a=>a.UserName.Contains(UserID)).ToList();
                 int i = 0;
                 artistReview.User = theseUsers[0];
 
