@@ -146,7 +146,7 @@ namespace Team7_LonghornMusic.Controllers
 
                 if (result.Succeeded) //user was created successfully
                 {
-                    await UserManager.AddToRoleAsync(user.Id, "Customer"); 
+                    //await UserManager.AddToRoleAsync(user.Id, "Customer"); 
 
                     //sign the user in
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);

@@ -21,7 +21,6 @@ namespace Team7_LonghornMusic.Migrations
         protected override void Seed(Team7_LonghornMusic.Models.AppDbContext context)
         {
 
-            
 
             Artist c1 = new Artist();
             c1.ArtistName = "LMFAO";
@@ -611,7 +610,7 @@ namespace Team7_LonghornMusic.Migrations
             c580.ArtistGenres.Add(context.Genres.FirstOrDefault(g => g.GenreName == "Hip Hop/Rap"));
             context.Artists.AddOrUpdate(a => a.ArtistName, c580);
             context.SaveChanges();
-            
+
             Artist c59 = new Artist();
             c59.ArtistName = "Julian Smith";
             context.Artists.AddOrUpdate(a => a.ArtistName, c59);
@@ -5273,6 +5272,8 @@ namespace Team7_LonghornMusic.Migrations
             s355.SongAlbums.Add(context.Albums.FirstOrDefault(g => g.AlbumTitle == ""));
             context.Songs.AddOrUpdate(a => a.SongTitle, s355);
             context.SaveChanges();
+
+
 
         }
     }

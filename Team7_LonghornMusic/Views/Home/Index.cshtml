@@ -19,6 +19,10 @@
     <input type="button" class="btn btn-primary" value="Browse Artists" onclick="location.href='@Url.Action("Index", "Artists")'" />
 </p>
 
+<p>
+    <input type="button" class="btn btn-primary" value="Promote/Fire Employee" onclick="location.href='@Url.Action("Index", "RoleAdmin")'" />
+</p>
+
 
 @if (User.IsInRole("Manager"))
 {
