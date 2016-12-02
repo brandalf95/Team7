@@ -248,8 +248,7 @@ namespace Team7_LonghornMusic.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditEmployee([Bind(Include = "Id,Address,City,State,ZipCode,PhoneNumber")] AppUser appUser)
         {
-            if (ModelState.IsValid)
-            {
+            
                 AppUser appUserToChange = db.Users.Find(appUser.Id);
 
                 appUserToChange.Address = appUser.Address;
@@ -262,14 +261,14 @@ namespace Team7_LonghornMusic.Controllers
                 db.SaveChanges();
 
                 
-                if (User.IsInRole("Employee"))
-                {
-                    return RedirectToAction("Index","Home");
-                }
+                //if (User.IsInRole("Employee"))
+                //{
+                //    return RedirectToAction("Index","Home");
+                //}
 
 
 
-            }
+            
 
             return RedirectToAction("MyAccountIndex","AppUsers");
         }
