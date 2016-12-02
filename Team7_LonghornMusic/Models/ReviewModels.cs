@@ -13,9 +13,10 @@ namespace Team7_LonghornMusic.Models
         public Int32 SongReviewID { get; set; }
 
         [Required]
+        [Range(1, 5, ErrorMessage = "Please keep the rating between 1 and 5")]
         public Int32 Rating { get; set; }
 
-        //TODO: Add regex for comment
+        [StringLength(100, ErrorMessage = "Please keep reviews to 100 or fewer characters.")]
         public String Comment { get; set; }
 
         public virtual Song Song { get; set; }
@@ -28,9 +29,11 @@ namespace Team7_LonghornMusic.Models
         public Int32 ArtistReviewID { get; set; }
 
         [Required]
+        [Range(1, 5, ErrorMessage = "Please keep the rating between 1 and 5")]
         public Int32 Rating { get; set; }
 
         //TODO: Add regex for comment
+        [StringLength(100, ErrorMessage = "Please keep reviews to 100 or fewer characters.")]
         public String Comment { get; set; }
 
         public virtual Artist Artist { get; set; }
@@ -43,9 +46,11 @@ namespace Team7_LonghornMusic.Models
         public Int32 AlbumReviewID { get; set; }
 
         [Required]
+        [Range(1, 5, ErrorMessage = "Please keep the rating between 1 and 5")]
         public Int32 Rating { get; set; }
 
         //TODO: Add regex for comment
+        [StringLength(100, ErrorMessage = "Please keep reviews to 100 or fewer characters.")]
         public String Comment { get; set; }
 
         public virtual Album Album { get; set; }
