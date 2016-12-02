@@ -348,7 +348,7 @@ namespace Team7_LonghornMusic.Controllers
             AppUser appUser = db.Users.Find(id);
             db.Users.Remove(appUser);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)
