@@ -424,8 +424,17 @@ namespace Team7_LonghornMusic.Controllers
 
         }
 
-        public ActionResult MyMusic(string UserName)
+        public ActionResult MyMusic(string UserName, string error)
         {
+            if (error == null)
+            {
+                ViewBag.Error = "";
+            }
+            else
+            {
+                ViewBag.Error = error;
+            }
+
             List<OrderDetail> orderList = new List<OrderDetail>();
             orderList = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
             List<OrderDetail> newOrderList = new List<OrderDetail>();
@@ -455,6 +464,133 @@ namespace Team7_LonghornMusic.Controllers
                 }
             }
             return View(songList);
+        }
+
+        public ActionResult DetailedSearch()
+        {
+            ViewBag.AllGenres = GetAllGenres();
+            ViewBag.AllArtists = GetAllArtists();
+            ViewBag.AllAlbums = GetAllAlbums();
+            return View();
+        }
+
+        public ActionResult SearchResults(String SongSearchString, String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres, SortBy SelectedSortBy, SortOrder SelectedSortOrder)
+        {
+            var query = from s in db.Songs
+                        select s;
+
+
+            //code for song textbox
+            if (SongSearchString == null || SongSearchString == "")
+            {
+                query = query.Where(s => s.SongTitle != null);
+            }
+            else
+            {
+                query = query.Where(s => s.SongTitle.Contains(SongSearchString));
+            }
+
+            //code for Album textbox
+            if (AlbumSearchString == null || AlbumSearchString == "")
+            {
+                query = from s in query from al in s.SongAlbums where al.AlbumTitle != null select s;
+            }
+            else
+            {
+                query = from s in query from al in s.SongAlbums where al.AlbumTitle.Contains(AlbumSearchString) select s;
+            }
+
+            //code for artist textbox
+            if (ArtistSearchString == null || ArtistSearchString == "")
+            {
+                query = from s in query from ar in s.SongArtists where ar.ArtistName != null select s;
+            }
+            else
+            {
+                query = from s in query from ar in s.SongArtists where ar.ArtistName.Contains(ArtistSearchString) select s;
+            }
+
+            List<Song> DisplaySongs = new List<Song>();
+
+            //code for genre filter
+            if (SelectedGenres != null)
+            {
+                foreach (int i in SelectedGenres)
+                {
+                    List<Song> SongsFound = query.Where(a => a.SongGenres.Any(g => g.GenreID == i)).ToList();
+
+                    foreach (Song a in SongsFound)
+                    {
+                        DisplaySongs.Add(a);
+                    }
+                }
+            }
+
+            else
+            {
+                List<Song> SongsFound = query.Where(a => a.SongGenres.Any()).ToList();
+
+                foreach (Song a in SongsFound)
+                {
+                    DisplaySongs.Add(a);
+                }
+            }
+
+
+            var TotalSongs = db.Songs.ToList();
+
+            DisplaySongs = DisplaySongs.OrderBy(a => a.SongTitle).ToList();
+
+            if (SelectedSortBy == SortBy.Song && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = DisplaySongs.OrderBy(a => a.SongTitle).ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Song && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = DisplaySongs.OrderByDescending(a => a.SongTitle).ToList();
+
+            }
+
+            if (SelectedSortBy == SortBy.Album && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = (from a in DisplaySongs from al in a.SongAlbums.Distinct() orderby al.AlbumTitle select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Album && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = (from a in DisplaySongs from al in a.SongAlbums.Distinct() orderby al.AlbumTitle descending select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Artist && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = (from a in DisplaySongs from ar in a.SongArtists.Distinct() orderby ar.ArtistName select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Artist && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = (from a in DisplaySongs from ar in a.SongArtists.Distinct() orderby ar.ArtistName descending select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Genre && SelectedSortOrder == SortOrder.Ascending)
+            {
+                DisplaySongs = (from a in DisplaySongs from g in a.SongGenres.Distinct() orderby g.GenreName select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            if (SelectedSortBy == SortBy.Genre && SelectedSortOrder == SortOrder.Descending)
+            {
+                DisplaySongs = (from a in DisplaySongs from g in a.SongGenres.Distinct() orderby g.GenreName descending select a).ToList();
+                DisplaySongs = DisplaySongs.Distinct().ToList();
+            }
+
+            ViewBag.SelectedSongCount = "Displaying " + DisplaySongs.Count() + " of " + TotalSongs.Count() + " Records";
+
+            return View("Index", DisplaySongs);
         }
 
         public ActionResult OrderHistory(string UserName)
@@ -758,6 +894,41 @@ namespace Team7_LonghornMusic.Controllers
                 db.Discounts.Add(discount);
             }
             db.SaveChanges();
+        }
+
+        public MultiSelectList GetAllGenres()
+        {
+            var query = from c in db.Genres
+                        orderby c.GenreName
+                        select c;
+
+            List<Genre> allGenres = query.ToList();
+
+            MultiSelectList GenreList = new MultiSelectList(allGenres.OrderBy(g => g.GenreName), "GenreID", "GenreName");
+            return GenreList;
+        }
+
+        public MultiSelectList GetAllArtists()
+        {
+            var query = from c in db.Artists
+                        orderby c.ArtistName
+                        select c;
+
+            List<Artist> allArtists = query.ToList();
+
+            MultiSelectList ArtistList = new MultiSelectList(allArtists.OrderBy(a => a.ArtistName), "ArtistID", "ArtistName");
+            return ArtistList;
+        }
+
+        public MultiSelectList GetAllAlbums()
+        {
+            var query = from c in db.Albums
+                        orderby c.AlbumTitle
+                        select c;
+            List<Album> allAlbums = query.ToList();
+
+            MultiSelectList AlbumList = new MultiSelectList(allAlbums.OrderBy(a => a.AlbumTitle), "AlbumID", "AlbumTitle");
+            return AlbumList;
         }
     }
 }

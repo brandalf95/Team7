@@ -13,7 +13,7 @@ namespace Team7_LonghornMusic.Controllers
 
     public enum RatingFilter { Greater, Less }
 
-    public enum SortBy { Artist, Album, Rating, Song}
+    public enum SortBy { Artist, Album, Rating, Song, Genre}
 
     public enum SortOrder { Ascending, Descending}
 
