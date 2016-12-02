@@ -15,8 +15,16 @@ namespace Team7_LonghornMusic.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: Songs
-        public ActionResult Index(String SearchString)
+        public ActionResult Index(String SearchString, string error)
         {
+            if(error == null)
+            {
+                ViewBag.Error = "";
+            }
+            else
+            {
+                ViewBag.Error = error;
+            }
             List<Song> SelectedSongs = new List<Song>();
             List<Song> TotalSongs  = new List<Song>();
             TotalSongs = db.Songs.ToList();

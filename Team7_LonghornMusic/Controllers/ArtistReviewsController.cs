@@ -105,13 +105,13 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, string UserID, Int32 ArtistID)
+        public ActionResult Create([Bind(Include = "ArtistReviewID,Rating,Comment")] ArtistReview artistReview, string UserName, Int32 ArtistID)
         {
             if (ModelState.IsValid)
             {
                 artistReview.Artist = db.Artists.Find(ArtistID);
                 List<AppUser> theseUsers = new List<AppUser>();
-                theseUsers = db.Users.Where(a=>a.UserName.Contains(UserID)).ToList();
+                theseUsers = db.Users.Where(a=>a.UserName.Contains(UserName)).ToList();
                 int i = 0;
                 artistReview.User = theseUsers[0];
 

@@ -99,7 +99,7 @@
 
          @if (User.IsInRole("Customer") @*AND HAS PURCHASED ALBUM CLAUSE*@)
          {
-             <input type="button" class="btn btn-primary" value="Review this Album" onclick="location.href='@Url.Action("Create", "AlbumReviews", new { AlbumID = Model.Album.AlbumID, UserID = User.Identity.Name }, null)'" />
+             <input type="button" class="btn btn-primary" value="Review this Album" onclick="location.href='@Url.Action("Create", "AlbumReviews", new { AlbumID = Model.Album.AlbumID, UserName = User.Identity.Name }, null)'" />
          }
          @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
          {

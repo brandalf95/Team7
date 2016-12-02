@@ -52,8 +52,53 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: SongReviews/Create
-        public ActionResult Create()
+        public ActionResult Create(Int32 SongID, string UserName)
         {
+            bool dummy = true;
+            List<OrderDetail> orders = new List<OrderDetail>();
+            orders = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            foreach (OrderDetail item in orders)
+            {
+                if (item.IsConfirmed && !(item.IsRefunded))
+                {
+                    foreach (Discount x in item.Discounts)
+                    {
+                        if (x.Song != null)
+                        {
+                            
+                                if (x.Song == db.Songs.Find(SongID))
+                                {
+                                    dummy = false;
+                                }
+                  
+                        }
+                        else
+                        {
+                            if (x.Album != null)
+                            {
+                                foreach (Song z in x.Album.AlbumSongs)
+                                {
+                                    
+                                        if (z == db.Songs.Find(SongID))
+                                        {
+                                            dummy = false;
+                                        }
+                                    
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+            if (dummy == false)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Songs", new { UserName = UserName, error = "You have to buy a song to review it." });
+            }
             return View();
         }
 
@@ -62,11 +107,11 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SongReviewID,Rating,Comment")] SongReview songReview, string UserID, Int32 SongID)
+        public ActionResult Create([Bind(Include = "SongReviewID,Rating,Comment")] SongReview songReview, string UserName, Int32 SongID)
         {
             songReview.Song = db.Songs.Find(SongID);
             List<AppUser> theseUsers = new List<AppUser>();
-            theseUsers = db.Users.Where(a => a.UserName.Contains(UserID)).ToList();
+            theseUsers = db.Users.Where(a => a.UserName.Contains(UserName)).ToList();
             int i = 0;
             songReview.User = theseUsers[0];
 

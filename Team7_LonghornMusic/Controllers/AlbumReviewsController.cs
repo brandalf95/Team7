@@ -52,9 +52,43 @@ namespace Team7_LonghornMusic.Controllers
         }
 
         // GET: AlbumReviews/Create
-        public ActionResult Create()
+        public ActionResult Create(Int32 AlbumID, string UserName)
         {
-            return View();
+            bool dummy = true;
+            List<OrderDetail> orders = new List<OrderDetail>();
+            orders = db.OrderDetails.Where(a => a.User.UserName.Contains(UserName)).ToList();
+            foreach (OrderDetail item in orders)
+            {
+                if (item.IsConfirmed && !(item.IsRefunded))
+                {
+                    foreach (Discount x in item.Discounts)
+                    {
+                        
+                            if (x.Album != null)
+                            {
+                                
+
+                                    if (x.Album == db.Albums.Find(AlbumID))
+                                    {
+                                        dummy = false;
+                                    }
+
+                                
+
+                            }
+                        
+                    }
+                }
+            }
+            if (dummy == false)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Albums", new { UserName = UserName, error = "You have to buy an album to review it." });
+            }
+
         }
 
         // POST: AlbumReviews/Create
@@ -62,13 +96,13 @@ namespace Team7_LonghornMusic.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AlbumReviewID,Rating,Comment")] AlbumReview albumReview, string UserID, Int32 AlbumID)
+        public ActionResult Create([Bind(Include = "AlbumReviewID,Rating,Comment")] AlbumReview albumReview, string UserName, Int32 AlbumID)
         {
 
 
             albumReview.Album = db.Albums.Find(AlbumID);
             List<AppUser> theseUsers = new List<AppUser>();
-            theseUsers = db.Users.Where(a => a.UserName.Contains(UserID)).ToList();
+            theseUsers = db.Users.Where(a => a.UserName.Contains(UserName)).ToList();
             int i = 0;
             albumReview.User = theseUsers[0];
 
