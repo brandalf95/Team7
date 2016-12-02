@@ -280,8 +280,8 @@ namespace Team7_LonghornMusic.Controllers
             SelectList list = new SelectList(new List<SelectListItem>
             {
                 new SelectListItem {Selected = true, Text = "None", Value = "0" },
-                new SelectListItem {Selected = false, Text = HideCard(orderDetail.User.CreditCardOne), Value = "1" },
-                new SelectListItem {Selected = false, Text = HideCard(orderDetail.User.CreditCardTwo), Value = "2" },
+                new SelectListItem {Selected = false, Text = HideCard(orderDetail.User.CreditCardOne) + " " + Convert.ToString(orderDetail.User.CreditCardTypeOne), Value = "1" },
+                new SelectListItem {Selected = false, Text = HideCard(orderDetail.User.CreditCardTwo) + " " + Convert.ToString(orderDetail.User.CreditCardTypeTwo), Value = "2" },
                  
             }, "Value", "Text" );
             SelectList typeList = new SelectList(new List<SelectListItem>
@@ -748,7 +748,7 @@ namespace Team7_LonghornMusic.Controllers
 
             foreach (OrderDetail item in orderList)
             {
-                if (item.IsConfirmed == true && item.IsRefunded!= true)
+                if (item.IsConfirmed == true && item.IsRefunded!= true &&(item.User.UserName == item.GifterEmail))
                 {
                     newOrderList.Add(item);
                 }
