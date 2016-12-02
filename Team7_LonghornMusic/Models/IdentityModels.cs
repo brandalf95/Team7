@@ -32,7 +32,7 @@ namespace Team7_LonghornMusic.Models
         [Display(Name = "Middle Initial")]
         public string MidInitial { get; set; }
 
-        [Display(Name = "Account enabled?")]
+        [Display(Name = "Account disabled?")]
         public bool IsDisabled { get; set; }
         
         [Required(ErrorMessage = "Address is required.")]
