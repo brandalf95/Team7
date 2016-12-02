@@ -1,0 +1,16 @@
+﻿@model Team7_LonghornMusic.Models.OrderDetail
+
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Refund</title>
+</head>
+<body>
+    <div> 
+        Are you sure you want to refund?
+        @Html.ActionLink("I'm sure.", "RefundConfirm", "OrderDetails", new { OrderDetailID = Model.OrderDetailID},null)
+    </div>
+</body>
+</html>

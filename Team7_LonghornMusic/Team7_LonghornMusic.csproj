@@ -382,6 +382,7 @@
     <Content Include="Views\OrderDetails\SearchResults.cshtml" />
     <Content Include="Views\Home\ReportHome.cshtml" />
     <Content Include="Views\OrderDetails\AlbumReport.cshtml" />
+    <Content Include="Views\OrderDetails\Refund.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
