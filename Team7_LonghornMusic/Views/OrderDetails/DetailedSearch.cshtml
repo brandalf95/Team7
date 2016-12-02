@@ -1,4 +1,4 @@
-﻿@model Team7_LonghornMusic.Models.OrderDetail
+﻿@model Team7_LonghornMusic.Models.AppUser
 
 @{
     ViewBag.Title = "Detailed Search";
@@ -8,8 +8,9 @@
 
 <h2>Detailed Search</h2>
 
-@using (Html.BeginForm("SearchResults", "Songs", FormMethod.Get))
+@using (Html.BeginForm("SearchResults", "OrderDetails", FormMethod.Get))
 {
+    @Html.Hidden("UserName", User.Identity.Name )
     <p class="form-group">
         Song Title: @Html.TextBox("SongSearchString", null, new { @class = "form-control" }) <br />
 

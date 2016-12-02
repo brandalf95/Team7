@@ -424,8 +424,13 @@ namespace Team7_LonghornMusic.Controllers
 
         }
 
-        public ActionResult MyMusic(string UserName, string error)
+        public ActionResult MyMusic(string UserName, string error, List<Song> list, string SearchString)
         {
+        
+            if (list != null)
+            {
+                return View(list);
+            }
             if (error == null)
             {
                 ViewBag.Error = "";
@@ -445,7 +450,7 @@ namespace Team7_LonghornMusic.Controllers
                     newOrderList.Remove(item);
                 }
             }
-            List<Song> songList = new List<Song>();
+            List<Song> SelectedSongs = new List<Song>();
             newOrderList = orderList;
             foreach(OrderDetail item in newOrderList)
             {
@@ -455,15 +460,33 @@ namespace Team7_LonghornMusic.Controllers
                     {
                         foreach(Song y in x.Album.AlbumSongs)
                         {
-                            songList.Add(y);
+                            SelectedSongs.Add(y);
                         }
                     }else
                     {
-                        songList.Add(x.Song);
+                        SelectedSongs.Add(x.Song);
                     }
                 }
             }
-            return View(songList);
+
+            List<Song> TotalSongs = new List<Song>();
+            TotalSongs = SelectedSongs.ToList();
+
+            if (SearchString == null || SearchString == "")
+            {
+                SelectedSongs = SelectedSongs.ToList();
+                ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + "of" + TotalSongs;
+            }
+
+            else
+            {
+                SelectedSongs = SelectedSongs.Where(a => a.SongTitle.Contains(SearchString)).ToList();
+                ViewBag.SelectedSongCount = "Displaying " + SelectedSongs.Count() + "of" + TotalSongs;
+            }
+
+            SelectedSongs = SelectedSongs.OrderBy(a => a.SongTitle).ToList();
+
+            return View(SelectedSongs);
         }
 
         public ActionResult DetailedSearch()
@@ -474,7 +497,8 @@ namespace Team7_LonghornMusic.Controllers
             return View();
         }
 
-        public ActionResult SearchResults(String SongSearchString, String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres, SortBy SelectedSortBy, SortOrder SelectedSortOrder)
+
+        public ActionResult SearchResults(string UserName, String SongSearchString, String AlbumSearchString, String ArtistSearchString, int[] SelectedGenres, SortBy SelectedSortBy, SortOrder SelectedSortOrder)
         {
             var query = from s in db.Songs
                         select s;
@@ -589,8 +613,9 @@ namespace Team7_LonghornMusic.Controllers
             }
 
             ViewBag.SelectedSongCount = "Displaying " + DisplaySongs.Count() + " of " + TotalSongs.Count() + " Records";
+            List<Song> list = new List<Song>();
 
-            return View("Index", DisplaySongs);
+            return View ("MyMusic", DisplaySongs );
         }
 
         public ActionResult OrderHistory(string UserName)

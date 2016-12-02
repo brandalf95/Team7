@@ -379,6 +379,7 @@
     <Content Include="Views\AppUsers\ResetPassword.cshtml" />
     <Content Include="Views\OrderDetails\Report.cshtml" />
     <Content Include="Views\OrderDetails\DetailedSearch.cshtml" />
+    <Content Include="Views\OrderDetails\SearchResults.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
