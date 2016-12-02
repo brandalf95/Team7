@@ -380,6 +380,8 @@
     <Content Include="Views\OrderDetails\Report.cshtml" />
     <Content Include="Views\OrderDetails\DetailedSearch.cshtml" />
     <Content Include="Views\OrderDetails\SearchResults.cshtml" />
+    <Content Include="Views\Home\ReportHome.cshtml" />
+    <Content Include="Views\OrderDetails\AlbumReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
