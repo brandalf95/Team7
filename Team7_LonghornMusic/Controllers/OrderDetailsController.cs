@@ -386,39 +386,43 @@ namespace Team7_LonghornMusic.Controllers
             return RedirectToAction("Confirm", shoppingCart);
         }
 
-        //public ActionResult Report()
-        //{
-        //    List<Report> reports = new List<Report>();
-        //    foreach(Song item in db.Songs.ToList())
-        //    {
-        //        Report report = new Report();
-        //        report.Discount.Song = item;
-        //        foreach (Discount x in db.Discounts.ToList()) {
-        //            if (x.Song != null && x.Song == item && x.DiscountAmt!=0)
-        //            {
-        //                report.TotalPurchases += 1;
-        //                report.Revenue += x.DiscountAmt;
-        //            }
-        //        }
-        //        reports.Add(report);
-        //    }
-        //    foreach (Album item in db.Albums.ToList())
-        //    {
-        //        Report report = new Report();
-        //        report.Discount.Album = item;
-        //        foreach (Discount x in db.Discounts.ToList())
-        //        {
-        //            if (x.Album != null && x.Album == item && x.DiscountAmt != 0)
-        //            {
-        //                report.TotalPurchases += 1;
-        //                report.Revenue += x.DiscountAmt;
-        //            }
-        //        }
-        //        reports.Add(report);
-        //    }
-        //    return View(reports);
+        public ActionResult Report()
+        {
 
-        //}
+            List<Report> reports = new List<Report>();
+            foreach (Song item in db.Songs.ToList())
+            {
+                Report report = new Report();
+                report.Discount = new Discount();
+                report.Discount.Song = item;
+                foreach (Discount x in db.Discounts.ToList())
+                {
+                    if (x.Song != null && x.Song == item && x.DiscountAmt != 0)
+                    {
+                        report.TotalPurchases += 1;
+                        report.Revenue += x.DiscountAmt;
+                    }
+                }
+                reports.Add(report);
+            }
+            foreach (Album item in db.Albums.ToList())
+            {
+                Report report = new Report();
+                report.Discount = new Discount();
+                report.Discount.Album = item;
+                foreach (Discount x in db.Discounts.ToList())
+                {
+                    if (x.Album != null && x.Album == item && x.DiscountAmt != 0)
+                    {
+                        report.TotalPurchases += 1;
+                        report.Revenue += x.DiscountAmt;
+                    }
+                }
+                reports.Add(report);
+            }
+            return View(reports);
+
+        }
 
         public ActionResult MyMusic(string UserName)
         {
@@ -461,14 +465,11 @@ namespace Team7_LonghornMusic.Controllers
 
             foreach (OrderDetail item in orderList)
             {
-                if (item.IsConfirmed == true)
+                if (item.IsConfirmed == true && item.IsRefunded!= true)
                 {
                     newOrderList.Add(item);
                 }
-                if (item.IsRefunded != true)
-                {
-                    newOrderList.Add(item);
-                }
+
             }
             List<ShoppingCartViewModel> orders = new List<ShoppingCartViewModel>();
             foreach(OrderDetail item in newOrderList)
@@ -756,6 +757,7 @@ namespace Team7_LonghornMusic.Controllers
                 discount.Album = item;
                 db.Discounts.Add(discount);
             }
+            db.SaveChanges();
         }
     }
 }

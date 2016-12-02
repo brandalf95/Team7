@@ -1,17 +1,67 @@
-﻿
+﻿@model IEnumerable<Team7_LonghornMusic.Models.Report>
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
+@foreach (var item in Model)
+{
+    if (item.Discount.Song != null) {
+    <table class="table">
+        <tr>
+            <th>
+                Song Title
+            </th>
+            <th>
+                Number of Purchases
+            </th>
+            <th>
+                Total Revenue
+            </th>
+        </tr>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Report</title>
-</head>
-<body>
-    <div> 
-    </div>
-</body>
-</html>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount.Song.SongTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPurchases)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Revenue)
+                </td>
+
+            </tr>
+ 
+    </table>
+    } else {
+    <table class="table">
+        <tr>
+            <th>
+                Album Title
+            </th>
+            <th>
+                Artist
+            </th>
+            <th>
+                Price of Album When Bought
+            </th>
+        </tr>
+
+        
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount.Album.AlbumTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPurchases)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Revenue)
+                </td>
+
+            </tr>
+        
+    </table>}
+    
+}
