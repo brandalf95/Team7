@@ -197,7 +197,22 @@ namespace Team7_LonghornMusic.Controllers
             //{
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             //}
-            if(error == null)
+            List<Song> TotalSongs = new List<Song>();
+            TotalSongs = db.Songs.ToList();
+            foreach (Song item in TotalSongs)
+            {
+                if (item.DiscountPrice != 0)
+                {
+                    item.DisplayPrice = item.DiscountPrice;
+                }
+                else
+                {
+                    item.DisplayPrice = item.SongPrice;
+                }
+                db.Songs.Find(item.SongID).DisplayPrice = item.DisplayPrice;
+            }
+            db.SaveChanges();
+            if (error == null)
             {
                 ViewBag.Error = "";
             }else
@@ -318,6 +333,15 @@ namespace Team7_LonghornMusic.Controllers
         [HttpPost]
         public ActionResult Checkout([Bind(Include = "OrderDetailID,GifteeEmail,CreditCardNumber")] OrderDetail shoppingCart, string CreditCardType, string OnFileCard)
         {
+
+            if(db.Users.FirstOrDefault(a=>a.UserName.Contains(shoppingCart.GifteeEmail)) == null)
+            {
+                return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "You entered an email for a giftee that doesn't exist." });
+            }
+            if(db.OrderDetails.Find(shoppingCart.OrderDetailID).User.UserName == shoppingCart.GifteeEmail)
+            {
+                return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "You can't gift yourself you goober!" });
+            }
             if (db.OrderDetails.Find(shoppingCart.OrderDetailID).User.IsDisabled)
             {
                 return RedirectToAction("Checkout", new { id = shoppingCart.OrderDetailID, error = "You cannot checkout due to your account being disabled." });
@@ -383,7 +407,7 @@ namespace Team7_LonghornMusic.Controllers
             db.SaveChanges();
             shoppingCart = db.OrderDetails.Find(shoppingCart.OrderDetailID);
 
-            return RedirectToAction("Confirm", shoppingCart);
+            return RedirectToAction("Confirm", new { OrderDetailID = shoppingCart.OrderDetailID });
         }
 
         //public ActionResult Report()
@@ -424,7 +448,18 @@ namespace Team7_LonghornMusic.Controllers
 
         //}
 
+        public ActionResult Refund(Int32 OrderDetailID)
+        {
 
+            return View(db.OrderDetails.Find(OrderDetailID));
+        }
+
+        public ActionResult RefundConfirm(Int32 OrderDetailID)
+        {
+            db.OrderDetails.Find(OrderDetailID).IsRefunded = true;
+            db.SaveChanges();
+            return View("Index","Home");
+        }
         public ActionResult Report()
         {
 
@@ -694,10 +729,10 @@ namespace Team7_LonghornMusic.Controllers
             return View(orders);
         }
 
-        public ActionResult Confirm(OrderDetail shoppingCart)
+        public ActionResult Confirm(Int32 OrderDetailID)
         {
             ShoppingCartViewModel newShoppingCart = new ShoppingCartViewModel();
-            newShoppingCart.OrderDetail = db.OrderDetails.Find(shoppingCart.OrderDetailID);
+            newShoppingCart.OrderDetail = db.OrderDetails.Find(OrderDetailID);
             newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart,false);
             newShoppingCart.Tax = CalcTax(newShoppingCart);
             newShoppingCart.Total = newShoppingCart.SubTotal + newShoppingCart.Tax;
@@ -760,7 +795,7 @@ namespace Team7_LonghornMusic.Controllers
                 EmailMessaging.SendEmail(shoppingCart.GifteeEmail, "You have a gift!", "You have received the following items:    " + strPurchasedItems);
             }
 
-            return View();
+            return View(db.OrderDetails.Find(id));
         }
         public ActionResult Edit(int? id)
         {
