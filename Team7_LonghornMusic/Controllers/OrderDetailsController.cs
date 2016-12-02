@@ -765,6 +765,7 @@ namespace Team7_LonghornMusic.Controllers
                 addOrder.DisplayCard = HideCard(item.CreditCardNumber);
                 orders.Add(addOrder);
             }
+            orders.Reverse();
             return View(orders);
         }
 
