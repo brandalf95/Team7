@@ -822,15 +822,17 @@ namespace Team7_LonghornMusic.Controllers
                     strPurchasedItems.AppendLine();
                 }
             }
-
+            var orderid = shoppingCart.OrderDetailID;
+            var linkurl = new StringBuilder();
+            linkurl.AppendFormat("longhornmusicteam7.azurewebsites.net/OrderDetails/RefundConfirm?OrderDetailID={0}", orderid);
             if (shoppingCart.GifteeEmail.Length < 2)
             {
-                EmailMessaging.SendEmail(shoppingCart.GifterEmail, "Thanks for the Purchase!", "You purchased the Following Items:    " + strPurchasedItems);
+                EmailMessaging.SendEmail(shoppingCart.GifterEmail, "Thanks for the Purchase!", "You purchased the Following Items:    " + strPurchasedItems +  " Follow this link for a refund. " + linkurl);
             }
 
             else
             {
-                EmailMessaging.SendEmail(shoppingCart.GifterEmail, "Thanks for the Purchase!", "Your gift order has gone to " + shoppingCart.GifteeEmail);
+                EmailMessaging.SendEmail(shoppingCart.GifterEmail, "Thanks for the Purchase!", "Your gift order has gone to " + shoppingCart.GifteeEmail + " Follow this link for a refund. " + linkurl);
                 EmailMessaging.SendEmail(shoppingCart.GifteeEmail, "You have a gift!", "You have received the following items:    " + strPurchasedItems);
             }
 
