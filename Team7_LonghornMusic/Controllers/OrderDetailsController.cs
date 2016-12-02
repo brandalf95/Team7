@@ -775,7 +775,7 @@ namespace Team7_LonghornMusic.Controllers
             newShoppingCart.SubTotal = CalcSubTotal(newShoppingCart,false);
             newShoppingCart.Tax = CalcTax(newShoppingCart);
             newShoppingCart.Total = newShoppingCart.SubTotal + newShoppingCart.Tax;
-            newShoppingCart.DisplayCard = newShoppingCart.OrderDetail.CreditCardNumber;
+            newShoppingCart.DisplayCard = HideCard(newShoppingCart.OrderDetail.CreditCardNumber);
             
 
             return View(newShoppingCart);
